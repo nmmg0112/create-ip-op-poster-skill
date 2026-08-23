@@ -1,4 +1,4 @@
 interface:
   display_name: "IP OP 海报共创"
-  short_description: "从 Brief 和达人素材共创保真人物的招商 OP 海报"
-  default_prompt: "使用 $create-ip-op-poster 根据我的 Brief 和达人素材制作一张 IP OP 海报。"
+  short_description: "从 Brief 和人物原图开始，四步完成保真 IP／OP 海报"
+  default_prompt: "使用 $create-ip-op-poster。请先接收我的 Brief 和人物原图，从第 1/4 步创意方向开始，不要直接成图。"
