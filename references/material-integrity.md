@@ -7,9 +7,10 @@
 3. People and animals
 4. Case screenshots
 5. Logos
-6. Collage specification
+6. Creator composition confirmation
 7. Capability decision
 8. Preservation evidence
+9. Cutout confirmation page
 
 ## 1. Protected-source model
 
@@ -97,14 +98,14 @@ Allowed: background removal, proportional scale, movement, and left/right or top
 
 Forbidden: redraw, omit an element, recolor without an explicit brand rule, rewrite text, fuse the Logos, or generate a new mark.
 
-## 6. Creator-presentation specification
+## 6. 人物排布确认 (Creator composition confirmation)
 
 Choose one presentation mode before previewing:
 
-- one unified ensemble;
-- one protected cluster per play group;
-- independent protected cutouts;
-- a hybrid hero plus supporting groups.
+- **统一群像 (unified ensemble):** all people and animals jointly express one shared promise;
+- **按玩法分组 (grouped by play):** each compact protected group stays next to its own play, case evidence, or scene;
+- **独立人物 (independent cutouts):** protected cutouts occupy separate positions when the layout does not require a combined ensemble;
+- **主视觉人物＋辅助分组 (hero plus supporting groups):** one creator or compact hero group carries the first visual focus, while every other creator remains attached to the correct supporting module.
 
 Do not require a unified ensemble when creators support different plays. For any preview:
 
@@ -112,11 +113,16 @@ Do not require a unified ensemble when creators support different plays. For any
 - all unique subjects included once;
 - creator sizes visually coordinated while proportions remain natural;
 - composition uses front/back overlap rather than an even lineup inside each intended cluster;
-- no face or animal subject covered;
+- intentional front/middle/back order and real overlap;
+- **人脸和动物头部安全区：** no identity-critical region is covered;
 - exact source appearance retained;
-- front/back order chosen by the confirmed idea unless the user fixes it.
+- front/back order chosen by the confirmed idea unless the user fixes it;
+- **重复检查：** every unique subject is used exactly once unless repetition was explicitly approved;
+- **遗漏、硬矩形边界和无意义空白检查：** no omitted subject, exposed furniture/background edge, meaningless hole, or person detached from the intended cluster;
+- compact spacing: when authorized, an adjacent confirmed person/animal layer may cover a removable non-core source edge, but never a face, animal head, or required body cue;
+- each creator visibly connected to the confirmed play, case, evidence, or scene.
 
-For `grouped-by-play`, return one preview per group or a full-board proof and map every creator to exactly one play unless the user explicitly approves repetition. Return both visual preview(s) and a layer map. A preview alone cannot prove no duplicate or omission.
+For `grouped-by-play`, return one preview per group or a full-board proof and map every creator to exactly one play unless the user explicitly approves repetition. For every mode, show a full-board preview or the smallest preview set that proves the relationships, plus a layer map. A preview alone cannot prove no duplicate or omission. Do not generate the final Prompt until the user explicitly replies `排布通过` or gives an equally explicit confirmation.
 
 For a handoff-only creator-presentation specification, include mode, group mapping, canvas size, each layer ID, approximate `x/y/width` as percentages of the canvas, z-order, mask notes, overlap notes, and face-safe zones.
 
@@ -153,3 +159,16 @@ Record:
 For `identity-locked-blend`, additionally record the user authorization, edited-region description, locked-region list, face/animal-head comparison sheet, and any region that could not be verified.
 
 For screenshots and Logos, a checksum of the source file plus confirmation that the original file is embedded as the layer is stronger evidence than visual similarity. For a person mask, compare the retained foreground against the source and inspect faces at high resolution.
+
+## 9. 抠图确认页 (Cutout confirmation page)
+
+Gate 2 reviews each cutout by itself. Do not combine this review with creator grouping or poster composition.
+
+- **原图与透明底抠图并排：** show both with the same stable `Pxx` ID and exact public nickname.
+- **棋盘格检查：** inspect the cutout once on a checkerboard background and once on a neutral solid background. A white-only preview is insufficient evidence for pale clothing, hair, or animal fur.
+- Compare the face, facial features, expression, hairstyle, hair edges, clothing, hands, feet, animal fur, recognizable markings, subject count, and original person/animal combination.
+- Mark body regions already missing or outside the frame in the original image. Do not generate, paint, or infer missing body parts.
+- **误删身体属于失败：** treat an accidentally removed body part or animal, any face or animal-head change, a changed original combination, or a hard cutout edge as `FAIL`.
+- Record uncertain hair, clothing, hand/foot, animal-fur, furniture, and source-edge regions beside the affected `Pxx` item.
+
+If one cutout fails, redo only that cutout and show its comparison again. Do not begin creator composition until every required cutout passes and the user explicitly replies `抠图通过` or gives an equally explicit confirmation.

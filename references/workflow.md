@@ -91,6 +91,8 @@ If one source fails, redo only that source; keep the confirmed direction. End wi
 
 Only explicit confirmation advances to `composition_pending`. If pixel-preserving cutout capability is unavailable, output the source ledger, exact mask instructions, protected regions, known limitations, and target format, then enter `handoff` without showing a generated approximation.
 
+An individual failure returns only the affected `Pxx` item to `cutout_pending`; already accepted sources do not need to be redone. Accidental body deletion and any changed human face or animal head are hard failures. Never use generative face repair, face completion, or animal-head reconstruction to make a failed cutout look acceptable.
+
 ## 5. Composition gate
 
 Use only cutouts confirmed at Gate 2. Read `layout-grammar.md` and choose the presentation mode from the confirmed content relationship:
@@ -114,6 +116,8 @@ End with:
 > 请确认人物呈现方式、归属、大小、前后层级和交叠关系。可直接回复：排布通过
 
 Only explicit confirmation advances to `prompt_pending`. If safe layer compositing is unavailable, output the presentation mode, group mapping, target canvas, layer-order sketch, size ratios, and non-negotiable protection rules, then enter `handoff`.
+
+Changing only creator grouping, relative size, overlap, or front/middle/back order returns to `composition_pending`; keep the confirmed cutouts and do not repeat Gate 2 unless a mask or protected source actually changes.
 
 ## 6. Prompt gate
 
@@ -152,11 +156,11 @@ Prefer an editable source file when supported. If a platform only produces a fla
 
 - Theme, direction, or play changed: return to `direction_pending`; keep only valid source facts.
 - Person/animal source added, removed, replaced, or changed: return to `cutout_pending`; invalidate composition and Prompt.
-- Cutout or mask changed: return to `cutout_pending`; invalidate composition and Prompt.
-- Grouping, size, overlap, or layer order changed: return to `composition_pending`; keep confirmed cutouts and invalidate Prompt.
+- One cutout fails or its mask changes: return only the affected `Pxx` item to `cutout_pending`; keep the confirmed direction and unaffected cutouts, and invalidate composition and Prompt.
+- Grouping, size, overlap, or layer order changes without changing a cutout: return to `composition_pending`; keep confirmed cutouts and invalidate Prompt.
 - Screenshot, Logo, fixed copy, price, or rights changed: return to `prompt_pending` when direction, cutouts, and composition remain valid.
 - Final background/decor feedback only: return to `production`, then rerun affected QA checks.
-- Any face/source-pixel violation: discard the affected composite and return to the earliest responsible protected-image stage; never patch a face with generation.
+- Any changed human face or animal head is a hard failure: discard the affected composite and return to the earliest responsible protected-image stage; never repair, complete, or patch it with generation.
 
 Announce every invalidated confirmation explicitly.
 

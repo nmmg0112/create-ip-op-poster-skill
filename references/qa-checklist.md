@@ -21,14 +21,15 @@ Use exactly:
 
 `NOT VERIFIABLE` is unfinished. Never promote it to pass because the output looks plausible.
 
-Inspect the final artifact at readable resolution and compare it with the source ledger, confirmed direction, confirmed collage, and confirmed Prompt.
+Inspect the final artifact at readable resolution and compare it with the source ledger, confirmed direction, confirmed cutouts, confirmed composition, and confirmed Prompt.
 
 ## 2. Process checks
 
 - Gate 1 explicitly confirmed the direction/merge.
 - Price/rights were asked as optional and were not invented.
-- Gate 2 explicitly confirmed the protected collage or produced a clearly labeled handoff.
-- Gate 3 explicitly confirmed the complete Prompt.
+- Gate 2 explicitly confirmed the cutout assets or produced a clearly labeled handoff.
+- Gate 3 explicitly confirmed the creator composition or produced a clearly labeled handoff.
+- Gate 4 explicitly confirmed the complete Prompt.
 - Upstream changes invalidated the correct downstream confirmations.
 - A stage handoff receipt exists after every confirmed gate.
 
@@ -46,7 +47,26 @@ Inspect the final artifact at readable resolution and compare it with the source
 
 ## 4. Material checks
 
-### People and animals
+### Cutout confirmation
+
+- Every required `Pxx` has a source-versus-cutout review page showing the original image and transparent cutout side by side.
+- Every cutout was checked on both a checkerboard and a neutral solid background.
+- Face, hairstyle, hair edge, clothing, hands, feet, animal fur, subject count, and original combination were compared with the source.
+- Body regions missing in the source are labeled and were not generated or completed.
+- No body part, animal, or identity-critical region was accidentally removed.
+- No face or animal head changed; no hard cutout edge was accepted as pass.
+- Gate 2 has an explicit `抠图通过` confirmation covering the accepted cutout set.
+
+### Creator composition
+
+- The confirmed mode is exactly one of: unified ensemble, grouped by play, independent cutouts, or hero plus supporting groups.
+- The preview proves relative creator sizes, front/middle/back order, overlap, and face/animal-head safe zones.
+- Every creator is mapped to the correct play, case, evidence, or scene.
+- Every unique subject appears exactly once unless repetition was explicitly approved; there is no duplicate or omission.
+- There is no hard rectangular source boundary, exposed source furniture/background edge, meaningless blank area, or person detached from the intended cluster.
+- Gate 3 has an explicit `排布通过` confirmation covering the accepted preview and layer order.
+
+### People and animals in the final artifact
 
 - Unique creator/account count matches the ledger.
 - Creator-presentation mode matches the confirmed layout: unified, grouped, independent, or hybrid.
@@ -82,6 +102,8 @@ Inspect the final artifact at readable resolution and compare it with the source
 - Treat wrong creator-side placement (for example, people on the left when the confirmed layout requires a right-side hero) as a hard layout failure.
 - Group modules and creator attribution can be understood quickly.
 - White space is sufficient; essential copy is not reduced to dense small text.
+- Every major blank area has a visual or reading purpose; no unexplained hole splits an intended creator cluster.
+- No hard rectangular source boundary, exposed furniture edge, or detached creator weakens the composition.
 - Safe margins hold; text does not press against faces; screenshots are not clipped.
 - Decorations support the idea and remain subordinate.
 - No distinctive title, composition, Logo, seal, or decorative system was copied from a reference.
@@ -98,12 +120,14 @@ Inspect the final artifact at readable resolution and compare it with the source
 | Failure | Return to |
 |---|---|
 | Wrong brief interpretation, theme, grouping, or play | `direction_pending` |
-| Duplicate/omitted/wrong person, changed face/animal, bad mask, wrong layer order | `collage_pending` |
+| Failed cutout, accidental body deletion, changed face/animal head, or bad mask | affected `Pxx` in `cutout_pending` |
+| Wrong creator grouping, relative size, overlap, or layer order with valid cutouts | `composition_pending` |
 | Missing/wrong mapping, fixed copy, price/rights, palette instruction | `prompt_pending` |
 | Background/layout/decor/composite execution failure | `production` |
 | Evidence too weak to verify protected pixels | `handoff` or a capable editing tool |
 
 Do not repair a protected-source failure by regenerating the whole image.
+Never repair a human face or animal head with generation. Return to the affected cutout or composition stage and rebuild from the protected source.
 
 ## 8. Report format
 
