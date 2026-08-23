@@ -29,7 +29,12 @@
 
 ### 执行与证据
 
-当前仅完成静态规则核对，尚未在隔离新对话中生成方向卡、人物素材页、排布预览和最终 Prompt。任务 8 应保存四个 Gate 的完整输出；若没有真实人物源图，抠图、排布、美观和素材安全不得判 `PASS`。
+已执行两次隔离方向测试，完整记录见 [forward-test-results-2026-08-23.md](forward-test-results-2026-08-23.md)：
+
+- 初测 `eval_dense_matrix` 停在 `direction_pending`，但把“数码”直接转译成科技蓝、荧光色、控制台、进度条和透明玻璃，方向结果为 `FAIL`。
+- 提交 `5d1791b` 增加表面风格证据门槛后，以完全相同输入运行 `eval_dense_retest`。重测给出三种结构不同的方向，以人物行动／内容机制作为母题，明确不预设数码配色，并停在 `direction_pending` 等待选择；方向结果为 `PASS`。
+
+两次测试均未进入 Gate 2—4；抠图、排布、完整 Prompt、美观和素材像素保真仍为 `NOT VERIFIABLE`。
 
 ## 场景 2：单达人、视觉优先
 
@@ -47,7 +52,7 @@
 
 ### 执行与证据
 
-当前仅完成静态规则核对，尚未在隔离新对话中生成方向卡和后续阶段产物。任务 8 需重点记录 Skill 是否在看到“招商 OP”后误用多人矩阵模板。
+已执行隔离方向测试 `eval_single_creator`，完整记录见 [forward-test-results-2026-08-23.md](forward-test-results-2026-08-23.md)。输出停在 `direction_pending`，把“先建立预期，再用实测结果制造反转”识别为单达人内容资产，给出三个单人方向，并把唯一案例截图限制为原样证据层，没有套用多人矩阵模板。方向结果为 `PASS`；没有图像与后续 Gate 证据的项目均为 `NOT VERIFIABLE`。
 
 ## 场景 3：新手极简输入
 
@@ -65,7 +70,12 @@
 
 ### 执行与证据
 
-当前仅完成静态规则核对，尚未取得真实新手对话输出。任务 8 应逐轮保存问句数量和阶段标题；仅凭 `novice-mode.md` 存在不能判定真实对话已通过。
+已执行两次隔离测试，完整记录见 [forward-test-results-2026-08-23.md](forward-test-results-2026-08-23.md)：
+
+- `eval_novice` 的实际对话没有可读取的 Brief 和附件，因此正确停在 `intake` 并要求重新上传；本次为 `NOT VERIFIABLE`，不能据此声称 Gate 1 通过。
+- `eval_novice_with_assets` 使用真实 Brief 和人物附件重测。输出显示 `第 1/4 步`，用普通中文给出三个方向、一个基于 Brief 与原图证据的推荐、可选报价询问和可复制回复，并停在 `direction_pending`；方向阶段为 `PASS`。
+
+用户尚未选择方向，Gate 2—4 与所有图片依赖检查仍为 `NOT VERIFIABLE`。
 
 ## 场景 4：平台能力不足
 
@@ -75,14 +85,14 @@
 
 ### 预期行为
 
-- 完成能力判断后停在 `cutout_pending` 的安全交接路径，不生成近似人物、动物、截图或 Logo。
+- 先核对已确认状态。若方向尚未明确确认，应从 `intake` 进入 `handoff`；只有 Gate 1 已明确确认时，才从 `cutout_pending` 进入安全交接。无论入口如何，都不得生成近似人物、动物、截图或 Logo。
 - 明确说明当前平台不能证明原始像素保真，不能把“看起来相似”写成完成。
-- 输出可执行交接包，至少含素材台账、遮罩要求、身份锁定区、目标格式、已确认方向、已知限制和下一执行工具要求。
+- 输出可执行交接包，至少含素材台账、遮罩要求、身份锁定区、目标格式、实际已确认项目、已知限制和下一执行工具要求；未确认方向时不得把它写成已确认。
 - 未完成抠图确认时，不进入人物排布确认或最终 Prompt 确认；交接包可以附执行说明，但不能声称最终海报完成。
 
 ### 执行与证据
 
-当前仅完成静态规则核对，尚未在能力受限的真实平台／隔离对话中验证是否正确停止。任务 8 需保存原始回复，并检查其中是否出现“已保留原脸”“成图完成”等无证据声明。
+已执行隔离测试 `eval_limited_platform`，完整记录见 [forward-test-results-2026-08-23.md](forward-test-results-2026-08-23.md)。输出明确说明不能继续生成最终海报，指出扁平生成会产生不可验证的近似图，标注四个 Gate 均未确认，并从 `intake` 进入 `handoff`；下一强制步骤仍是 Gate 1。能力降级与安全停止行为为 `PASS`。未实际产生的抠图、排布、Prompt、成图美观和像素保真均为 `NOT VERIFIABLE`。
 
 ## 静态规则覆盖
 
@@ -97,15 +107,17 @@
 
 ## 场景行为结果
 
-截至 2026-08-23，本任务未在四段隔离新对话中运行完整行为回归，以下状态如实保留给任务 8 更新。
+截至 2026-08-23，已完成四类隔离前向测试，但所有有效对话都按 Gate 规则在方向确认或安全交接处停止，没有进入图片生产阶段。表中 `PASS` 只覆盖直接证据已经证明的阶段，不外推到下游。
 
 | 场景 | 方向 | 抠图 | 排布 | Prompt | 美观 | 素材安全 | 结果 |
 |---|---|---|---|---|---|---|---|
-| 1 | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
-| 2 | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
-| 3 | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
-| 4 | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 1 | PASS | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 2 | PASS | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 3 | PASS | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 4 | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | PASS | PASS |
 
-### 待任务 8 补齐的记录
+结果边界：场景 1 的方向 `PASS` 来自修复后的同题重测，场景 2 与 3 的方向 `PASS` 仅覆盖 Gate 1；由于其余阶段未运行，三者总体结果均为 `NOT VERIFIABLE`。场景 4 的素材安全与总体 `PASS` 仅覆盖能力降级和安全交接，不代表生成过图片或证明过像素保真。
 
-每个场景至少补充：测试对话／产物路径、实际方向与版式、参考案例角色、各 Gate 停止点、失败或限制、QA 证据、回退阶段和最终结论。存在 `NOT VERIFIABLE` 时必须列出缺少的源图、分层文件、清晰度或平台能力，不得改写为 `PASS`。
+### 尚待补齐的图像证据
+
+后续继续测试时，每个场景至少补充：Gate 2 的源图／抠图并排对照、Gate 3 的排布预览与层级、Gate 4 的完整 Prompt、最终分层产物、可读分辨率 QA 和素材逐项对照。当前所有 `NOT VERIFIABLE` 必须保留到相应证据真正出现，不能因方向文字通过而改写为 `PASS`。
