@@ -58,26 +58,39 @@ Do not split an original creator-and-pet or multi-person account into invented i
 
 ## 4. Required option structure
 
-Generate 2–3 options. Use this schema for each:
+Generate 2–3 options. The user-visible direction card is deliberately short:
 
 ```markdown
-### 方向 <number>｜<theme name>
-- 一句话主题：<concise expression>
-- Brief 响应：<which need or scene it answers>
-- 达人结合：<single play or grouping table>
-- 核心玩法：<specific mechanism, not a slogan>
-- 色调与视觉：<palette roles and visual metaphor>
-- 版式骨架：<where theme, play, creators, and evidence sit>
-- 案例/数据建议：<only supplied or requested evidence types>
-- 推荐理由：<why this is strong>
-- 限制与缺口：<tradeoff and missing material>
+### 方向 <数字>｜<主题名>
+- 一句话主题：
+- 具体玩法：
+- 人物怎么放：
+- 视觉氛围：
+- 主要风险：
+- 推荐理由：
 ```
 
 Options must change at least two of: chosen brief scene, grouping logic, content mechanism, visual metaphor, information architecture. A title swap or recolor is not a different option.
 
+Keep the following internal visual record for every option. It is used for execution and review, and only needs to be shown when it helps the user decide:
+
+```markdown
+- 内容关系：
+- 版式家族：
+- 阅读顺序：
+- 区域分配：
+- 第一视觉：
+- 信息密度：
+- 视觉母题：
+- 人物与玩法映射：
+- 案例／数据位置：
+- 留白用途：
+- 构图风险：
+```
+
 ## 5. Color and visual logic
 
-Start from the current theme, industry, audience emotion, and node. Define roles rather than a list of colors:
+Industry labels are retrieval hints, not surface-style evidence. For each palette, material, container, and motif choice, cite at least one current-project source: exact brief wording, audience emotion stated in the brief, supplied creator/account evidence, a supplied brand rule, or the confirmed content mechanism. Define roles rather than a list of colors:
 
 - dominant background color;
 - primary title/accent color;
@@ -91,9 +104,13 @@ Seasonal heuristics are examples, not defaults:
 - autumn: warm yellow, osmanthus gold, orange, brown, or deep green when they support the theme;
 - winter: snow white, ice blue, silver gray, or other cool tones when appropriate.
 
-Industry/node may override season. A digital launch can use precise technological contrast; city play can use energetic route/map language; beauty may require product/brand color discipline; food can use appetite and warmth. Keep the palette harmonious and readable, and explain why it belongs to this brief.
+Industry/node may constrain execution only when the brief, creator evidence, brand rule, audience emotion, or content mechanism supports the choice. Keep the palette harmonious and readable, and explain the evidence for why every surface treatment belongs to this brief.
 
 Do not infer `seasonal` merely from a date. Do not force Chinese-poetic motifs, moons, scrolls, seals, or festival red without brief evidence.
+
+行业标签本身不是表面风格证据。颜色、材质、信息容器和装饰母题必须分别回指以下至少一种证据：Brief 原文、受众情绪、人物／账号证据、品牌规则或内容机制。不得自动套用“数码＝科技蓝／霓虹／玻璃／UI／控制台”，也不得把任何其他行业名称直接翻译成固定配色、材质、容器或装饰。`符合行业`、`有科技感`、`更商业` 不能单独构成理由。
+
+推荐方向必须以 Brief 专属的人物行动或内容机制作为视觉母题。先写清“谁在什么场景，通过什么动作、互动或冲突承载主题”，再选择表面语言。没有达人／账号细节时，只能使用 Brief 明示的场景、人物关系、受众情绪或内容机制；这些也未提供时，保持结构中性并列出待补信息，不得用行业默认风格代填。
 
 ## 6. Information hierarchy and layout
 
@@ -142,3 +159,5 @@ After the options, provide a compact comparison:
 |---|---|---|---|---|
 
 Recommend one option with evidence, but keep the choice with the user. Then ask the gate-1 price/rights question without turning it into a blocker.
+
+The recommendation must include a short evidence ledger for palette, material, container, and motif, plus one brief-specific human/content premise. Reject the recommendation before Gate 1 if any surface choice is justified only by the industry label.

@@ -1,76 +1,82 @@
-# Cross-platform usage
+# 跨平台使用
 
-## Contents
+无论在哪个平台，`SKILL.md` 都是唯一的流程规则。平台可以更换工具和导入方式，但不能跳过四次确认，也不能降低人物、动物、案例截图和 Logo 的保真要求。
 
-1. One authoritative core
-2. Capability mapping
-3. Skill-aware agents
-4. Knowledge/system-instruction platforms
-5. Window or agent transfer
-6. Safe degradation
+## 先选使用路径
 
-## 1. One authoritative core
+| 你使用的平台 | 推荐方式 |
+|---|---|
+| Codex、Claude Code 等支持 Skill 的 Agent | 安装完整 Skill 文件夹，再显式调用 |
+| 豆包、Coze／扣子、WorkBuddy 等知识库或智能体平台 | 导入 `SKILL.md` 和当前阶段需要的 `references/` 文件 |
+| ChatGPT 或其他普通 AI 会话 | 复制启动语，不需要先学会安装 Skill |
 
-Keep this folder as the only source of workflow truth. Do not rewrite separate behavior for Codex, Claude Code, Doubao, Coze, WorkBuddy, or another agent. Platform adaptation may change how files are loaded and which image tools are mapped, but it must not change the three gates or material-integrity rules.
+新手第一次只需提供：
 
-## 2. Capability mapping
+1. 海报或 IP 征集 Brief；
+2. 人物／动物原图。
 
-At the start, map the platform's capabilities:
+案例截图、Logo、固定文案、参考图、报价和合作权益都可以后补；Brief 没有强制要求时，不会阻塞流程。
 
-| Needed capability | Suitable behavior | If unavailable |
-|---|---|---|
-| Read text/Markdown | load `SKILL.md` and stage reference | paste/import the same files into persistent instructions/knowledge |
-| Inspect images | inventory and quality check | ask for text labels and use handoff, without claiming visual verification |
-| Pixel-preserving background removal/masking | perform protected cutout | output cutout specification and handoff |
-| Layered composition | assemble source layers | output layer map and handoff |
-| Free image generation only | generate background concepts only | never regenerate protected people/screenshots/Logos |
-| Persistent files/state | save handoff receipt | return the receipt in Markdown for the user to carry forward |
+## 路径一：支持 Skill 的 Agent
 
-## 3. Skill-aware agents
-
-Place or upload the entire `create-ip-op-poster/` folder in the platform's supported Skill location. Invoke `$create-ip-op-poster` where explicit invocation is supported. Keep relative paths intact so `SKILL.md` can load the stage reference and visual assets.
-
-`agents/openai.yaml` is optional interface metadata. It is not part of the core behavior and may be ignored by other agents.
-
-## 4. Knowledge/system-instruction platforms
-
-When native Skill folders are not supported:
-
-1. Put `SKILL.md` into the agent's primary instruction field or persistent knowledge.
-2. Upload all files in `references/` as knowledge documents without rewriting them.
-3. Upload `assets/visual-cases/` only if the platform supports visual knowledge; otherwise keep the text index and ask the user to attach selected references per task.
-4. Add this entry instruction:
+安装完整文件夹，并保留 `SKILL.md`、`references/`、`assets/` 和 `examples/` 的相对位置。安装后发送：
 
 ```text
-Follow create-ip-op-poster/SKILL.md as the authoritative workflow. Load only the reference named for the current stage. Never skip the three user confirmations. Never regenerate protected people, animals, case screenshots, or Logos; if pixel-preserving editing is unavailable, return the handoff package instead.
+请使用 $create-ip-op-poster，从第 1/4 步开始。先给我 2—3 个创意方向，不要直接成图。
 ```
 
-5. Map the platform's tools to the capability table. Do not weaken a rule to fit a tool.
+Codex 的精简安装和启动方法见[快速开始](../examples/quick-start.md)。
 
-This pattern supports tools marketed as bots, agents, workflows, workspaces, or knowledge assistants without assuming a platform-specific installer.
+## 路径二：知识库或智能体平台
 
-## 5. Window or agent transfer
+1. 将 `SKILL.md` 放入系统指令或主知识库。
+2. 上传当前阶段需要的 `references/` 文件，不必一次塞入全部资料。
+3. 平台支持视觉知识时，再上传选中的视觉案例；不支持时，让用户在当前任务中附上参考图。
+4. 加入以下入口指令：
 
-At every confirmed gate, save or return `handoff-template.md` as plain Markdown. In a new window, supply:
+```text
+以 create-ip-op-poster 的 SKILL.md 为唯一流程规则。默认从第 1/4 步开始，依次等待创意方向、抠图、人物排布和完整 Prompt 的明确确认。人物、动物、案例截图和 Logo 都是受保护素材；若无法保真抠图或分层合成，停止并输出交接包，不得重新生成近似人物。
+```
 
-- the handoff record;
-- the original numbered assets or accessible paths;
-- the Skill folder/knowledge files.
+## 路径三：ChatGPT、豆包或 Coze 普通会话
 
-The receiving agent must verify the stage and source ledger before continuing. It must not ask the user to repeat confirmed decisions unless evidence is missing or contradictory.
+不会安装 Skill 也可以使用。复制 [ChatGPT／豆包／Coze 启动语](../examples/chatgpt-starter.md)，再上传 Brief 和人物原图。
 
-## 6. Safe degradation
+普通会话只能在平台实际具备相应能力时完成保真抠图和分层合成。模型能“看图”或“生图”不代表它能保持原像素；能力不足时必须走安全交接。
 
-Capability limitations change the deliverable, not the truth standard.
+## 四个标准回复
 
-Safe fallback package:
+用户依次回复：
 
-1. confirmed direction;
-2. material ledger;
-3. protected collage specification or confirmed preview;
-4. complete confirmed final Prompt;
-5. layer map with positions/z-order;
-6. fixed-copy and asset mapping;
-7. QA checklist and known limitations.
+1. `选方向 1`
+2. `抠图通过`
+3. `排布通过`
+4. `确认生成`
 
-Label it `execution handoff — final image not generated/verified`. Never say the poster is complete when a protected-layer operation remains.
+意思相同的明确表达可以接受。模糊评价、附件或局部修改不算确认。
+
+## 平台能力检查
+
+| 必需能力 | 可以继续时 | 不具备时 |
+|---|---|---|
+| 阅读 Markdown | 能读取 `SKILL.md` 和当前阶段参考 | 复制必要规则到对话中 |
+| 查看图片 | 能核对人物数量、面貌和素材质量 | 只整理文字台账，不声称已视觉核验 |
+| 保真抠图／蒙版 | 能保留原始人物像素并展示原图与抠图对照 | 停在第 2/4 步，输出抠图说明 |
+| 分层合成 | 能把受保护图层按位置和层级组合 | 停在第 3/4 步，输出图层表 |
+| 仅支持 AI 生图 | 只生成背景、装饰或概念草图 | 不重新生成人物、截图或 Logo |
+| 保存文件或状态 | 能保存确认记录和交接单 | 将交接单以 Markdown 返回给用户 |
+
+## 安全交接包
+
+平台不能保真完成某一步时，输出：
+
+1. 已确认的创意方向；
+2. 素材台账和受保护素材清单；
+3. 已确认的抠图对照，或逐主体抠图说明；
+4. 人物排布图层表，包括位置、大小、遮挡和前后顺序；
+5. 完整成图 Prompt；
+6. QA 检查项、未完成项和能力限制。
+
+标题标记为：`执行交接包——最终图片尚未生成或尚未保真核验`。
+
+换窗口或换平台时，把交接包、原始编号素材和 Skill 文件一并提供。接手的 Agent 先核对当前步骤和素材台账，不重复追问已经明确确认的决定。

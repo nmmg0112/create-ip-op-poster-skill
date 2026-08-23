@@ -5,29 +5,35 @@
 1. Operating rule
 2. Intake
 3. Direction gate
-4. Collage gate
-5. Prompt gate
-6. Production and QA
-7. Rollback
-8. Stage response format
+4. Cutout gate
+5. Composition gate
+6. Prompt gate
+7. Production and QA
+8. Rollback
+9. Stage response format
 
 ## 1. Operating rule
 
 Run the workflow as a state machine. Do useful work within the current stage, then stop at the next gate. Never turn a user's partial reaction into permission to generate the next artifact.
 
-A vague reaction, change request, or added material is not confirmation.
-
-The three protected decisions are:
+A vague reaction, change request, new attachment, or partial correction is not confirmation. The four protected decisions are:
 
 1. What the IP idea and content play are.
-2. Which exact people/animals appear, how they map to plays, and whether they are unified, grouped, independent, or hybrid.
-3. What exact Prompt will be used for the final poster.
+2. Whether every source has been cut out correctly without identity or body loss.
+3. How the confirmed cutouts are grouped, sized, overlapped, and layered.
+4. What exact Prompt will be used for the final poster.
+
+Read [novice-mode.md](novice-mode.md) for the default user-facing presentation. A skilled user may request a compact response, but all four decisions still require explicit confirmation.
 
 ## 2. Intake
 
-### Build a material ledger
+Start with this low-barrier request:
 
-Assign stable IDs without renaming the source files:
+> 请发送 Brief 和人物／动物原图。案例截图、Logo、固定文案、报价和合作权益都可以稍后补充，也可以不提供。
+
+### Build a material ledger internally
+
+Assign stable IDs without renaming source files:
 
 - `B01`: brief text, document, screenshot, or link summary.
 - `P01...`: person/animal source images.
@@ -37,6 +43,8 @@ Assign stable IDs without renaming the source files:
 - `T01...`: fixed copy, brand rules, prohibitions, price, rights, or delivery requirements.
 
 For each file record source filename, subject/display name, subject count, type, variant/alternative relationship, visible quality limitations, and intended use. A filename suffix such as `-柒捌` or `-捌玖` is a file-management marker unless the user explicitly says it is part of the public nickname.
+
+Keep this ledger hidden unless a conflict, missing source, identity ambiguity, or capability limitation changes the result.
 
 ### Parse an arbitrary brief
 
@@ -50,87 +58,123 @@ Extract only what is present:
 - required commercial information;
 - other explicit constraints not covered above.
 
-Keep absent fields empty. Preserve unfamiliar requirements under `other explicit constraints`; do not drop them because they do not match a template.
-
-### Ask only decision-changing questions
-
-Continue with labeled assumptions when possible. Ask before direction generation only when a missing answer would materially change the idea or make safe asset use impossible, such as an unreadable brief, no creator source image, contradictory subject names, or an unknown mandatory output ratio.
+Keep absent fields empty. Preserve unfamiliar requirements under `other explicit constraints`; do not drop them because they do not match a template. Continue with labeled assumptions whenever safe, and ask at most one result-changing question per round.
 
 ## 3. Direction gate
 
-Read `direction-framework.md`. Return 2–3 options that differ in strategy, not only title or palette.
+Read `direction-framework.md`. Return 2–3 options that differ in strategy, not only title or palette. Put the recommended option first and explain the recommendation in one plain-language sentence.
+
+End with the direct reply and the optional commercial-information question:
+
+> 可直接回复：选方向 1
+>
+> 本次海报是否需要呈现报价或合作权益？不需要也可以。
+
+The standard reply `选方向 1` is explicit confirmation. A custom reply is also valid when it identifies the chosen or merged content and clearly authorizes continuation. Do not accept `挺好`, `可以看看`, `再亮一点`, a new attachment, or a partial correction as a completed gate. Apply the feedback, re-show the affected option, and ask again.
+
+## 4. Cutout gate
+
+Read `material-integrity.md` before operating on images. This gate evaluates the cutout only; do not decide layout, grouping, overlap, or layer order yet.
+
+Display a source-versus-cutout review page:
+
+1. show each original source beside its transparent-background cutout;
+2. label the stable `Pxx` ID and exact public name;
+3. use a checkerboard or neutral solid background to expose edges;
+4. show the full person/animal when the source permits;
+5. mark uncertain hair, clothing, hand/foot, animal-fur, furniture, and source-edge regions;
+6. check identity, subject count, original combination, and accidental body deletion.
+
+If one source fails, redo only that source; keep the confirmed direction. End with:
+
+> 请确认人物／动物长相、数量、原始组合、身体完整性和抠图边缘。可直接回复：抠图通过
+
+Only explicit confirmation advances to `composition_pending`. If pixel-preserving cutout capability is unavailable, output the source ledger, exact mask instructions, protected regions, known limitations, and target format, then enter `handoff` without showing a generated approximation.
+
+An individual failure returns only the affected `Pxx` item to `cutout_pending`; already accepted sources do not need to be redone. Accidental body deletion and any changed human face or animal head are hard failures. Never use generative face repair, face completion, or animal-head reconstruction to make a failed cutout look acceptable.
+
+## 5. Composition gate
+
+Use only cutouts confirmed at Gate 2. Read `layout-grammar.md` and choose the presentation mode from the confirmed content relationship:
+
+- unified ensemble;
+- grouped by play;
+- independent cutouts;
+- hero creator plus supporting groups.
+
+Show a complete placement preview, or the smallest preview set that proves:
+
+1. which play/group each person or animal supports;
+2. relative subject sizes;
+3. front/middle/back order and overlap;
+4. clear faces and animal heads;
+5. creator-to-play, case, or scene relationship;
+6. no duplicate subject, hard rectangular source boundary, meaningless hole, or detached person.
 
 End with:
 
-> 请选一个方向，或告诉我希望合并哪些部分。确认方向后，我才会处理人物/动物拼贴。另请顺便确认：本次海报是否需要呈现报价或合作权益？不需要也可以；需要但尚未提供时，我会等你补充，绝不自行估算。
+> 请确认人物呈现方式、归属、大小、前后层级和交叠关系。可直接回复：排布通过
 
-Accept as explicit confirmation only when the reply identifies the choice or merged content and authorizes continuation, for example `选方向 2，确认继续` or `按 1 的主题加 3 的分组，确认做人物图`.
+Only explicit confirmation advances to `prompt_pending`. If safe layer compositing is unavailable, output the presentation mode, group mapping, target canvas, layer-order sketch, size ratios, and non-negotiable protection rules, then enter `handoff`.
 
-Do not accept `挺好`, `可以看看`, `再亮一点`, a new attachment, or a partial correction as a completed gate. Apply the feedback, re-show the affected option, and ask again.
+Changing only creator grouping, relative size, overlap, or front/middle/back order returns to `composition_pending`; keep the confirmed cutouts and do not repeat Gate 2 unless a mask or protected source actually changes.
 
-## 4. Creator-presentation gate
+## 6. Prompt gate
 
-Read `material-integrity.md` before operating on images.
-
-Read `layout-grammar.md` and choose the presentation mode from the confirmed content relationship and layout. Deliver:
-
-1. the preview set required by the mode: unified ensemble, one preview per play group, independent cutouts, or a full-board placement proof;
-2. the unique-subject list and count;
-3. every `play/group -> Pxx -> layer ID -> public display name` mapping;
-4. alternative files that were not used;
-5. any uncertain mask edge or source limitation;
-6. confirmation question.
-
-End with:
-
-> 请确认人物呈现方式，以及每组人物/动物的长相、数量、归属、大小、前后层级和交叠关系。确认后我才会生成完整海报 Prompt；如需统一群像、按玩法分组、独立摆放、换图、增删人物或调整层级，请直接指出。
-
-When pixel-preserving editing is unavailable, do not show a generated approximation. Output the ledger, presentation mode, group mapping, mask/cutout instructions, target canvas, layer-order sketch, size ratios, and non-negotiable rules, then label the state `handoff`.
-
-## 5. Prompt gate
-
-Read `prompt-template.md`. Use the confirmed direction, collage mapping, and immutable source text.
+Read `prompt-template.md`. Use only the confirmed direction, cutouts, composition, and immutable source text.
 
 Before presenting the Prompt, check:
 
 - every public nickname has a mapped source;
-- every case screenshot has exactly one specified slot unless the user requests reuse;
+- every case screenshot has exactly one specified slot unless reuse was requested;
 - fixed copy is verbatim;
-- optional price/rights appear only when the user asked and supplied them;
+- optional price/rights appear only when requested and supplied;
 - palette logic is tied to this brief;
-- people remain one or more protected layers matching the confirmed presentation mode;
+- protected person/animal layers match the confirmed composition;
 - screenshot and Logo rules are explicit;
-- the negative constraints cover fabrication and reference copying.
+- negative constraints cover fabrication and reference copying.
 
-End with:
+Show a short production summary first, then the entire Prompt. The summary cannot replace the Prompt. End with:
 
-> 以上是将实际用于生成/制作海报的完整 Prompt。请确认或逐条修改；只有你明确确认后，我才会进入成图。
+> 以上是将实际用于生成／制作海报的完整 Prompt。可直接回复：确认生成
 
-## 6. Production and QA
+If the user edits any item, show the revised complete Prompt and wait for confirmation again.
+
+## 7. Production and QA
 
 Separate production into:
 
 1. generated/editable background, decoration, containers, and typography plan;
-2. protected person/animal layer(s), unified or grouped exactly as confirmed;
+2. protected person/animal layers exactly as confirmed;
 3. protected case screenshot layers;
 4. protected Logo layers;
 5. final text layers.
 
-Prefer an editable source file when the platform supports it. If it only produces a flattened image, first prove that protected layers can be composited without regeneration. Otherwise use the handoff path.
+Prefer an editable source file when supported. If a platform only produces a flattened image, first prove protected layers can be composited without regeneration; otherwise use the handoff path. Run `qa-checklist.md` against the final artifact, not the Prompt alone.
 
-Run `qa-checklist.md` against the final artifact, not against the Prompt alone. A generated image is not evidence that the task succeeded.
+## 8. Rollback
 
-## 7. Rollback
+- Theme, direction, or play changed: return to `direction_pending`; keep only valid source facts.
+- Person/animal source added, removed, replaced, or changed: return to `cutout_pending`; invalidate composition and Prompt.
+- One cutout fails or its mask changes: return only the affected `Pxx` item to `cutout_pending`; keep the confirmed direction and unaffected cutouts, and invalidate composition and Prompt.
+- Grouping, size, overlap, or layer order changes without changing a cutout: return to `composition_pending`; keep confirmed cutouts and invalidate Prompt.
+- Screenshot, Logo, fixed copy, price, or rights changed: return to `prompt_pending` when direction, cutouts, and composition remain valid.
+- Final background/decor feedback only: return to `production`, then rerun affected QA checks.
+- Any changed human face or animal head is a hard failure: discard the affected composite and return to the earliest responsible protected-image stage; never repair, complete, or patch it with generation.
 
-- Direction or grouping changed: return to `prompt_pending`; redo collage only if composition/subject membership changes.
-- Subject source, group mapping, or presentation mode changed: return to `collage_pending`; invalidate Prompt.
-- Screenshot, Logo, fixed copy, price, or rights changed: return to `prompt_pending`.
-- Final background/decor feedback only: return to `production`, then rerun all affected QA checks.
-- Any face/source-pixel violation: discard the affected composite and return to `collage_pending` or `production`; never patch the face with generation.
+Announce every invalidated confirmation explicitly.
 
-## 8. Stage response format
+## 9. Stage response format
 
-Use this compact footer at every stage:
+Start every confirmation response with:
+
+```markdown
+第 <n>/4 步｜<步骤名称>
+```
+
+Show only the current understanding, recommended option, information needed for this decision, and one copyable reply. Keep ledgers, capability reports, case comparisons, and layer tables hidden unless a problem makes them necessary.
+
+Use this compact internal/handoff footer when stage tracking must be visible:
 
 ```markdown
 当前阶段：<stage>

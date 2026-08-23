@@ -7,7 +7,7 @@ Use this after every confirmed gate and whenever work moves to another window, a
 
 ## State
 - Skill: create-ip-op-poster
-- Current stage: <intake | direction_pending | collage_pending | prompt_pending | production | qa | complete | handoff>
+- Current stage: <intake | direction_pending | cutout_pending | composition_pending | prompt_pending | production | qa | complete | handoff>
 - Last explicit confirmation: <verbatim user confirmation>
 - Confirmation time/context: <available timestamp or turn>
 - Next mandatory gate: <gate or none>
@@ -40,13 +40,21 @@ Use this after every confirmed gate and whenever work moves to another window, a
 - Fixed copy: <verbatim strings>
 - Prohibited content: <task-specific bans>
 
-## Collage
+## Cutout review
 - Status: <not started | draft | explicitly confirmed | handoff required>
-- Preview/output: <path or attachment reference>
-- Canvas: <size/ratio/background>
+- Source/cutout comparison: <path or attachment reference>
+- Rejected subjects: <IDs, reasons, and redo status>
 - Subject count before/after: <counts>
-- Layer order and overlap: <mapping>
 - Known mask/source limitations: <facts>
+- Explicit confirmation: <verbatim user confirmation or none>
+
+## Creator composition
+- Status: <not started | draft | explicitly confirmed | handoff required>
+- Presentation mode: <unified ensemble | grouped by play | independent cutouts | hero plus supporting groups>
+- Preview: <path or attachment reference>
+- Canvas: <size/ratio/background>
+- Layer order: <group, size, overlap, and front/middle/back mapping>
+- Explicit confirmation: <verbatim user confirmation or none>
 
 ## Final Prompt
 - Status: <not started | draft | explicitly confirmed>
