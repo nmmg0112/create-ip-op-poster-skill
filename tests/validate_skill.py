@@ -83,6 +83,19 @@ def check_visual(root: Path) -> None:
     for field in ("阅读顺序", "区域分配", "第一视觉", "留白用途", "构图风险"):
         require(direction, field, "direction-framework.md")
 
+    # An industry category may guide retrieval, but it must never become the
+    # evidence for a palette, material, container, or motif. Keep this policy in
+    # both the visual-director preflight and the direction-generation rules.
+    for text, label in (
+        (director, "visual-director.md"),
+        (direction, "direction-framework.md"),
+    ):
+        require(text, "行业标签本身不是表面风格证据", label)
+        require(text, "数码＝科技蓝／霓虹／玻璃／UI／控制台", label)
+        require(text, "推荐方向必须以 Brief 专属的人物行动或内容机制作为视觉母题", label)
+        for evidence in ("Brief 原文", "受众情绪", "人物／账号证据", "品牌规则", "内容机制"):
+            require(text, evidence, label)
+
 
 def check_integrity(root: Path) -> None:
     integrity = read(root, "references/material-integrity.md")

@@ -90,7 +90,7 @@ Keep the following internal visual record for every option. It is used for execu
 
 ## 5. Color and visual logic
 
-Start from the current theme, industry, audience emotion, and node. Define roles rather than a list of colors:
+Industry labels are retrieval hints, not surface-style evidence. For each palette, material, container, and motif choice, cite at least one current-project source: exact brief wording, audience emotion stated in the brief, supplied creator/account evidence, a supplied brand rule, or the confirmed content mechanism. Define roles rather than a list of colors:
 
 - dominant background color;
 - primary title/accent color;
@@ -104,9 +104,13 @@ Seasonal heuristics are examples, not defaults:
 - autumn: warm yellow, osmanthus gold, orange, brown, or deep green when they support the theme;
 - winter: snow white, ice blue, silver gray, or other cool tones when appropriate.
 
-Industry/node may override season. A digital launch can use precise technological contrast; city play can use energetic route/map language; beauty may require product/brand color discipline; food can use appetite and warmth. Keep the palette harmonious and readable, and explain why it belongs to this brief.
+Industry/node may constrain execution only when the brief, creator evidence, brand rule, audience emotion, or content mechanism supports the choice. Keep the palette harmonious and readable, and explain the evidence for why every surface treatment belongs to this brief.
 
 Do not infer `seasonal` merely from a date. Do not force Chinese-poetic motifs, moons, scrolls, seals, or festival red without brief evidence.
+
+行业标签本身不是表面风格证据。颜色、材质、信息容器和装饰母题必须分别回指以下至少一种证据：Brief 原文、受众情绪、人物／账号证据、品牌规则或内容机制。不得自动套用“数码＝科技蓝／霓虹／玻璃／UI／控制台”，也不得把任何其他行业名称直接翻译成固定配色、材质、容器或装饰。`符合行业`、`有科技感`、`更商业` 不能单独构成理由。
+
+推荐方向必须以 Brief 专属的人物行动或内容机制作为视觉母题。先写清“谁在什么场景，通过什么动作、互动或冲突承载主题”，再选择表面语言。没有达人／账号细节时，只能使用 Brief 明示的场景、人物关系、受众情绪或内容机制；这些也未提供时，保持结构中性并列出待补信息，不得用行业默认风格代填。
 
 ## 6. Information hierarchy and layout
 
@@ -155,3 +159,5 @@ After the options, provide a compact comparison:
 |---|---|---|---|---|
 
 Recommend one option with evidence, but keep the choice with the user. Then ask the gate-1 price/rights question without turning it into a blocker.
+
+The recommendation must include a short evidence ledger for palette, material, container, and motif, plus one brief-specific human/content premise. Reject the recommendation before Gate 1 if any surface choice is justified only by the industry label.
