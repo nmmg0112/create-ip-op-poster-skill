@@ -1,61 +1,61 @@
-# Visual Director and Novice Mode Design
+# 视觉导演与新手模式设计规格
 
-Date: 2026-08-23  
-Status: user-approved design, pending implementation plan  
-Project: create-ip-op-poster
+日期：2026-08-23
+状态：方案已确认，等待实施计划
+项目：create-ip-op-poster
 
-## 1. Objective
+## 一、目标
 
-Improve the Skill in two ways:
+本次优化解决两个问题：
 
-1. produce more attractive, coherent, information-capable IP/OP posters by turning the authorized visual-case library into an operational visual-director system;
-2. lower the usage threshold for people who are unfamiliar with Agent products, including ChatGPT-only users.
+1. 把已授权的视觉案例库转化为可执行的“视觉导演”规则，让 IP／OP 海报更美观、更完整，也能承载较高的信息密度。
+2. 降低使用门槛，让不熟悉 Agent 产品、甚至只会使用 ChatGPT 的用户也能顺利完成海报。
 
-The change must preserve the existing source-integrity standard: people, animals, case screenshots, and Logos remain protected source layers. Better aesthetics must never be achieved by changing a face, animal identity, screenshot content, or Logo.
+优化不得削弱素材保护标准。人物、动物、案例截图和 Logo 始终作为受保护图层使用。不能为了美观而改变人脸、动物特征、截图内容或 Logo。
 
-## 2. Evidence from the current library and workflow
+## 二、现状判断
 
-The 26 current cases include substantially different structures: concept scenes, creator ensembles, play-owned modules, numbered journeys, dense matrices, and editorial collage. The common strengths are not a single color or fixed three-column layout. Strong cases generally:
+现有 26 张视觉案例包含多种结构：概念场景、达人群像、玩法分舱、阶段路线、高密度矩阵和编辑拼贴。值得学习的不是某一种颜色或固定三栏版式，而是以下共同规律：
 
-- use one visual premise across background, title, containers, and decoration;
-- make the title or creator group an intentional visual anchor;
-- bind creators to the play, scene, evidence, or object they support;
-- use whitespace for focus, separation, or reading pauses instead of leaving unexplained holes;
-- create foreground, middle-ground, and background depth;
-- carry high information density through numbering, alignment, color coding, and repeated modules rather than unreadably small type.
+- 背景、标题、容器和装饰围绕同一个视觉母题；
+- 标题或人物群像是经过设计的视觉锚点；
+- 人物与对应玩法、场景、案例或道具发生明确关系；
+- 留白用于聚焦、分组或阅读停顿，不留下无意义的大洞；
+- 画面具有前景、中景和背景层次；
+- 高信息密度依靠编号、对齐、颜色编码和模块重复，而不是无限缩小文字。
 
-The current Skill documents many layout families, but runtime behavior can still fail because:
+现有 Skill 虽然已经记录多种版式，但仍可能出现以下问题：
 
-- creator cutouts or a unified collage may be produced before the layout relationship is sufficiently proven;
-- reference retrieval records one-line principles but does not create a complete art-direction grammar;
-- the final Prompt does not force a separate structural pass and surface-style pass;
-- current QA is strong on material integrity but too light on visual focus, dead space, rhythm, and coherence;
-- the interface exposes process language and makes inexperienced users infer what to answer next.
+- 在版式关系尚未确定前，过早进入人物拼贴；
+- 案例库只有简短描述，没有形成完整的视觉决策方法；
+- 最终 Prompt 没有明确拆分“版式结构”和“表面风格”；
+- QA 重视素材保真，但对视觉焦点、无效空白、节奏和统一性检查不足；
+- 新手需要自己判断下一步做什么、应该怎样回复。
 
-## 3. Scope and non-goals
+## 三、范围
 
-### In scope
+### 本次包含
 
-- a default novice-guided interaction;
-- four mandatory user confirmation gates;
-- a visual-director decision layer before final Prompt production;
-- structured visual-case tags and complementary reference retrieval;
-- dynamic creator presentation instead of forced all-person collage;
-- structural and aesthetic preflight checks;
-- cross-platform starter instructions and safe capability downgrade;
-- scenario tests for single creator, creator matrix, minimal input, and ChatGPT-only use.
+- 默认启用新手引导模式；
+- 设置四个强制确认点；
+- 在最终 Prompt 前增加视觉导演机制；
+- 为视觉案例增加结构化标签和组合检索规则；
+- 不再默认制作全员群像；
+- 增加结构预检和美观预检；
+- 增加 ChatGPT 等平台的一键启动话术；
+- 测试单达人、多人矩阵、极简输入和平台能力不足等场景。
 
-### Out of scope
+### 本次不包含
 
-- training a new image model;
-- copying or extracting design elements from reference cases;
-- turning the Skill into an industry-specific template generator;
-- weakening material-integrity rules;
-- guaranteeing source-preserved final production on a platform that cannot mask and composite protected layers.
+- 训练新的图片模型；
+- 从参考案例中提取或复制设计元素；
+- 将 Skill 做成固定的行业模板生成器；
+- 放宽人物、动物、截图或 Logo 的保护规则；
+- 在不具备保真抠图和图层合成能力的平台上承诺完成成图。
 
-## 4. Revised state machine
+## 四、新流程
 
-The current creator-presentation gate will split into cutout confirmation and composition confirmation:
+人物确认拆成“抠图确认”和“排布确认”两个独立步骤：
 
     intake
       -> direction_pending
@@ -66,219 +66,232 @@ The current creator-presentation gate will split into cutout confirmation and co
       -> qa
       -> complete
 
-    Any protected-image stage -> handoff
-    when the platform cannot preserve identity or source pixels
+    任何受保护图片阶段
+      -> 能力不足时进入 handoff
 
-The four mandatory confirmations are:
+四个强制确认点：
 
-1. direction confirmation;
-2. cutout-material confirmation;
-3. creator-composition confirmation;
-4. complete final-Prompt confirmation.
+1. 创意方向确认；
+2. 抠图素材确认；
+3. 人物排布确认；
+4. 完整成图 Prompt 确认。
 
-Required user replies stay simple:
+用户可以直接回复：
 
     选方向 1
     抠图通过
     排布通过
     确认生成
 
-An equivalent explicit sentence is valid. A vague reaction, attachment, or partial correction is not confirmation.
+意思相同的明确表达也可以。模糊评价、新增附件或局部修改不视为确认。
 
-## 5. Novice mode
+## 五、新手模式
 
-Novice mode is the default. Expert users may ask for a compact response, but no mode may skip the four confirmations.
+新手模式默认开启。熟练用户可以要求精简展示，但不能跳过四个确认点。
 
-### 5.1 Intake
+### 5.1 开始使用
 
-The opening instruction is:
+启动时只告诉用户：
 
-> 请发送 Brief 和人物/动物原图。案例截图、Logo、固定文案、报价和合作权益都可以稍后补充，也可以不提供。
+> 请发送 Brief 和人物／动物原图。案例截图、Logo、固定文案、报价和合作权益都可以稍后补充，也可以不提供。
 
-The Agent:
+Agent 负责：
 
-- accepts messy uploads and arbitrary filenames;
-- builds the detailed material ledger internally;
-- shows only a compact problem list when a duplicate, missing subject, ambiguous public name, or unreadable asset changes the result;
-- does not require the user to learn IDs, layer terms, or Agent vocabulary;
-- asks at most one decision-changing question per turn;
-- continues with labeled assumptions when missing optional material does not block the stage.
+- 接收文件名混乱、顺序不固定的素材；
+- 在内部建立完整素材台账；
+- 只有出现重复人物、人物缺失、昵称不明或图片不可用等会改变结果的问题时，才向用户展示问题；
+- 不要求用户理解素材编号、图层或 Agent 术语；
+- 每轮最多询问一个会改变结果的问题；
+- 缺失可选材料时继续推进，并明确说明采用的假设。
 
-### 5.2 Stage response
+### 5.2 每一步的展示方式
 
-Every user-facing stage begins with:
+每个阶段都用同一格式开头：
 
-    第 <n>/4 步｜<stage name>
+    第 <n>/4 步｜<步骤名称>
 
-It shows:
+只展示：
 
-1. what the Agent understood;
-2. the recommended option first;
-3. only the information needed for the current decision;
-4. a copyable one-line reply.
+1. Agent 对当前任务的理解；
+2. 排在第一位的推荐选项；
+3. 当前决定所需的信息；
+4. 一句可以直接复制的回复。
 
-The internal ledger, capability report, reference-comparison record, and layer map remain available but are hidden by default unless they contain a problem or the user asks to see them.
+素材台账、平台能力报告、参考案例对比和图层表默认不展开。只有出现问题或用户主动要求时才展示。
 
-### 5.3 Direction confirmation
+### 5.3 创意方向确认
 
-Return 2–3 materially different directions. Each compact direction contains:
+提供 2—3 个真正不同的方向。每个方向只包含：
 
-- theme and one-line expression;
-- what the creator or creator groups actually do;
-- layout family and creator-presentation mode in plain Chinese;
-- visual atmosphere;
-- one main risk.
+- 主题和一句话表达；
+- 单个达人怎么做，或多组达人分别怎么做；
+- 用普通中文说明版式和人物呈现方式；
+- 视觉氛围；
+- 一个主要风险。
 
-Mark one option as recommended and explain the reason in one sentence. Ask the optional price/rights question at this stage. Missing price or rights never blocks progress unless the brief requires them.
+推荐方向放在第一位，并用一句话解释推荐原因。
 
-### 5.4 Cutout confirmation
+此阶段顺便询问：
 
-Show a contact sheet or equivalent preview containing:
+> 本次海报是否需要呈现报价或合作权益？不需要也可以。
 
-- source image and transparent-background cutout side by side;
-- stable subject number and public display name;
-- full visible subject bounds where the source permits;
-- a neutral checkerboard or solid review background;
-- any uncertain hair, clothing, limb, pet-fur, furniture, or source-boundary edge.
+除非 Brief 明确要求，否则未提供报价或权益不影响继续。
 
-The user confirms identity, subject count, original pairing, retained body areas, and mask quality before any final arrangement. A failed cutout returns only the affected subject to cutout work.
+### 5.4 抠图素材确认
 
-### 5.5 Composition confirmation
+抠图完成后，必须展示人物素材对照页：
 
-After cutouts pass, select one of:
+- 原图与透明底抠图并排；
+- 标注稳定的人物编号和公开昵称；
+- 原图允许时，完整展示人物或动物主体；
+- 使用棋盘格或中性纯色背景检查边缘；
+- 标明头发、衣服、手脚、宠物毛发、家具或原图边界等不确定区域。
 
-- unified ensemble;
-- grouped by play;
-- independent protected cutouts;
-- hero plus supporting groups.
+用户需要确认：
 
-Show the real cutouts in a full-board placement proof or the smallest preview set that proves:
+- 人物和动物长相未改变；
+- 人数、动物数量和原始组合关系正确；
+- 没有误删身体；
+- 抠图边缘可接受。
 
-- group membership;
-- size relationships;
-- overlap and z-order;
-- face and animal-head safety;
-- relation between creators and their plays;
-- absence of duplicate subjects, hard source rectangles, unexplained holes, and isolated edge subjects.
+某个素材不通过时，只返工对应人物，不推翻已经确认的创意方向。
 
-The user confirms the arrangement before Prompt production.
+### 5.5 人物排布确认
 
-### 5.6 Prompt confirmation
+抠图通过后，根据玩法选择：
 
-Show:
+- 统一群像；
+- 按玩法分组；
+- 独立人物摆放；
+- 主视觉人物＋辅助分组。
 
-1. a short production summary;
-2. the complete Prompt;
-3. the exact reply “确认生成”.
+使用真实抠图制作完整排布预览，或能够证明排布关系的最小预览组合。预览必须让用户看清：
 
-The summary does not replace the complete Prompt. Any user edit produces a new full Prompt and requires confirmation again.
+- 每个人属于哪个玩法；
+- 人物大小关系；
+- 前后层级和交叠；
+- 人脸和动物头部没有被遮挡；
+- 人物与玩法、案例或场景的关系；
+- 没有重复人物、硬矩形边界、无意义空洞或远离主体的人物。
 
-## 6. Visual director
+排布确认后才能生成最终海报 Prompt。
 
-The visual director runs before direction presentation and again before final Prompt presentation.
+### 5.6 Prompt 确认
 
-### 6.1 Six decisions
+此阶段依次展示：
 
-For every project, record:
+1. 简短制作摘要；
+2. 完整成图 Prompt；
+3. 标准回复“确认生成”。
 
-1. content topology: parallel, sequence, hierarchy, scene, radial, evidence, matrix, or manifesto;
-2. layout family: concept scene, ensemble hero, play-owned compartments, route/stages, matrix dossier, editorial collage, or a justified new family;
-3. visual premise: one brief-specific world that unifies title, background, containers, texture, and decoration;
-4. creator-presentation mode: unified, grouped, independent, or hybrid;
-5. density band: low, medium, or high, with an explicit function for major whitespace;
-6. hierarchy and depth: primary anchor, secondary play modules, tertiary evidence, plus foreground/middle/background treatment.
+制作摘要不能代替完整 Prompt。用户修改任何内容后，都要重新展示完整 Prompt 并再次等待确认。
 
-Surface style follows these structural decisions. Industry labels are constraints, not default styles. For example, digital work must not automatically become blue neon, interface panels, or generic futuristic decoration.
+## 六、视觉导演机制
 
-### 6.2 Reference retrieval
+视觉导演在创意方向输出前运行一次，在最终 Prompt 输出前再次检查。
 
-Retrieve 2–4 complementary cases, normally including:
+### 6.1 六项必做判断
 
-- one structural reference;
-- one density/information-capacity reference;
-- one mood/surface-language reference.
+每个项目都要记录：
 
-The same case may satisfy two roles only when the comparison still contains a structurally different case.
+1. **内容关系**：并列、顺序、主次、场景、中心发散、案例证明、矩阵或情绪宣言；
+2. **版式家族**：概念场景、群像主视觉、玩法分舱、路线阶段、矩阵档案、编辑拼贴，或有充分理由的新结构；
+3. **视觉母题**：用一个符合本次 Brief 的视觉世界统一标题、背景、容器、材质和装饰；
+4. **人物模式**：统一、分组、独立或混合；
+5. **信息密度**：低、中或高，并说明主要留白的用途；
+6. **层级与景深**：明确第一视觉、玩法模块、证据信息以及前景、中景、背景的关系。
 
-For each selected case, record:
+表面风格必须服从以上结构。行业只提供约束，不能直接决定风格。例如，数码行业不能自动等于蓝色霓虹、科技界面或通用未来感。
 
-- retrieval role;
-- layout family and reading path;
-- creator-presentation mode;
-- density mechanism;
-- visual premise;
-- headline behavior;
-- depth method;
-- reusable abstract grammar;
-- intended differences for the current brief;
-- forbidden copied elements.
+### 6.2 案例检索方式
 
-Do not reuse a title, copy, Logo, seal, proprietary container, exact arrangement, signature decoration, or distinctive motif.
+每次选择 2—4 张互补案例，通常包括：
 
-### 6.3 Direction proof
+- 一张学习版式结构；
+- 一张学习信息密度；
+- 一张学习视觉气质。
 
-Each direction must specify:
+同一张案例可以承担两个作用，但必须再加入一张结构不同的案例，避免整套照搬。
 
-- content topology;
-- reading path;
-- approximate region allocation;
-- first visual anchor;
-- creator-to-play mapping;
-- screenshot/data location if supplied;
-- density band;
-- visual premise and palette roles;
-- major whitespace purpose;
-- main composition risk.
+每张参考案例都记录：
 
-When layout is the unsettled variable, options must use genuinely different structures rather than recolors.
+- 本次承担的参考作用；
+- 版式和阅读路径；
+- 人物呈现方式；
+- 信息密度的组织方法；
+- 视觉母题；
+- 标题处理；
+- 景深处理；
+- 可以借鉴的抽象规律；
+- 本次方案必须做出的差异；
+- 禁止复制的具体元素。
 
-### 6.4 Prompt construction
+严禁复制参考案例的标题、文案、Logo、印章、专属容器、具体人物排布、标志性装饰或独特视觉符号。
 
-The final Prompt is composed in three explicit layers:
+### 6.3 创意方向必须包含的视觉证明
 
-1. **structure layer** — canvas, reading path, region allocation, hierarchy, density, creator mode, evidence locations, safe margins;
-2. **art-direction layer** — visual premise, title behavior, palette roles, texture, depth, module rhythm, restrained decoration;
-3. **protected-layer map** — every person, animal, screenshot, Logo, and immutable text item.
+每个方向必须写清楚：
 
-The merged Prompt must state that protected layers are composited, not redrawn.
+- 内容关系；
+- 阅读顺序；
+- 大致区域分配；
+- 第一视觉；
+- 人物与玩法的对应关系；
+- 已提供案例或数据的位置；
+- 信息密度；
+- 视觉母题和颜色分工；
+- 主要留白的用途；
+- 最大的构图风险。
 
-## 7. Aesthetic preflight and QA
+当版式尚未确定时，2—3 个方向必须使用真正不同的结构，不能只换颜色。
 
-The Agent may not show the final Prompt until the preflight passes:
+### 6.4 Prompt 的三层结构
 
-- one deliberate first visual is identifiable;
-- title, creators, modules, and proof have clear scale contrast;
-- creators visually belong to the relevant play;
-- all large whitespace has a stated function;
-- no unrelated decorative system fills space;
-- the layout has an intentional foreground, middle ground, and background;
-- parallel items repeat a stable rhythm;
-- non-parallel items do not receive falsely equal weight;
-- high density remains scannable without shrinking essential text into unreadability;
-- the surface style belongs to the current brief and does not inherit a previous seasonal or technology cliché.
+最终 Prompt 拆成三层：
 
-Production QA adds hard failures for:
+1. **版式结构层**：画布、阅读顺序、区域比例、视觉层级、信息密度、人物模式、案例位置和安全边距；
+2. **艺术指导层**：视觉母题、标题形式、颜色分工、材质、景深、模块节奏和克制的装饰；
+3. **受保护图层表**：逐一映射人物、动物、案例截图、Logo 和固定文案。
 
-- no identifiable focal point;
-- a large unexplained dead zone;
-- creator/play disconnection;
-- isolated creator cutouts that look pasted on;
-- title or decoration covering a face or animal head;
-- visual style contradicting the confirmed direction;
-- copied distinctive reference elements;
-- a full-person collage replacing confirmed grouped or independent placement.
+合并后的 Prompt 必须明确：受保护素材用于合成，不允许重新绘制。
 
-Visual QA remains subordinate to source integrity. Never repair an aesthetic problem by regenerating a protected person, animal, screenshot, or Logo.
+## 七、美观预检与成图 QA
 
-## 8. Cross-platform behavior
+以下项目全部通过后，才能向用户展示最终 Prompt：
 
-### Skill-aware Agent platforms
+- 画面具有明确的第一视觉；
+- 标题、人物、玩法和证据之间有清楚的大小差异；
+- 人物与所属玩法关系明确；
+- 每一块主要留白都有用途；
+- 没有使用与主题无关的装饰填空；
+- 画面具有前景、中景和背景；
+- 并列模块有稳定的重复节奏；
+- 非并列内容没有被错误设计成完全相同的权重；
+- 高密度信息仍然容易扫描，没有把必要文字压成小字；
+- 视觉风格属于当前 Brief，没有沿用以前的节日风格或科技套路。
 
-Install the full folder and invoke “$create-ip-op-poster”. The interface default prompt should ask only for Brief and creator sources.
+成图 QA 增加以下硬性失败项：
 
-### ChatGPT, Doubao, Coze, and knowledge-instruction platforms
+- 看不出第一视觉；
+- 出现大块无意义空白；
+- 人物与玩法脱节；
+- 人物像孤立贴纸一样悬在版面上；
+- 标题或装饰压住人脸、动物头部；
+- 最终风格与确认方向不一致；
+- 照搬参考案例的独特元素；
+- 已确认分组或独立摆放，却被擅自改成全员群像。
 
-Provide one copyable starter:
+审美优化始终服从素材安全。不能通过重新生成人物、动物、截图或 Logo 来修复美观问题。
+
+## 八、跨平台使用
+
+### 8.1 支持 Skill 的 Agent 平台
+
+安装完整文件夹并调用“$create-ip-op-poster”。默认启动语只要求用户提供 Brief 和人物素材。
+
+### 8.2 ChatGPT、豆包、Coze 等平台
+
+提供一段可直接复制的启动语：
 
     请按 create-ip-op-poster 的四步流程协助我：
     1. 先给创意方向；
@@ -288,69 +301,71 @@ Provide one copyable starter:
     不许改变人物或动物长相，不许改案例截图和 Logo。
     我现在会上传 Brief 和人物原图。
 
-If the platform cannot load the whole Skill, import SKILL.md, the stage reference, and the selected visual-case metadata. If it cannot perform pixel-preserving masks or layered composition, it must stop at the relevant gate and output an execution handoff rather than generate an approximate person or altered screenshot.
+无法安装完整 Skill 时，导入 SKILL.md、当前阶段所需的参考文件和选中的视觉案例说明。
 
-## 9. Planned file changes
+如果平台不能进行保真抠图或分层合成，必须在对应阶段停止，输出完整执行交接包，不能生成近似人物后声称已经保真完成。
 
-### Add
+## 九、计划修改的文件
+
+### 新增
 
 - references/visual-director.md
 - references/novice-mode.md
 - examples/quick-start.md
 - examples/chatgpt-starter.md
 
-### Update
+### 修改
 
-- SKILL.md: revised state machine, four gates, novice default, visual-director stage;
-- references/workflow.md: cutout and composition gates split;
-- references/direction-framework.md: compact direction cards and visual proof requirements;
-- references/layout-grammar.md: six operational families and whitespace/depth checks;
-- references/material-integrity.md: side-by-side cutout review format;
-- references/visual-case-library.md: structured retrieval roles and case tags;
-- references/prompt-template.md: structure, art direction, and protected-layer sections;
-- references/qa-checklist.md: aesthetic hard failures;
-- references/platform-usage.md: novice and ChatGPT-only starter path;
-- references/handoff-template.md: new cutout/composition states;
-- agents/openai.yaml: lower-friction default prompt;
-- README.md: four-step quick start and cross-platform instructions.
+- SKILL.md：新状态机、四个确认点、新手默认模式和视觉导演；
+- references/workflow.md：拆分抠图确认与排布确认；
+- references/direction-framework.md：精简方向卡和视觉证明；
+- references/layout-grammar.md：六类核心版式、留白和景深检查；
+- references/material-integrity.md：原图与抠图对照确认；
+- references/visual-case-library.md：结构化案例标签和组合检索；
+- references/prompt-template.md：版式、艺术指导和受保护图层三层结构；
+- references/qa-checklist.md：新增审美硬性失败项；
+- references/platform-usage.md：新手和 ChatGPT 使用方式；
+- references/handoff-template.md：新增抠图与排布状态；
+- agents/openai.yaml：降低默认启动门槛；
+- README.md：四步快速使用和跨平台说明。
 
-## 10. Validation plan
+## 十、测试方案
 
-Run at least four scripted or manual scenario tests:
+至少完成四种测试：
 
-1. **Multi-creator, high-density OP**  
-   Verify grouped/independent placement is considered before ensemble; reference retrieval uses complementary cases; no technology-style default appears without brief evidence.
+1. **多人、高信息密度 OP**
+   检查是否先判断分组或独立摆放，而不是默认全员群像；案例是否互补；没有 Brief 依据时是否避免科技风套路。
 
-2. **Single-creator, visual-first OP**  
-   Verify the creator mechanism is specific, the layout is not forced into a matrix, and optional evidence does not crowd the page.
+2. **单达人、视觉优先 OP**
+   检查玩法是否具体；没有强制使用矩阵版式；可选证据没有挤压主视觉。
 
-3. **Novice with only Brief and creator sources**  
-   Verify the Agent proceeds without jargon, asks one decision at a time, exposes four confirmations, and never requires price/case/Logo input.
+3. **新手只提供 Brief 和人物图**
+   检查全程没有专业术语；每轮只询问一个决定；四个确认点完整；不强制要求报价、案例或 Logo。
 
-4. **ChatGPT-only or incapable image platform**  
-   Verify the starter works, the workflow remains intact, and protected-image limitations trigger a labeled handoff rather than false completion.
+4. **ChatGPT 或图片能力不足的平台**
+   检查启动语是否可直接使用；四步流程是否保留；能力不足时是否输出交接包，而不是伪装成完成。
 
-Regression checks:
+回归测试：
 
-- the supplied digital “新机搭子已就位” example;
-- a creator-and-pet account;
-- duplicate/alternative creator photos;
-- a cutout failure that must not invalidate the confirmed direction;
-- a composition change that invalidates the final Prompt;
-- a screenshot or Logo change that does not force re-cutout.
+- “新机搭子已就位”数码案例；
+- 人物与宠物组合账号；
+- 同一达人的重复照片和备选照片；
+- 某个人物抠图失败但创意方向仍保留；
+- 人物排布变化后，最终 Prompt 自动失效；
+- 截图或 Logo 变化时，不要求重新抠人物。
 
-## 11. Acceptance criteria
+## 十一、验收标准
 
-The implementation is complete when:
+全部满足后才算实施完成：
 
-- all four gates appear in the authoritative workflow and rollback rules;
-- a user can start with only Brief and creator images;
-- cutout assets are explicitly reviewed before composition;
-- creator composition is selected from four modes and explicitly reviewed;
-- every direction records the six visual-director decisions;
-- reference retrieval separates structure, density, and mood roles;
-- final Prompt generation is blocked by the aesthetic preflight;
-- QA includes aesthetic hard failures without weakening protected-source checks;
-- cross-platform instructions include a ChatGPT-only starter and safe handoff;
-- all four scenarios and regressions pass;
-- installed local copy and public GitHub source match the verified project version.
+- 权威流程和回退规则都包含四个确认点；
+- 用户只提供 Brief 和人物图也能开始；
+- 抠图素材在排布前得到明确确认；
+- 人物排布从四种模式中选择并得到确认；
+- 每个创意方向完成六项视觉导演判断；
+- 案例检索区分结构、密度和视觉气质；
+- 美观预检不通过时不能生成最终 Prompt；
+- QA 增加审美硬性失败项，同时不削弱素材保护；
+- 跨平台说明包含 ChatGPT 启动语和安全交接方式；
+- 四种测试和回归测试全部通过；
+- 本地安装版本与公开 GitHub 版本保持一致。
