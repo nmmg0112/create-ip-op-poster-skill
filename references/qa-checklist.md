@@ -6,7 +6,7 @@
 2. Process checks
 3. Content checks
 4. Material checks
-5. Visual checks
+5. Visual checks and aesthetic hard failures
 6. Cross-platform and handoff checks
 7. Failure routing
 8. Report format
@@ -27,8 +27,8 @@ Inspect the final artifact at readable resolution and compare it with the source
 
 - Gate 1 explicitly confirmed the direction/merge.
 - Price/rights were asked as optional and were not invented.
-- Gate 2 explicitly confirmed the cutout assets or produced a clearly labeled handoff.
-- Gate 3 explicitly confirmed the creator composition or produced a clearly labeled handoff.
+- Gate 2 explicitly confirmed the source-versus-cutout review or produced a clearly labeled handoff.
+- Gate 3 explicitly confirmed the creator composition mode, group mapping, size, overlap, and front/middle/back order; or produced a clearly labeled handoff.
 - Gate 4 explicitly confirmed the complete Prompt.
 - Upstream changes invalidated the correct downstream confirmations.
 - A stage handoff receipt exists after every confirmed gate.
@@ -94,19 +94,40 @@ Inspect the final artifact at readable resolution and compare it with the source
 
 ## 5. Visual checks
 
+- The first visual focus (`第一视觉`) is explicit and matches the confirmed direction.
+- Title, creator, play module, and evidence use visibly different weights instead of equal-sized treatment.
 - Palette is harmonious and justified by this theme, industry, season, or node.
-- Surface style is not a default seasonal/poetic carryover.
+- Surface style belongs to this brief and is not a default seasonal, poetic, technology-blue, neon-interface, or prior-project carryover.
 - Creators are the first visual focus when required and are larger than case screenshots.
 - Theme and content play are readable at target viewing size.
 - Layout follows the confirmed region allocation and people-side placement.
 - Treat wrong creator-side placement (for example, people on the left when the confirmed layout requires a right-side hero) as a hard layout failure.
-- Group modules and creator attribution can be understood quickly.
-- White space is sufficient; essential copy is not reduced to dense small text.
-- Every major blank area has a visual or reading purpose; no unexplained hole splits an intended creator cluster.
+- Group modules and creator attribution can be understood quickly; every creator is visibly connected to the correct play.
+- White space is sufficient; every major blank area has a focusing, separation, breathing, or eye-guidance purpose; essential copy is not reduced to dense small text.
 - No hard rectangular source boundary, exposed furniture edge, or detached creator weakens the composition.
+- Foreground, middle ground, and background are distinguishable, and subject overlap creates depth without blocking faces or animal heads.
+- Repeated peer modules have a stable rhythm; non-peer content is not forced into identical weight.
 - Safe margins hold; text does not press against faces; screenshots are not clipped.
-- Decorations support the idea and remain subordinate.
+- Decorations support the confirmed visual premise and remain subordinate.
 - No distinctive title, composition, Logo, seal, or decorative system was copied from a reference.
+
+### Aesthetic hard failures
+
+Any item below is a hard `FAIL`, even if all required text and assets are present:
+
+- The first visual focus (`第一视觉`) cannot be identified.
+- A large meaningless blank area (`无意义空白`) has no focusing, separation, breathing, or eye-guidance purpose.
+- A creator is detached from the play they are meant to support (`人物与玩法脱节`).
+- People or animals float like isolated stickers instead of participating in a scene, module, cluster, or deliberate editorial relationship.
+- A title or decoration covers a face or animal head.
+- The layout has no foreground, middle ground, and background relationship.
+- Content that is not equivalent is incorrectly designed with identical visual weight.
+- The visual style does not match the confirmed direction.
+- The output silently reuses autumn, technology-blue, neon-interface, or another previous-project formula without support from the current brief.
+- The output copies a reference case's (`参考案例`) distinctive title, container, Logo, seal, decoration, or concrete composition.
+- A confirmed grouped or independent creator treatment is silently changed into an all-person ensemble.
+
+Aesthetic repair never overrides material safety. Do not regenerate or repaint a person, animal, screenshot, or Logo to fix one of these failures.
 
 ## 6. Cross-platform and handoff checks
 
@@ -121,8 +142,9 @@ Inspect the final artifact at readable resolution and compare it with the source
 |---|---|
 | Wrong brief interpretation, theme, grouping, or play | `direction_pending` |
 | Failed cutout, accidental body deletion, changed face/animal head, or bad mask | affected `Pxx` in `cutout_pending` |
-| Wrong creator grouping, relative size, overlap, or layer order with valid cutouts | `composition_pending` |
-| Missing/wrong mapping, fixed copy, price/rights, palette instruction | `prompt_pending` |
+| Wrong creator mode, grouping, relative size, overlap, layer order, detached subject, or meaningless hole with valid cutouts | `composition_pending` |
+| Missing/wrong asset mapping, fixed copy, price/rights, palette instruction, or aesthetic constraint | `prompt_pending` |
+| Wrong first visual, content hierarchy, visual premise, or density already present in the confirmed direction | `direction_pending` |
 | Background/layout/decor/composite execution failure | `production` |
 | Evidence too weak to verify protected pixels | `handoff` or a capable editing tool |
 
