@@ -5,8 +5,9 @@
 1. Purpose and restrictions
 2. Retrieval protocol
 3. Contact sheets
-4. Case index
-5. Comparison record
+4. Structured retrieval index
+5. Case index
+6. Comparison record
 
 ## 1. Purpose and restrictions
 
@@ -39,7 +40,42 @@ If one reference dominates the resulting idea, add a structurally different refe
 
 Open the original case file before making a detailed visual judgment; contact sheets are for retrieval only.
 
-## 4. Case index
+## 4. Structured retrieval index
+
+Use this table to assemble a complementary set before opening the originals. Start from content relationship and core family, then use density and creator mode to test fit. `优先参考角色` indicates what the case is strongest at, not permission to reproduce its surface design.
+
+| ID | 核心家族 | 内容关系 | 密度 | 人物模式 | 优先参考角色 |
+|---|---|---|---|---|---|
+| VC01 | 概念场景 | 场景 | 中 | 少人物／无群像 | 结构＋气质 |
+| VC02 | 概念场景 | 情绪宣言 | 低 | 无群像 | 结构＋气质 |
+| VC03 | 群像主视觉 | 矩阵＋证据 | 高 | 统一／分组 | 密度 |
+| VC04 | 矩阵档案 | 矩阵 | 高 | 统一名单 | 密度 |
+| VC05 | 玩法分舱 | 并列 | 高 | 按玩法分组 | 密度＋气质 |
+| VC06 | 玩法分舱 | 并列 | 高 | 按玩法分组 | 结构＋气质 |
+| VC07 | 路线阶段 | 顺序＋证据 | 高 | 独立人物 | 结构＋密度 |
+| VC08 | 概念场景 | 矩阵＋证据 | 高 | 独立人物 | 气质 |
+| VC09 | 矩阵档案 | 矩阵 | 高 | 按玩法分组 | 密度 |
+| VC10 | 玩法分舱 | 并列 | 中 | 按玩法分组 | 结构＋气质 |
+| VC11 | 群像主视觉 | 主次 | 高 | 统一主视觉 | 气质 |
+| VC12 | 概念场景 | 情绪宣言 | 低 | 无群像 | 结构 |
+| VC13 | 编辑拼贴 | 顺序 | 低 | 无群像 | 气质 |
+| VC14 | 玩法分舱 | 并列 | 中 | 独立人物 | 结构 |
+| VC15 | 群像主视觉 | 中心发散＋证据 | 高 | 统一群像 | 结构＋密度 |
+| VC16 | 路线阶段 | 顺序 | 高 | 独立人物 | 结构＋密度 |
+| VC17 | 群像主视觉 | 主次 | 中 | 统一群像 | 结构 |
+| VC18 | 编辑拼贴 | 场景＋证据 | 高 | 统一群像 | 气质＋密度 |
+| VC19 | 群像主视觉 | 主次 | 高 | 统一群像 | 气质 |
+| VC20 | 路线阶段 | 顺序 | 高 | 独立人物 | 结构＋气质 |
+| VC21 | 群像主视觉 | 主次 | 中 | 主视觉＋分组 | 气质 |
+| VC22 | 概念场景 | 场景 | 中 | 独立人物 | 气质 |
+| VC23 | 矩阵档案 | 并列＋证据 | 高 | 按玩法分组 | 密度 |
+| VC24 | 编辑拼贴 | 矩阵＋宣言 | 高 | 独立人物 | 结构 |
+| VC25 | 玩法分舱 | 并列 | 高 | 按玩法分组 | 结构＋气质 |
+| VC26 | 矩阵档案 | 顺序＋矩阵 | 高 | 混合 | 结构＋密度 |
+
+For each retrieval, select a structure reference, a density reference when information is medium/high, and a mood reference. One case may cover two roles, but add a case from a different core family. Record the borrowed abstraction, current-project difference, and forbidden elements before direction generation.
+
+## 5. Case index
 
 ### Automotive, food, and game
 
@@ -87,7 +123,7 @@ Open the original case file before making a detailed visual judgment; contact sh
 | VC25 `25-digital-menya-dense-style.png` | digital new-device IP; three parallel play zones | oversized headline, three dense play worlds, creators placed inside their own plays, secondary execution layer below | let each play own its people, mechanism, and execution proof; use strong foreground/background rhythm | title wording, blue glow, phone/folding-screen containers, Logo, exact three-column composition |
 | VC26 `26-digital-hive-dense-plan.png` | digital new-device plan; high-density multi-stage proposal | compact context, numbered stages, creator clusters, scene taxonomy, proof and footer data | increase information capacity through numbered hierarchy, color coding, and creator-to-stage mapping | title, four-stage route, portraits, brand/data, gradient system, exact grid |
 
-## 5. Comparison record
+## 6. Comparison record
 
 Use this before direction generation:
 

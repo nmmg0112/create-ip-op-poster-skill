@@ -58,22 +58,35 @@ Do not split an original creator-and-pet or multi-person account into invented i
 
 ## 4. Required option structure
 
-Generate 2–3 options. Use this schema for each:
+Generate 2–3 options. The user-visible direction card is deliberately short:
 
 ```markdown
-### 方向 <number>｜<theme name>
-- 一句话主题：<concise expression>
-- Brief 响应：<which need or scene it answers>
-- 达人结合：<single play or grouping table>
-- 核心玩法：<specific mechanism, not a slogan>
-- 色调与视觉：<palette roles and visual metaphor>
-- 版式骨架：<where theme, play, creators, and evidence sit>
-- 案例/数据建议：<only supplied or requested evidence types>
-- 推荐理由：<why this is strong>
-- 限制与缺口：<tradeoff and missing material>
+### 方向 <数字>｜<主题名>
+- 一句话主题：
+- 具体玩法：
+- 人物怎么放：
+- 视觉氛围：
+- 主要风险：
+- 推荐理由：
 ```
 
 Options must change at least two of: chosen brief scene, grouping logic, content mechanism, visual metaphor, information architecture. A title swap or recolor is not a different option.
+
+Keep the following internal visual record for every option. It is used for execution and review, and only needs to be shown when it helps the user decide:
+
+```markdown
+- 内容关系：
+- 版式家族：
+- 阅读顺序：
+- 区域分配：
+- 第一视觉：
+- 信息密度：
+- 视觉母题：
+- 人物与玩法映射：
+- 案例／数据位置：
+- 留白用途：
+- 构图风险：
+```
 
 ## 5. Color and visual logic
 
