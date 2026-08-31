@@ -1,78 +1,85 @@
-# Confirmed-stage handoff template
+# Resumable poster handoff template
 
-Use this after every confirmed gate and whenever work moves to another window, agent, or image tool. Keep one current record; append user changes in chronological order.
+Use this after each explicit approval and whenever work moves to another window, agent, image model, or compositing tool. Keep one current record and append user changes in chronological order.
 
 ```markdown
 # IP OP poster handoff
 
 ## State
 - Skill: create-ip-op-poster
-- Current stage: <intake | direction_pending | cutout_pending | composition_pending | prompt_pending | production | qa | complete | handoff>
-- Last explicit confirmation: <verbatim user confirmation>
+- Current stage: <intake | person_material_pending | direction_and_mode_pending | prompt_pending | production | qa | complete | handoff>
+- generation_mode: <A | B | undecided>
+- Last explicit confirmation: <verbatim user message or none>
 - Confirmation time/context: <available timestamp or turn>
-- Next mandatory gate: <gate or none>
+- Next required decision: <person material | direction and mode | final Prompt | none>
 
 ## Brief facts
 - Project/IP: <exact supplied text>
 - Business background: <exact concise facts>
-- Required direction/scene: <exact confirmed scope>
+- Required direction/scene: <exact supplied or confirmed scope>
 - Period/deadline/channel: <only if supplied>
 - Other explicit constraints: <retain unfamiliar requirements>
 
-## Confirmed creative direction
+## PersonMaterialSet
+- review_white: <path or attachment for horizontal white-background preview>
+- master_transparent: <path or attachment for the same arrangement with alpha>
+- subjects_transparent: <one path/attachment per unique person/animal or inseparable original group>
+- source_ledger: <stable Pxx IDs, public names, counts, variants, and limitations>
+- approval: <exact user message or none>
+- Identity/count/edge QA: <PASS | FAIL | NOT VERIFIABLE, with affected Pxx IDs>
+
+## Source ledger
+| ID | Source filename | Public name | Type | Unique subjects | Variant relation | Use status | Limitation |
+|---|---|---|---|---:|---|---|---|
+| <ID> | <exact filename> | <display name> | <type> | <count> | <relation> | <status> | <note> |
+
+## Confirmed direction and mode
 - Theme: <confirmed theme>
 - One-line expression: <confirmed copy>
-- Response logic: <brief need answered>
-- Single-creator play or multi-creator grouping: <exact confirmed structure>
+- Content play: <confirmed play>
+- Creator/group mapping: <single-creator logic or exact multi-creator groups>
 - Palette/visual language: <confirmed rationale>
-- Layout skeleton: <confirmed layout>
-- Price/rights on poster: <no | yes, supplied content | unanswered>
+- Broad generative composition: <scene, depth, movement, and hierarchy>
+- Direction/mode decision: <verbatim user reply or none>
+- Price/rights on poster: <no | yes with supplied content | unanswered>
 
-## Material ledger
-| ID | Source filename | Public name | Type | Subjects | Variant relation | Use status | Layer ID | Limitation |
-|---|---|---|---|---:|---|---|---|---|
-| <ID> | <exact filename> | <display name> | <type> | <count> | <relation> | <status> | <layer> | <note> |
-
-## Immutable items
-- People/animals: <exact protected sources and combinations>
-- Case screenshots: <IDs; no visual/text/data changes>
-- Logos: <IDs; retain all elements>
-- Fixed copy: <verbatim strings>
-- Prohibited content: <task-specific bans>
-
-## Cutout review
-- Status: <not started | draft | explicitly confirmed | handoff required>
-- Source/cutout comparison: <path or attachment reference>
-- Rejected subjects: <IDs, reasons, and redo status>
-- Subject count before/after: <counts>
-- Known mask/source limitations: <facts>
-- Explicit confirmation: <verbatim user confirmation or none>
-
-## Creator composition
-- Status: <not started | draft | explicitly confirmed | handoff required>
-- Presentation mode: <unified ensemble | grouped by play | independent cutouts | hero plus supporting groups>
-- Preview: <path or attachment reference>
-- Canvas: <size/ratio/background>
-- Layer order: <group, size, overlap, and front/middle/back mapping>
-- Explicit confirmation: <verbatim user confirmation or none>
+## Immutable items and protected-layer manifest
+| Layer ID | Source ID | Type | Exact content/path | Allowed operations | Planned role | Limitation |
+|---|---|---|---|---|---|---|
+| <layer> | <P/C/L/T ID> | <person, animal, screenshot, Logo, fixed copy> | <source> | <operations> | <role> | <note> |
 
 ## Final Prompt
 - Status: <not started | draft | explicitly confirmed>
 - Full Prompt location/content: <path, attachment, or complete text>
 - Asset mapping verified: <yes/no with gaps>
+- Explicit confirmation: <verbatim user message or none>
+- Confirmation was text-only: <yes/no>
+
+## Production provenance
+- formal_generation_count: <0 or positive integer>
+- visual_base.path: <path or none>
+- visual_base.format: <PNG | WebP | JPEG | none>
+- visual_base.image_generation_model_or_tool: <exact record or none>
+- visual_base.created_before_composite: <yes | no | not applicable>
+- Composite/output path and format: <path and format or none>
+- Protected layer IDs actually composited: <IDs or none>
+- Known production limitations: <facts>
 
 ## User change log
-| Order | User change | Affected stage | Invalidated confirmations | Applied result |
+| Order | User change | Return stage | Invalidated downstream decisions | Applied result |
 |---:|---|---|---|---|
-| 1 | <change> | <stage> | <gates> | <result> |
+| 1 | <change> | <stage> | <decisions> | <result> |
 
-## QA
+## Current QA
 - Overall: <not run | PASS | FAIL | NOT VERIFIABLE>
+- Person roster/identity: <status and evidence>
+- Protected-layer integrity: <status and evidence or not applicable>
+- Visual quality/readability: <status and evidence>
 - Hard failures: <list>
 - Unverifiable items: <list and missing evidence>
 
 ## Next action
-<one action the receiving agent should take, including the next confirmation stop>
+<one action the receiving agent should take, including the next required user decision>
 ```
 
-Do not replace source filenames with guessed public names. Do not omit limitations to make the transfer look complete.
+Do not replace source filenames with guessed public names, omit limitations, claim pixel fidelity for Mode A, or mark missing evidence as passed.
