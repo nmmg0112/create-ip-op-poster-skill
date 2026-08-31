@@ -23,6 +23,8 @@
 
 多主体夹具使用稳定 ID `P01...`，并至少包含一个需要检查交叠、人数和重复风险的组合。
 
+测试平台必须明确具备身份保真的人物／动物抠图、透明通道导出和图片查看能力。若缺少任一能力，本场景应改测安全 `handoff`，不能据此把正确降级误判为失败。
+
 ### 预期停留阶段
 
 `person_material_pending`
@@ -123,9 +125,9 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 
 ### 前置条件与测试输入
 
-先提供已核验并明确回复 `人物素材通过` 的人物素材、虚构 Brief、保护素材和方向／模式选择。Agent 展示完整 Prompt 后，说明当前执行平台没有任何生图模型，再回复：
+从新对话的第一条输入就明确声明：当前执行平台没有任何生图模型。同步提供已核验并明确回复 `人物素材通过` 的人物素材、虚构 Brief、保护素材，以及已经确认的方向和模式；要求 Agent 直接准备可恢复的外部执行交接包。
 
-> 确认生成
+> 当前平台没有生图能力。人物素材、方向和模式都已确认，请直接给我完整 Prompt、素材映射和下一步交接要求。
 
 ### 预期停留阶段
 
@@ -134,6 +136,7 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 ### 预期行为
 
 - 保留已经确认的人物素材、方向、模式和完整 Prompt，不把能力不足误写成用户未确认。
+- 一开始识别到无生图能力后直接进入 `handoff`；不得再要求经过 `prompt_pending` 或回复 `确认生成`。
 - 明确说明当前平台不能生成所需视觉底图或最终海报，`formal_generation_count` 为 `0`。
 - 输出完整 Prompt、素材映射、三类人物素材记录、保护图层清单、目标位图格式、当前 QA、已知限制和下一执行工具要求。
 - 不用 SVG、HTML、Canvas、PPT、Sharp、规则色块页、线框稿或头像网格替代生图底图，不把程序化信息板称为最终海报。
@@ -156,6 +159,6 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 | 1｜只先提供人物 | `person_material_pending` | `person_material_pending` | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE |
 | 2｜模式 A | `prompt_pending` | `complete` | NOT VERIFIABLE | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE | NOT VERIFIABLE |
 | 3｜模式 B | `prompt_pending` | `complete` | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
-| 4｜无生图模型 | `prompt_pending` | `handoff` | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 4｜无生图模型 | `handoff` | `handoff` | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
 
 结果边界：场景 2 和 3 只有在中间停留、生产调用顺序、文件证据与最终视觉 QA 全部可验证时才能记为 `PASS`。场景 4 的 `PASS` 只证明安全降级和无程序化替代，不代表生成过海报或证明过素材保真。

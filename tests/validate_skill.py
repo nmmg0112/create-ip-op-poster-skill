@@ -9,6 +9,17 @@ GROUPS = ("workflow", "production", "visual", "integrity", "prompt", "docs")
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 
 
+def active_package_files(root: Path) -> list[Path]:
+    """Files that define current user-visible or runtime behavior."""
+    return [
+        root / "SKILL.md",
+        root / "README.md",
+        root / "agents/openai.yaml",
+        *sorted((root / "references").glob("*.md")),
+        *sorted((root / "examples").glob("*.md")),
+    ]
+
+
 def read(root: Path, relative: str) -> str:
     path = root / relative
     if not path.is_file():
@@ -40,6 +51,16 @@ def check_workflow(root: Path) -> None:
     handoff = read(root, "references/handoff-template.md")
     interface = read(root, "agents/openai.yaml")
 
+    state_block = """intake
+  -> person_material_pending
+  -> direction_and_mode_pending
+  -> prompt_pending
+  -> production
+  -> qa
+  -> complete"""
+    for text, label in ((skill, "SKILL.md"), (workflow, "references/workflow.md")):
+        require(text, state_block, label)
+
     for needle in (
         "person_material_pending",
         "direction_and_mode_pending",
@@ -49,22 +70,38 @@ def check_workflow(root: Path) -> None:
     ):
         require(skill + workflow + novice, needle, "workflow")
 
-    require_order(skill, "person_material_pending", "direction_and_mode_pending", "SKILL.md")
-
+    active_corpus = "\n".join(
+        path.read_text(encoding="utf-8") for path in active_package_files(root)
+    )
     for legacy in (
+        "direction_pending",
+        "cutout_pending",
         "composition_pending",
+        "抠图通过",
         "排布通过",
+        "玩法通过",
+        "视觉规格通过",
         "four mandatory confirmation gates",
         "四个确认点不能跳过",
         "第 <n>/4 步",
     ):
-        forbid(skill + workflow + novice, legacy, "workflow")
+        forbid(active_corpus, legacy, "active package workflow")
 
     for needle in (
         "person_material_pending",
         "direction_and_mode_pending",
+        "review_white",
+        "master_transparent",
+        "subjects_transparent",
+        "source_ledger",
         "generation_mode",
         "formal_generation_count",
+        "visual_base.path",
+        "visual_base.format",
+        "visual_base.image_generation_model_or_tool",
+        "protected-layer manifest",
+        "Full Prompt",
+        "Current QA",
     ):
         require(handoff, needle, "handoff-template.md")
     require(interface, "Brief", "agents/openai.yaml")
@@ -77,7 +114,13 @@ def check_production(root: Path) -> None:
     prompt = read(root, "references/prompt-template.md")
     platform = read(root, "references/platform-usage.md")
     qa = read(root, "references/qa-checklist.md")
-    corpus = "\n".join((skill, workflow, prompt, platform, qa))
+    for needle in (
+        "模式 A：快速生图",
+        "模式 B：保真合成",
+        "完整海报预览",
+        "默认只调用一次正式生图",
+    ):
+        require(skill, needle, "SKILL.md production contract")
 
     for needle in (
         "模式 A：快速生图",
@@ -86,9 +129,8 @@ def check_production(root: Path) -> None:
         "第一项生产动作必须调用生图模型",
         "不得先运行 SVG、HTML、Canvas、PPT",
         "默认只调用一次正式生图",
-        "完整海报预览",
     ):
-        require(corpus, needle, "generative production contract")
+        require(workflow, needle, "references/workflow.md production contract")
 
     require_order(
         workflow,
@@ -96,6 +138,31 @@ def check_production(root: Path) -> None:
         "保护图层覆回",
         "references/workflow.md",
     )
+
+    for needle in (
+        "【模式 A｜端到端整图生成】",
+        "【模式 B｜第一段：主视觉位图生成 Prompt】",
+        "【模式 B｜第二段：保护图层合成说明】",
+        "不得先运行 SVG、HTML、Canvas、PPT",
+    ):
+        require(prompt, needle, "references/prompt-template.md production contract")
+
+    require(
+        platform,
+        "没有生图 -> 只交付 Prompt 和素材映射；绝不回退成 SVG／HTML／PPT 或程序化海报",
+        "references/platform-usage.md capability routing",
+    )
+
+    for needle in (
+        "visual_base_path",
+        "visual_base_format",
+        "image_generation_model_or_tool",
+        "visual_base_created_before_composite",
+        "formal_generation_count",
+        "A programmatic base is a hard `FAIL`",
+        "Any programmatic base is used for Mode B",
+    ):
+        require(qa, needle, "references/qa-checklist.md production QA")
 
 
 def check_visual(root: Path) -> None:
@@ -193,10 +260,13 @@ def check_docs(root: Path) -> None:
     chatgpt = read(root, "examples/chatgpt-starter.md")
     readme = read(root, "README.md")
 
-    active_docs = "\n".join((quick, chatgpt, readme))
-    for reply in ("人物素材通过", "确认生成"):
-        require(active_docs, reply, "quick start docs")
-    forbid(active_docs, "排布通过", "quick start docs")
+    for text, label in (
+        (quick, "examples/quick-start.md"),
+        (chatgpt, "examples/chatgpt-starter.md"),
+        (readme, "README.md"),
+    ):
+        for reply in ("人物素材通过", "确认生成"):
+            require(text, reply, label)
     for needle in ("ChatGPT", "豆包", "Coze", "交接包"):
         require(platform + chatgpt + readme, needle, "cross-platform docs")
 
