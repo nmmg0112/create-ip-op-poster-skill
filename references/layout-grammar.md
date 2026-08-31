@@ -1,4 +1,6 @@
-# OP layout grammar
+# OP generative layout grammar
+
+This reference turns content topology into composition language for an image-generation model. It does not define a mandatory placement-preview artifact. The approved white person-material review establishes roster and source usability only; its arrangement never locks the final poster.
 
 ## Contents
 
@@ -7,7 +9,8 @@
 3. Creator-presentation modes
 4. Density planning
 5. Direction requirements
-6. Failure patterns
+6. Production-mode translation
+7. Failure patterns
 
 ## 1. Decide from content topology
 
@@ -54,7 +57,7 @@ The 12 retained structures map to those families as follows:
 | Editorial collage | 编辑拼贴 | emotion-led or culture-led idea | title -> visual anchors -> modules | decorative emptiness or unclear mapping |
 | Hybrid dossier | 矩阵档案 | strategy, people, cases, and data all matter | summary -> modules -> proof | needs strict density and alignment control |
 
-Do not treat this table as a closed template library. A new layout is valid when its reading path and content mapping are explicit.
+Do not treat this table as a closed template library or a set of code-renderable grids. A new layout is valid when its reading path, scene logic, content mapping, depth, and visual movement are explicit.
 
 ## 3. Creator-presentation modes
 
@@ -70,8 +73,10 @@ Rules:
 - Let the play relationship decide the mode.
 - Preserve every creator once unless repetition has a declared communication purpose and user approval.
 - Keep creator-to-play attribution visually immediate.
-- For grouped-by-play, preview and confirm every group separately or on a full-board placement proof.
+- For grouped-by-play, name every member and give each group a scene role, depth, scale relationship, and visual connection to its play in the complete Prompt.
 - Do not create a unified ensemble merely because multiple source images exist.
+- Do not reuse the white-background review as a final creator cluster. Mode B uses its transparent same-arrangement master or individual transparent cutouts.
+- Protect every face and animal head while allowing intentional non-identity overlap and foreground/middle/background depth.
 
 ## 4. Density planning
 
@@ -101,14 +106,35 @@ Every proposed direction must state:
 - 第一视觉 and 区域分配;
 - density band and approximate occupied-area target;
 - creator-presentation mode;
-- exact location of each play, creator group, screenshot, data block, and footer;
+- generative scene role and approximate spatial relationship of each play, creator group, screenshot, data block, and footer;
+- foreground, middle ground, background, light direction, contact surfaces, and visual movement;
 - 留白用途;
 - what reference grammar is borrowed and what is deliberately different;
 - 构图风险.
 
 When layout is the unsettled decision, present 2–3 genuinely different layout structures for the same creative direction. Do not disguise recolors as layout options.
 
-## 6. Failure patterns
+Translate the chosen structure directly into the complete text Prompt. Do not require a separate creator-layout preview or a layout-confirmation reply. If the user specifically asks to see a wireframe, relationship diagram, grid guide, or layout-guide SVG, it is optional, non-generative, consumes no formal poster-generation call, and never becomes a gate.
+
+## 6. Production-mode translation
+
+### 模式 A：快速生图
+
+Describe the whole composition as one coherent generated poster: complete scene, people as references, title energy, play relationships, evidence roles, materials, lighting, foreground/middle/background, decoration language, and visual movement. Disclose that `P/C/L/T` reference content may be redrawn. Do not make pixel-preservation claims.
+
+### 模式 B：保真合成
+
+Split execution, not visual thinking:
+
+1. The image-generation model first creates a complete PNG、WebP 或 JPEG artistic base with the entire scene, composition, material, lighting, depth, decoration language, and movement.
+2. The base reserves natural roles, contact points, light direction, and safe zones for protected `P/C/L/T` layers without generating or imitating them.
+3. Only after the bitmap exists may deterministic tools place the approved transparent person master or individual cutouts, complete screenshots, original Logos, and rasterized fixed copy.
+
+The first production action must never be a grid renderer, fixed rectangles, or SVG/HTML/Canvas/PPT/Sharp drawing. Grids, diagrams, and layout-guide SVGs can explain a relationship, but they may never become the Mode B base, complete-poster preview, or final poster. Rasterizing a programmatic guide into PNG does not make it an image-generated base.
+
+For matrix and compartment families, create hierarchy through scene, scale, depth, material, overlap, and directional flow. Stable alignment can support scanning, but an equal-weight card board is not an acceptable artistic base.
+
+## 7. Failure patterns
 
 - defaulting every poster to left text/right people;
 - defaulting every matrix to three equal columns;
@@ -118,3 +144,7 @@ When layout is the unsettled decision, present 2–3 genuinely different layout 
 - choosing a style reference by color while ignoring its information architecture;
 - treating high density as permission for unreadable type;
 - adding route, screen, interface, or stage metaphors that the content does not justify.
+- copying the white person-material arrangement into the final composition without reconsidering creator-to-play roles;
+- using an optional wireframe, grid, diagram, SVG, HTML, Canvas, PPT, Sharp render, or programmatic information board as the Mode B base;
+- producing a PPT-like equal-weight card wall without foreground, middle ground, background, or visual movement;
+- leaving people detached from the play, scene, evidence, or visual action they are meant to support.
