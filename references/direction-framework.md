@@ -1,5 +1,7 @@
 # Direction framework
 
+Run direction work only after the `PersonMaterialSet` has been explicitly approved. The white-background person review proves roster and edge usability; it does not lock the final poster layout. Directions describe a generative composition and production mode, not a separate placement-preview deliverable.
+
 ## Contents
 
 1. Evidence layers
@@ -9,7 +11,7 @@
 5. Color and visual logic
 6. Information hierarchy and layout
 7. Visual references
-8. Direction comparison
+8. Direction and mode decision
 
 ## 1. Evidence layers
 
@@ -72,6 +74,8 @@ Generate 2–3 options. The user-visible direction card is deliberately short:
 
 Options must change at least two of: chosen brief scene, grouping logic, content mechanism, visual metaphor, information architecture. A title swap or recolor is not a different option.
 
+`人物怎么放` describes the creator's scene role, relative emphasis, depth, overlap logic, and connection to the play. It must not turn into a fixed avatar-coordinate chart or require a placement preview. The image model should receive enough generative composition grammar to create a coherent scene, while Mode B later overlays the approved transparent person layers.
+
 Keep the following internal visual record for every option. It is used for execution and review, and only needs to be shown when it helps the user decide:
 
 ```markdown
@@ -125,14 +129,21 @@ Minimum content hierarchy:
 
 Write the project background in one or two short sentences. Give most of the copy budget to the play. If space becomes tight, remove decoration and optional evidence before shrinking essential copy into unreadable text.
 
-Read `layout-grammar.md`. Choose a layout based on the content topology, not a preferred template:
+Read `layout-grammar.md`. Choose a generative composition grammar based on the content topology, not a preferred template:
 
 - left-text/right-people or right-text/left-people for one strong creator cluster;
 - top-theme/bottom-groups for several equal strategy modules;
 - central-hero/radial-scenes for one shared IP with multiple expressions;
 - route, stage, map, split-screen, interface, or other metaphors only when linked to the play.
 
-State the content topology, reading path, density band, occupied-area target, and creator-presentation mode for every direction. Do not force all creators into one collage before the layout is selected.
+State the content topology, reading path, density band, occupied-area target, creator-presentation mode, scene roles, foreground/middle/background, and visual movement for every direction. Do not force all creators into one collage merely because the material review placed them together.
+
+Translate the direction into the selected production mode:
+
+- **模式 A：快速生图** uses the approved people as generation references and asks the image model to realize the entire composition. Disclose that people, screenshots, Logos, and Chinese copy may be redrawn.
+- **模式 B：保真合成** asks the image model to create the full artistic bitmap base while reserving natural scene roles for protected layers, then maps the transparent person master or individual cutouts, complete screenshots, original Logos, and accurate fixed copy onto that base.
+
+Grids, diagrams, placement guides, and layout-guide SVGs may explain content relationships only. They may never become the Mode B visual base or final poster. If the user asks for a wireframe, make it optional, non-generative, and non-gating; do not spend a formal poster-generation call on it.
 
 ## 7. Visual references
 
@@ -151,13 +162,22 @@ Before presenting a direction, state internally or in the work record:
 
 Never choose a case solely because it looks attractive.
 
-## 8. Direction comparison
+## 8. Direction and mode decision
 
 After the options, provide a compact comparison:
 
 | Direction | Best for | Main advantage | Main risk | Missing input |
 |---|---|---|---|---|
 
-Recommend one option with evidence, but keep the choice with the user. Then ask the gate-1 price/rights question without turning it into a blocker.
+Recommend one option with evidence, but keep the choice with the user. Present the mode choice beside the directions:
 
-The recommendation must include a short evidence ledger for palette, material, container, and motif, plus one brief-specific human/content premise. Reject the recommendation before Gate 1 if any surface choice is justified only by the industry label.
+```text
+模式 A｜快速生图：整张海报一次生成，通常更统一、更快；人物、截图、Logo 和中文可能被重绘。
+模式 B｜保真合成：先生图生成完整艺术底图，再覆回确认过的人物、截图、Logo 和中文；更适合正式提报。
+```
+
+Accept one combined reply such as `选方向 1，用模式 B`. If the theme, play, and mode are already explicit, record them and continue without asking the user to choose them again. Ask whether price or rights need to appear, but keep the answer optional.
+
+The recommendation must include a short evidence ledger for palette, material, container, and motif, plus one brief-specific human/content premise. Reject the recommendation before presenting it if any surface choice is justified only by the industry label.
+
+After the combined direction/mode decision, proceed directly to the complete text Prompt. Do not require a creator-layout preview or any separate layout-confirmation reply.
