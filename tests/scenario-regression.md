@@ -49,7 +49,7 @@
 - 源素材与处理结果的身份、数量、边缘和重复检查；
 - 显示停在 `person_material_pending` 的完整对话。
 
-当前结果：`NOT VERIFIABLE`。尚未用当前版本在隔离新对话中运行并取得上述图像证据。
+当前结果：`PASS`。隔离对话已产出三类人物素材及验证清单，识别 9 人、3 猫、1 狗，无新增、遗漏、重复或身份重绘；停在 `person_material_pending`，`formal_generation_count: 0`。详细证据见 `forward-test-results-2026-08-31.md`。
 
 ## 场景 2：模式 A 快速生图
 
@@ -83,7 +83,7 @@ Agent 展示完整 Prompt 后再回复：
 - 唯一一次正式海报生图的工具记录、输出文件和完整预览；
 - 模式 A 的最终视觉 QA，以及 `formal_generation_count: 1`。
 
-当前结果：`NOT VERIFIABLE`。尚未用当前版本完成一次隔离的模式 A 正式生图。
+当前结果：`PASS`（流程合同通过，首张成品视觉 QA 为 `FAIL`）。隔离对话正确停在 `prompt_pending`，确认后只正式生图一次；产物因标题抢过 P01 第一视觉且未达到指定像素尺寸而被诚实退回 `production`，没有自动重试。详细证据见 `forward-test-results-2026-08-31.md`。
 
 ## 场景 3：模式 B 保真合成
 
@@ -119,7 +119,7 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 - 后续保护图层清单、合成产物、逐项像素或哈希验证与完整预览；
 - 无程序化底图的生产记录，以及 `formal_generation_count: 1`。
 
-当前结果：`NOT VERIFIABLE`。尚未用当前版本证明“先生图位图、后保护合成”的完整顺序。
+当前结果：`PASS`（生产链路与保护层验证通过）。实际运行先由生图模型生成 RGB PNG 艺术底图，随后才覆回 P01、C01、L01、T01/T02；人物、案例和 Logo 的保护层验证通过，`formal_generation_count: 1`，成品不是 PPT 或程序化信息板。人物确认门槛由场景 1 独立验证，未为重复验证再次消耗正式生图。详细证据见 `forward-test-results-2026-08-31.md`。
 
 ## 场景 4：平台没有生图模型
 
@@ -148,7 +148,7 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 - 证明没有正式生图调用、没有程序化底图或伪最终海报的工具记录；
 - 显示最终停在 `handoff` 的完整对话。
 
-当前结果：`NOT VERIFIABLE`。尚未用当前版本完成无生图能力的隔离降级测试。
+当前结果：`PASS`。修复初测发现的多余 `确认生成` 后，全新隔离 Agent 从首次能力判断直接进入 `handoff`；输出可恢复交接包，未生成程序化底图或伪最终海报，`formal_generation_count: 0`。详细证据见 `forward-test-results-2026-08-31.md`。
 
 ## 当前场景结果
 
@@ -156,9 +156,9 @@ Agent 展示完整 Prompt 与保护图层合成说明后再回复：
 
 | 场景 | 必经停留阶段 | 成功终态 | 人物素材 | 正式生图 | 保护图层 | 视觉 QA | 当前结果 |
 |---|---|---|---|---|---|---|---|
-| 1｜只先提供人物 | `person_material_pending` | `person_material_pending` | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE |
-| 2｜模式 A | `prompt_pending` | `complete` | NOT VERIFIABLE | NOT VERIFIABLE | 不适用 | NOT VERIFIABLE | NOT VERIFIABLE |
-| 3｜模式 B | `prompt_pending` | `complete` | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
-| 4｜无生图模型 | `handoff` | `handoff` | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE | NOT VERIFIABLE |
+| 1｜只先提供人物 | `person_material_pending` | `person_material_pending` | PASS | 不适用 | PASS | 不适用 | PASS |
+| 2｜模式 A | `prompt_pending` | `production`（本次失败路由） | PASS | PASS（1 次） | 不适用 | FAIL（已正确拦截） | PASS（流程） |
+| 3｜模式 B | `prompt_pending` | `complete` | PASS（由场景 1） | PASS（1 次） | PASS | PASS | PASS |
+| 4｜无生图模型 | `handoff` | `handoff` | 已确认输入 | PASS（0 次） | 未伪称验证 | 不适用 | PASS |
 
 结果边界：场景 2 和 3 只有在中间停留、生产调用顺序、文件证据与最终视觉 QA 全部可验证时才能记为 `PASS`。场景 4 的 `PASS` 只证明安全降级和无程序化替代，不代表生成过海报或证明过素材保真。
