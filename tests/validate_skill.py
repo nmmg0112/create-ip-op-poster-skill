@@ -191,8 +191,18 @@ def check_visual(root: Path) -> None:
         require(director, needle, "visual-director.md")
     for family in ("概念场景", "群像主视觉", "玩法分舱", "路线阶段", "矩阵档案", "编辑拼贴"):
         require(layout, family, "layout-grammar.md")
-    for case_id in (f"VC{i:02d}" for i in range(1, 27)):
-        require(cases, case_id, "visual-case-library.md")
+    if "VC01" in cases:
+        for case_id in (f"VC{i:02d}" for i in range(1, 27)):
+            require(cases, case_id, "visual-case-library.md")
+    else:
+        for needle in (
+            "Public visual grammar library",
+            "original anonymous layout diagrams",
+            "LG01",
+            "LG08",
+            "can never be a Mode B visual base",
+        ):
+            require(cases, needle, "public visual-case-library.md")
     for field in ("阅读顺序", "区域分配", "第一视觉", "留白用途", "构图风险"):
         require(direction, field, "direction-framework.md")
 
@@ -252,8 +262,13 @@ def check_prompt(root: Path) -> None:
         "背景",
     ):
         require(prompt, needle, "prompt-template.md")
-    for needle in ("秋日百味剧场", "每一种秋味，都有自己的出场方式", "成功基准", "不得固化"):
+    for needle in ("成功基准", "不得固化"):
         require(benchmark, needle, "successful-prompt-benchmark.md")
+    if "完全虚构" in benchmark:
+        require(benchmark, "城市灵感接力", "public successful-prompt-benchmark.md")
+    else:
+        for needle in ("秋日百味剧场", "每一种秋味，都有自己的出场方式"):
+            require(benchmark, needle, "private successful-prompt-benchmark.md")
     for needle in ("第一视觉", "无意义空白", "人物与玩法", "参考案例"):
         require(qa, needle, "qa-checklist.md")
     forbid(prompt, "人物/动物整体必须大于案例截图并成为视觉重点", "prompt-template.md")
