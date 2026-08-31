@@ -152,6 +152,11 @@ def check_production(root: Path) -> None:
         "没有生图 -> 只交付 Prompt 和素材映射；绝不回退成 SVG／HTML／PPT 或程序化海报",
         "references/platform-usage.md capability routing",
     )
+    require(
+        platform,
+        "不得再要求用户回复 `确认生成`",
+        "references/platform-usage.md early handoff routing",
+    )
 
     for needle in (
         "visual_base_path",

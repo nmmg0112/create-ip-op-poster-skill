@@ -78,6 +78,8 @@ Accept a natural combined decision such as `选方向 1，用模式 B`. If the t
 
 ## Confirm one complete final Prompt
 
+This local confirmation gate applies only when the current platform can perform the selected mode's image-generation step. If image generation is already known to be unavailable, do not enter `prompt_pending`: build the complete Prompt as clearly labeled handoff content, enter `handoff` immediately, and do not ask the user to reply `确认生成`. The receiving capable platform will present the Prompt for production approval.
+
 1. Use the confirmed `PersonMaterialSet`, direction, play, and generation mode.
 2. Map every person/animal, case screenshot, Logo, and fixed-copy item to its exact role. Preserve supplied names and immutable copy verbatim.
 3. Build the full mode-specific Prompt with [prompt-template.md](references/prompt-template.md).
@@ -88,7 +90,7 @@ Accept a natural combined decision such as `选方向 1，用模式 B`. If the t
 
 - 模式 A：快速生图. Give the image model the complete poster task and return the generated `完整海报预览`. Apply roster, theme, readability, and obvious-identity QA without making a pixel-preservation claim.
 - 模式 B：保真合成. `第一项生产动作必须调用生图模型` to create a PNG、WebP 或 JPEG visual base. Only after that bitmap exists may tools apply masks, proportional placement, protected-layer compositing, rasterized fixed copy, format conversion, and verification. `不得先运行 SVG、HTML、Canvas、PPT` or any fixed-grid renderer as the base.
-- When image generation is unavailable, enter `handoff` with the complete Prompt, person assets, mappings, limitations, and next action. Do not fall back to a programmatic information board.
+- When image generation becomes unavailable after a Prompt was confirmed, enter `handoff` with that approved Prompt, person assets, mappings, limitations, and next action; do not ask for the same confirmation again. Do not fall back to a programmatic information board.
 - `默认只调用一次正式生图`; do not spend a second generation automatically after a failure.
 - Run every applicable check in [qa-checklist.md](references/qa-checklist.md). Use only `PASS`, `FAIL`, or `NOT VERIFIABLE`; unfinished evidence is never a pass.
 - Mark `complete` only after all hard checks pass and the user receives the verified output or a clearly labeled handoff package.

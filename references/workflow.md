@@ -122,6 +122,8 @@ End with one natural combined reply, for example:
 
 Accept any reply that makes the chosen/merged direction and mode unambiguous. If the user has already made theme, play, and mode explicit, restate the understood decision and move to `prompt_pending` without asking for another choice. A vague aesthetic reaction or partial correction is feedback, not a completed decision.
 
+Before moving to `prompt_pending`, assess whether the current platform can call an image-generation model for the selected mode. If image generation is already known to be unavailable, do not create a local production-approval gate. Build the complete Prompt as part of a clearly labeled `handoff`, mark its approval status accurately, and do not end by asking the user to reply `确认生成`. The receiving capable platform must present that Prompt and obtain production approval before generating.
+
 ## 4. Complete Prompt confirmation
 
 Read [prompt-template.md](prompt-template.md). Build the final Prompt from the approved `PersonMaterialSet`, direction, play, and generation mode.
@@ -159,7 +161,7 @@ The generated base must be an artistic scene, not a programmatic information boa
 
 Use the transparent master or individual transparent layers for people/animals. Composite exact case screenshots and Logos as independent protected layers. Run [qa-checklist.md](qa-checklist.md) on the final artifact itself.
 
-If image generation is unavailable, return a handoff package containing the complete Prompt, person assets, material map, protected-layer manifest, limitations, and next action. Do not substitute a vector, page, presentation, drawing-command, or grid artifact for the poster base.
+If image generation becomes unavailable after the complete Prompt was already confirmed, return a handoff package containing that approved Prompt, person assets, material map, protected-layer manifest, limitations, and next action. Do not ask for the same confirmation again, and do not substitute a vector, page, presentation, drawing-command, or grid artifact for the poster base.
 
 Use only `PASS`, `FAIL`, or `NOT VERIFIABLE`. Treat missing evidence as unfinished and return failures to the earliest responsible stage.
 

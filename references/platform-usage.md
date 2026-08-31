@@ -98,6 +98,6 @@ Codex 的精简安装和启动方法见[快速开始](../examples/quick-start.md
 5. `visual_base_created_before_composite`、`protected_layer_ids`、`formal_generation_count`；
 6. 已完成的 QA、未验证项、能力限制和唯一下一步。
 
-没有生图能力时，交接包只包含 Prompt 与素材映射，不得附上一张由 SVG、HTML、Canvas、PPT、Sharp、固定矩形或网格渲染器伪装成的“成稿”。
+没有生图能力时，交接包只包含 Prompt 与素材映射，不得附上一张由 SVG、HTML、Canvas、PPT、Sharp、固定矩形或网格渲染器伪装成的“成稿”。若这一能力限制在进入 `prompt_pending` 前已知，直接停在 `handoff`，不得再要求用户回复 `确认生成`；接手的可生图平台在真正生产前再确认 Prompt。
 
 换窗口或换平台时，把交接包、原始编号素材和 Skill 文件一并提供。接手 Agent 先核对当前状态和证据，不重复追问已经明确确认的决定。
