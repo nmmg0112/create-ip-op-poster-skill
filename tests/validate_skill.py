@@ -20,6 +20,12 @@ def active_package_files(root: Path) -> list[Path]:
     ]
 
 
+def active_corpus(root: Path) -> str:
+    return "\n".join(
+        path.read_text(encoding="utf-8") for path in active_package_files(root)
+    )
+
+
 def read(root: Path, relative: str) -> str:
     path = root / relative
     if not path.is_file():
@@ -30,6 +36,11 @@ def read(root: Path, relative: str) -> str:
 def require(text: str, needle: str, label: str) -> None:
     if needle not in text:
         raise AssertionError(f"{label}: missing {needle!r}")
+
+
+def require_any(text: str, needles: tuple[str, ...], label: str) -> None:
+    if not any(needle in text for needle in needles):
+        raise AssertionError(f"{label}: missing any of {needles!r}")
 
 
 def forbid(text: str, needle: str, label: str) -> None:
@@ -48,13 +59,11 @@ def check_workflow(root: Path) -> None:
     skill = read(root, "SKILL.md")
     workflow = read(root, "references/workflow.md")
     novice = read(root, "references/novice-mode.md")
-    handoff = read(root, "references/handoff-template.md")
-    interface = read(root, "agents/openai.yaml")
+    workflow_corpus = "\n".join((skill, workflow, novice))
 
     state_block = """intake
   -> person_material_pending
-  -> direction_and_mode_pending
-  -> prompt_pending
+  -> content_plan_pending
   -> production
   -> qa
   -> complete"""
@@ -62,70 +71,67 @@ def check_workflow(root: Path) -> None:
         require(text, state_block, label)
 
     for needle in (
-        "person_material_pending",
+        "人物素材确认",
+        "内容方案＋生成授权",
+        "人物没问题",
+        "选 1 生成",
+        "默认只有两个确认点",
+        "视觉偏好",
+        "Brief",
+    ):
+        require(workflow_corpus, needle, "two-confirmation workflow")
+
+    for legacy in (
         "direction_and_mode_pending",
         "prompt_pending",
-        "人物素材通过",
+        "选方向 1，用模式 B",
         "确认生成",
+        "模式 A｜快速生图",
+        "模式 B｜保真合成",
+        "排布通过",
         "生成确认卡",
-        "查看完整 Prompt",
     ):
-        require(skill + workflow + novice, needle, "workflow")
+        forbid(workflow_corpus, legacy, "two-confirmation workflow")
 
+    require_order(
+        workflow,
+        "person_material_pending",
+        "content_plan_pending",
+        "references/workflow.md state order",
+    )
+    require_order(
+        workflow,
+        "人物没问题",
+        "选 1 生成",
+        "references/workflow.md confirmation order",
+    )
     for needle in (
         "人物肖像素材好，整张海报的呈现才会好",
         "案例图不是装饰",
-        "避免悬浮",
         "贴合度有限",
     ):
-        require(skill + workflow + novice, needle, "intake material explanation")
-    require_order(
-        novice,
-        "为什么需要这些图",
-        "请先发送人物／动物原图",
-        "references/novice-mode.md startup explanation",
-    )
+        require(workflow_corpus, needle, "material explanation")
 
-    active_corpus = "\n".join(
-        path.read_text(encoding="utf-8") for path in active_package_files(root)
+    visual_question = (
+        "这张海报你有没有偏好的颜色或感觉？比如清爽浅蓝、"
+        "暖色活力、自然松弛。没有也可以，我会结合 Brief 推荐。"
     )
-    for legacy in (
-        "direction_pending",
-        "cutout_pending",
-        "composition_pending",
-        "抠图通过",
-        "排布通过",
-        "玩法通过",
-        "视觉规格通过",
-        "four mandatory confirmation gates",
-        "四个确认点不能跳过",
-        "第 <n>/4 步",
-        "Produce all three person-material artifacts",
-        "交付并检查以下三项",
-        "Show a short production summary followed by the entire Prompt",
-        "展示生产摘要和完整 Prompt",
-    ):
-        forbid(active_corpus, legacy, "active package workflow")
-
+    require(workflow_corpus, visual_question, "optional visual-preference question")
     for needle in (
-        "person_material_pending",
-        "direction_and_mode_pending",
-        "review_white",
-        "master_transparent",
-        "subjects_transparent",
-        "source_ledger",
-        "generation_mode",
-        "formal_generation_count",
-        "visual_base.path",
-        "visual_base.format",
-        "visual_base.image_generation_model_or_tool",
-        "protected-layer manifest",
-        "Full Prompt",
-        "Current QA",
+        "视觉偏好不是独立确认点",
+        "已提供时不重复询问",
+        "用户偏好",
+        "配色",
+        "材质",
+        "光影",
+        "氛围",
+        "装饰边界",
+        "同时完成方向选择、方案确认和正式生图授权",
+        "报价",
+        "权益",
+        "不阻塞",
     ):
-        require(handoff, needle, "handoff-template.md")
-    require(interface, "Brief", "agents/openai.yaml")
-    require(interface, "人物", "agents/openai.yaml")
+        require(workflow_corpus, needle, "optional visual preference and authorization")
 
 
 def check_production(root: Path) -> None:
@@ -134,67 +140,104 @@ def check_production(root: Path) -> None:
     prompt = read(root, "references/prompt-template.md")
     platform = read(root, "references/platform-usage.md")
     qa = read(root, "references/qa-checklist.md")
+    handoff = read(root, "references/handoff-template.md")
+    integrity = read(root, "references/material-integrity.md")
+    corpus = active_corpus(root)
+
     for needle in (
-        "模式 A：快速生图",
-        "模式 B：保真合成",
-        "完整海报预览",
+        "默认完整海报一次生成",
+        "16:9 横版",
+        "不得先生成空背景",
         "默认只调用一次正式生图",
+        "严格保真",
+        "用户明确要求",
+        "局部图层修改",
+        "不得整图重绘",
     ):
-        require(skill, needle, "SKILL.md production contract")
+        require(corpus, needle, "production contract")
+
+    for text, label in (
+        (skill, "SKILL.md default production route"),
+        (workflow, "workflow.md default production route"),
+        (prompt, "prompt-template.md default production route"),
+    ):
+        require(text, "默认完整海报一次生成", label)
+        require(text, "16:9 横版", label)
+        require(text, "不得先生成空背景", label)
+        require(text, "不得生成排布稿", label)
+        require(text, "默认只调用一次正式生图", label)
+        require(text, "空舞台", label)
+        require(text, "留洞底图", label)
 
     for needle in (
-        "模式 A：快速生图",
-        "模式 B：保真合成",
-        "PNG、WebP 或 JPEG",
-        "第一项生产动作必须调用生图模型",
-        "不得先运行 SVG、HTML、Canvas、PPT",
-        "默认只调用一次正式生图",
-    ):
-        require(workflow, needle, "references/workflow.md production contract")
-
-    require_order(
-        workflow,
-        "生成主视觉位图底图",
-        "保护图层覆回",
-        "references/workflow.md",
-    )
-
-    for needle in (
-        "【模式 A｜端到端整图生成】",
-        "【模式 B｜第一段：主视觉位图生成 Prompt】",
-        "【模式 B｜第二段：保护图层合成说明】",
-        "不得先运行 SVG、HTML、Canvas、PPT",
-    ):
-        require(prompt, needle, "references/prompt-template.md production contract")
-
-    require(
-        platform,
-        "没有生图 -> 只交付 Prompt 和素材映射；绝不回退成 SVG／HTML／PPT 或程序化海报",
-        "references/platform-usage.md capability routing",
-    )
-    require(
-        platform,
-        "不得再要求用户回复 `确认生成`",
-        "references/platform-usage.md early handoff routing",
-    )
-
-    for needle in (
-        "visual_base_path",
-        "visual_base_format",
-        "image_generation_model_or_tool",
-        "visual_base_created_before_composite",
+        "whole_poster",
+        "strict_fidelity",
+        "generation_route",
         "formal_generation_count",
-        "A programmatic base is a hard `FAIL`",
-        "Any programmatic base is used for Mode B",
     ):
-        require(qa, needle, "references/qa-checklist.md production QA")
+        require(prompt + platform + qa + handoff, needle, "production receipt and routing")
+
+    for needle in (
+        "content_plan_pending",
+        "visual_preference",
+        "brief_basis",
+        "play_preflight",
+        "generation_route",
+        "formal_generation_count",
+        "final_image_path",
+        "Current QA",
+    ):
+        require(handoff, needle, "handoff-template.md")
+
+    for needle in (
+        "strict_fidelity",
+        "只有用户明确要求",
+        "后台路由",
+        "艺术底图",
+        "原素材覆回",
+        "底图不能只是空背景",
+    ):
+        require(skill + workflow + prompt + integrity, needle, "strict-fidelity route")
+    require_order(prompt, "艺术底图", "原素材覆回", "strict-fidelity production order")
+    for needle in ("完整场景", "前中后景", "视觉动势"):
+        require(prompt + platform + qa, needle, "strict-fidelity visual base")
+
+    for needle in (
+        "人物",
+        "案例",
+        "Brief",
+        "主题",
+        "玩法",
+        "商务信息",
+        "formal_generation_count: 1",
+        "最大程度保持",
+        "不承诺逐像素保真",
+    ):
+        require(prompt, needle, "whole-poster execution prompt")
+
+    for needle in ("没有生图", "Prompt", "素材映射", "SVG", "HTML", "Canvas", "PPT", "程序化信息板"):
+        require(platform, needle, "platform capability downgrade")
+    require(platform, "handoff", "platform capability downgrade")
+    require(platform, "formal_generation_count: 0", "platform capability downgrade")
+    forbid(platform, "确认生成", "platform capability downgrade")
+
+    for needle in (
+        "局部图层修改",
+        "不得整图重绘",
+        "非目标区域",
+    ):
+        require(skill + workflow + qa, needle, "exact post-production edits")
 
 
 def check_visual(root: Path) -> None:
+    skill = read(root, "SKILL.md")
     director = read(root, "references/visual-director.md")
     layout = read(root, "references/layout-grammar.md")
-    cases = read(root, "references/visual-case-library.md")
     direction = read(root, "references/direction-framework.md")
+    qa = read(root, "references/qa-checklist.md")
+
+    require(skill, "visual-director.md", "SKILL.md visual-director routing")
+    require(skill, "视觉导演", "SKILL.md mandatory visual direction")
 
     for needle in (
         "内容关系",
@@ -203,41 +246,53 @@ def check_visual(root: Path) -> None:
         "人物模式",
         "信息密度",
         "层级与景深",
+        "第一视觉",
+        "阅读路径",
+        "主要留白",
+    ):
+        require(director + direction, needle, "visual-direction preflight")
+
+    for family in ("概念场景", "群像主视觉", "玩法分舱", "路线阶段", "矩阵档案", "编辑拼贴"):
+        require(layout, family, "layout-grammar.md")
+
+    for needle in (
+        "实际打开",
+        "2—4",
+        "参考原图",
         "结构参考",
         "密度参考",
         "气质参考",
-        "美观预检",
     ):
-        require(director, needle, "visual-director.md")
-    for family in ("概念场景", "群像主视觉", "玩法分舱", "路线阶段", "矩阵档案", "编辑拼贴"):
-        require(layout, family, "layout-grammar.md")
-    if "VC01" in cases:
-        for case_id in (f"VC{i:02d}" for i in range(1, 27)):
-            require(cases, case_id, "visual-case-library.md")
-    else:
-        for needle in (
-            "Public visual grammar library",
-            "original anonymous layout diagrams",
-            "LG01",
-            "LG08",
-            "can never be a Mode B visual base",
-        ):
-            require(cases, needle, "public visual-case-library.md")
-    for field in ("阅读顺序", "区域分配", "第一视觉", "留白用途", "构图风险"):
-        require(direction, field, "direction-framework.md")
+        require(director, needle, "visual reference use")
 
-    # An industry category may guide retrieval, but it must never become the
-    # evidence for a palette, material, container, or motif. Keep this policy in
-    # both the visual-director preflight and the direction-generation rules.
     for text, label in (
         (director, "visual-director.md"),
         (direction, "direction-framework.md"),
     ):
-        require(text, "行业标签本身不是表面风格证据", label)
-        require(text, "数码＝科技蓝／霓虹／玻璃／UI／控制台", label)
-        require(text, "推荐方向必须以 Brief 专属的人物行动或内容机制作为视觉母题", label)
-        for evidence in ("Brief 原文", "受众情绪", "人物／账号证据", "品牌规则", "内容机制"):
-            require(text, evidence, label)
+        for needle in ("用户偏好", "Brief", "配色", "材质", "光影", "氛围", "装饰边界"):
+            require(text, needle, label)
+        require(text, "冲突", label)
+        require(text, "说明", label)
+        require(text, "数码＝科技蓝", label)
+
+    for needle in (
+        "实际查看最终图片",
+        "实际成图",
+        "16:9 横版",
+        "竖版",
+        "无玩法",
+        "像 PPT",
+        "空背景",
+        "同一平面",
+        "无意义空白",
+        "人物与玩法脱节",
+        "第一视觉",
+        "前景",
+        "中景",
+        "背景",
+        "无法直接预览或下载",
+    ):
+        require(qa, needle, "actual-final visual QA")
 
 
 def check_integrity(root: Path) -> None:
@@ -254,46 +309,118 @@ def check_integrity(root: Path) -> None:
     for text, label in ((skill, "SKILL.md"), (workflow, "references/workflow.md")):
         require(text, person_prompt, label)
 
+    require_any(
+        skill + workflow + integrity,
+        ("横版白底人物组合预览", "横版白底组合预览图"),
+        "person-material preview",
+    )
     for needle in (
-        "横版白底组合预览图",
-        "透明底人物总图",
-        "独立透明抠图",
-        "人物素材通过",
-        "Show only the white review image by default",
-        "generated on demand only",
+        "只展示一张",
+        "人物没问题",
+        "身份",
+        "数量",
+        "重复",
+        "遗漏",
+        "身体完整",
+        "交叠",
+        "遮脸",
+        "残边",
     ):
-        require(skill + integrity + workflow, needle, "integrity/workflow")
-    for needle in ("人脸", "动物头部", "重复", "遗漏", "硬矩形边界", "无意义空白"):
-        require(qa + integrity, needle, "qa/integrity")
+        require(skill + workflow + integrity, needle, "person-material review")
+
+    for needle in ("最大程度保持", "不承诺逐像素保真"):
+        require(skill + integrity, needle, "whole-poster fidelity disclosure")
+
+    for needle in (
+        "用户明确要求",
+        "完全不变",
+        "严格保真",
+        "完整案例",
+        "原 Logo",
+        "准确中文",
+    ):
+        require(skill + integrity, needle, "strict-fidelity activation and protection")
+
+    for needle in (
+        "局部图层修改",
+        "不得整图重绘",
+        "前后图像差异",
+        "非目标区域",
+    ):
+        require(integrity + qa, needle, "exact post-edit integrity")
+
+    for needle in (
+        "edit_target_region",
+        "pre_edit_image",
+        "post_edit_image",
+        "non_target_diff_pixel_count",
+        "formal_generation_count",
+    ):
+        require(integrity + qa, needle, "exact post-edit receipt")
+
+    for needle in ("人脸", "动物头部", "陌生人", "错脸", "漏人", "重复", "乱码", "虚构数据"):
+        require(qa + integrity, needle, "final material QA")
 
 
 def check_prompt(root: Path) -> None:
     prompt = read(root, "references/prompt-template.md")
+    direction = read(root, "references/direction-framework.md")
     benchmark = read(root, "examples/successful-prompt-benchmark.md")
     qa = read(root, "references/qa-checklist.md")
 
+    content_fields = (
+        "玩法标题",
+        "明确成员",
+        "账号/案例依据",
+        "具体场景或人物关系",
+        "动作、冲突、互动或反转",
+        "产品/项目自然进入方式",
+        "海报上的一句短文案",
+    )
+    for needle in content_fields:
+        require(direction + prompt, needle, "content-play preflight")
+
     for needle in (
-        "【版式结构层】",
-        "【艺术指导层】",
-        "【受保护图层表】",
-        "【玩法内容】",
-        "【美观预检】",
-        "区域比例",
-        "前景",
-        "中景",
-        "背景",
+        "只有口号",
+        "抽象风格",
+        "达人没有玩法归属",
+        "没有场景、动作或产品进入方式",
+        "未解决",
+        "16:9",
+        "视觉偏好",
+        "禁止",
+        "正式生图",
     ):
-        require(prompt, needle, "prompt-template.md")
-    for needle in ("成功基准", "不得固化"):
+        require(direction + prompt, needle, "content-play generation block")
+
+    priority = (
+        "主题与内容玩法",
+        "人物与案例的视觉角色",
+        "完整艺术构图和信息层级",
+        "固定文案与商务信息",
+        "人物/案例尽量不改的要求",
+        "少量关键禁令",
+    )
+    for needle in priority:
+        require(prompt, needle, "prompt priority")
+    for earlier, later in zip(priority, priority[1:]):
+        require_order(prompt, earlier, later, "prompt priority")
+
+    for needle in (
+        "whole_poster",
+        "strict_fidelity",
+        "默认完整海报一次生成",
+        "不得先生成空背景",
+        "16:9 横版",
+        "视觉偏好",
+        "Brief",
+    ):
+        require(prompt, needle, "prompt routes and visual evidence")
+
+    for needle in ("成功基准", "不得固化", "16:9", "玩法", "第一视觉"):
         require(benchmark, needle, "successful-prompt-benchmark.md")
-    if "完全虚构" in benchmark:
-        require(benchmark, "城市灵感接力", "public successful-prompt-benchmark.md")
-    else:
-        for needle in ("秋日百味剧场", "每一种秋味，都有自己的出场方式"):
-            require(benchmark, needle, "private successful-prompt-benchmark.md")
-    for needle in ("第一视觉", "无意义空白", "人物与玩法", "参考案例"):
+    for needle in ("第一视觉", "人物与玩法", "参考案例", "实际成图"):
         require(qa, needle, "qa-checklist.md")
-    forbid(prompt, "人物/动物整体必须大于案例截图并成为视觉重点", "prompt-template.md")
 
 
 def check_docs(root: Path) -> None:
@@ -301,20 +428,73 @@ def check_docs(root: Path) -> None:
     quick = read(root, "examples/quick-start.md")
     chatgpt = read(root, "examples/chatgpt-starter.md")
     readme = read(root, "README.md")
+    scenarios = read(root, "tests/scenario-regression.md")
+    docs_corpus = "\n".join((quick, chatgpt, readme))
 
     for text, label in (
         (quick, "examples/quick-start.md"),
         (chatgpt, "examples/chatgpt-starter.md"),
         (readme, "README.md"),
     ):
-        for reply in ("人物素材通过", "确认生成"):
+        for reply in ("人物没问题", "选 1 生成"):
             require(text, reply, label)
-        for needle in ("生成确认卡", "查看完整 Prompt"):
+        for needle in (
+            "视觉偏好（可选）",
+            "16:9 横版",
+            "默认整图生成",
+            "严格保真",
+            "不得整图重绘",
+        ):
             require(text, needle, label)
-    for needle in ("只展示", "按需生成"):
-        require(quick + chatgpt + readme, needle, "minimal person-material docs")
+
+    for legacy in (
+        "人物素材通过",
+        "确认生成",
+        "模式 A｜快速生图",
+        "模式 B｜保真合成",
+        "模式 A：快速生图",
+        "模式 B：保真合成",
+        "选方向 1，用模式 B",
+        "生成确认卡",
+        "排布通过",
+    ):
+        forbid(active_corpus(root), legacy, "active package docs and runtime")
+
+    for needle in (
+        "两个确认",
+        "完整海报",
+        "整图",
+        "严格保真",
+        "完全不变",
+        "不承诺逐像素",
+    ):
+        require(docs_corpus, needle, "low-barrier docs")
+    if "查看完整 Prompt" in docs_corpus:
+        require(docs_corpus, "不新增确认门槛", "optional full Prompt")
+
     for needle in ("ChatGPT", "豆包", "Coze", "交接包"):
         require(platform + chatgpt + readme, needle, "cross-platform docs")
+
+    for needle in (
+        "场景 1：七位游戏剧情达人",
+        "浅蓝夏日",
+        "场景 2：数码 Brief",
+        "3:4",
+        "预检拦截",
+        "场景 3：精确 Logo 修改",
+        "新增两个原 Logo",
+        "仅目标区域变化",
+        "场景 4：严格保真",
+        "人脸、案例和中文完全不变",
+        "场景 5：无案例",
+        "贴合度有限",
+        "场景 6：无生图能力",
+        "交接包",
+        "不能只靠关键词",
+        "实际成图",
+        "图像差异",
+    ):
+        require(scenarios, needle, "scenario-regression.md")
 
     markdown_files = [
         root / "SKILL.md",
@@ -363,6 +543,8 @@ def main() -> int:
     if failures:
         print("\n".join(failures))
         return 1
+    if group == "all":
+        print("PASS all")
     return 0
 
 
