@@ -45,8 +45,8 @@ Read [workflow.md](references/workflow.md) at the start. Track the current stage
 
 1. Before requesting files, explain the material logic in plain Chinese:
    - 人物肖像素材好，整张海报的呈现才会好。人物原图决定主体是否清晰、真实、有表现力，也用来核对阵容、组合关系和每位达人适合承担的玩法。
-   - 案例图不是装饰。Use it to extract the creator's actual content scenes, narrative structure, relationships, recurring jokes or reversals, and account memory points, so the proposed play feels like something this creator would really make instead of a generic, floating concept.
-   - Person/animal originals are required. Case images are strongly recommended but optional and do not have to appear in the final poster. If cases are unavailable, accept account screenshots, representative-post links, or a plain-language account description; if none is available, continue from the Brief while explicitly marking creator-fit confidence as limited.
+   - 案例图不是装饰。要用它提取达人的真实内容场景、叙事结构、人物关系、稳定笑点／反转和账号记忆点，让玩法像达人真的会拍，而不是泛化、悬浮的概念。
+   - 人物／动物原图必需；案例图强烈建议但不是必需，也不一定要放进最终海报。没有案例时，可接受账号主页截图、代表作链接或账号介绍；这些都没有也能根据 Brief 继续，但必须明确标注达人玩法贴合度有限。
 2. Ask first for the person/animal originals and build a source ledger with stable `Pxx` IDs, public names, counts, variants, and limitations. A Brief, cases, Logo, or fixed copy may arrive now or later, but do not enter direction work yet.
 3. For multiple subjects, use this Prompt verbatim:
 
