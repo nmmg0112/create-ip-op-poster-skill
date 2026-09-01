@@ -1,124 +1,100 @@
 ---
 name: create-ip-op-poster
-description: Create or revise Chinese IP/OP招商海报 from recruitment briefs and person, animal, case-screenshot, or Logo assets. Use for IP proposal posters, OP posters, creator-matrix招商图, 单人达人海报, 人物素材处理, poster directions, complete generation Prompts, protected-layer compositing, or final poster QA. The workflow confirms person material first, then routes to fast whole-poster generation or fidelity-preserving compositing.
+description: Create or revise Chinese IP/OP招商海报 from a Brief and person, animal, case-screenshot, or Logo assets. Use for creator-matrix招商图、单人达人海报、人物素材确认、内容玩法方案、完整海报生成、严格保真合成或最终成图 QA. The default novice flow confirms people first, then lets one content-plan choice directly authorize a 16:9 whole-poster generation.
 ---
 
 # Create IP OP Poster
 
-Treat an OP as a commercial communication poster, not a one-shot illustration. Both production modes begin by preparing and explicitly confirming person/animal material. Do not start creative-direction work or choose a production mode before that confirmation. Default to the low-barrier flow in [novice-mode.md](references/novice-mode.md).
+Treat an OP as a commercial recruitment poster: the theme attracts attention, the play explains what creators will actually make, and people/cases make the proposal credible. Default to the two-confirmation novice flow in [novice-mode.md](references/novice-mode.md).
 
-## Non-negotiable rules
+默认只有两个确认点。视觉导演是正式生图前的必经判断，按 [visual-director.md](references/visual-director.md) 实际查看参考原图并完成美观预检。
 
-1. Lock identity-critical regions: every person's face, features, expression, hairline/core hairstyle, and every animal's face, species, coat color, and recognizable markings. Never beautify, swap, cartoonize, duplicate, omit, or invent a subject.
-2. Preserve every case screenshot exactly in fidelity-sensitive work. Allow only proportional scaling and placement; never crop, recolor, rewrite, repaint, enhance, repair, fabricate data, or hide meaningful content.
-3. Preserve every Logo completely in fidelity-sensitive work. Allow only background removal, proportional scaling, and arrangement.
-4. The white person-material review image validates roster, identity, count, body completeness, and edges. It does not lock final-poster placement, grouping, scale, or layer order.
-5. Match the palette and visual language to the current brief, industry, season, or marketing node. Do not inherit the style of a prior example by default.
-6. Use reference posters to learn visual grammar only. Do not copy their title, copy, Logo, seal, decoration, exact composition, or distinctive motif.
-7. Include at minimum: creator image(s), IP theme, a concise project background, and the refined content play. Add real cases or data only when supplied and useful.
-8. Mode A may redraw people, screenshots, Logos, and Chinese copy. Disclose this before selection and never describe its result as pixel-preserved.
-9. Mode B must generate a real bitmap visual base before any protected-layer compositing. A programmatic board, layout guide, or vector page cannot substitute for that base.
-10. If a required image-generation or compositing capability is unavailable, return a complete Prompt/material handoff rather than fabricating a lower-fidelity poster.
-11. Default to one formal poster-generation call. Do not spend a second call automatically after a failure.
+## Essential rules
+
+1. `人物素材确认` always comes first. Do not propose the content plan or generate a formal poster until the user has approved the white person/animal preview.
+2. Protect identity-critical details while preparing person material: faces, expressions, defining hair, animal faces, species, coat colors, markings, roster, and original inseparable groups. Never beautify, swap, cartoonize, duplicate, omit, or invent a subject.
+3. Explain the material logic before requesting files: good portraits determine whether the poster's main visual is clear and convincing; creator cases reveal real scenes, relationships, narrative mechanisms, jokes, reversals, and account memory points, so the play does not become generic or detached from the creator.
+4. Formal generation requires a concrete play. A slogan, category, or abstract style word alone is not enough. Each play needs explicit members, evidence, a scene or relationship, an action/conflict/interaction/reversal, a natural project or product entry, and one short poster line.
+5. If the user does not specify an aspect ratio, use `16:9 横版`. Do not silently switch to portrait.
+6. Before proposing the content plan, open 2—4 complementary original posters from [visual-case-library.md](references/visual-case-library.md): one for structure, one for density when needed, and one for mood. Learn abstract grammar only; never copy titles, copy, Logos, seals, exact composition, distinctive containers, or motifs.
+7. Merge any user `视觉偏好` with the current Brief. Translate both into concrete color roles, materials, light, depth, atmosphere, and decoration boundaries; never replace the Brief with a generic industry formula.
+8. Default to `generation_route = whole_poster`: one image-generation call directly produces the complete poster with theme, people, play, useful cases, fixed copy, and supplied commercial information. This route aims to keep people and cases recognizable but does not promise pixel-perfect fidelity.
+9. Use `generation_route = strict_fidelity` only when the user explicitly requires a face, case screenshot, Logo, metric, or fixed Chinese copy to remain completely unchanged. Keep this routing decision in the background; do not ask a novice to choose a technical mode.
+10. `默认完整海报一次生成`; `不得先生成空背景`，`不得生成排布稿`、空舞台、留洞底图、线框、SVG/HTML/Canvas/PPT 底图或程序化信息板。`默认只调用一次正式生图`; do not spend a second call without new user authorization.
+11. For exact additions or replacements after production—Logo、中文、报价、权益、案例 or one isolated element—use a `局部图层修改`; `不得整图重绘` for an exact correction.
+12. Inspect the actual final poster. Portrait output, missing concrete play, PPT-like information board, empty background, meaningless blank space, flat single plane, people/play disconnection, wrong face, missing or repeated subject, unreadable Chinese, severe case distortion, or an output the user cannot preview is a hard failure.
 
 Read [material-integrity.md](references/material-integrity.md) before any image operation.
 
-## Run the state machine
+## State machine
 
 Use exactly this order:
 
 ```text
 intake
   -> person_material_pending
-  -> direction_and_mode_pending
-  -> prompt_pending
+  -> content_plan_pending
   -> production
   -> qa
   -> complete
 
-Any unavailable required capability -> handoff
+严格保真但平台能力不足 -> handoff
 ```
 
-Read [workflow.md](references/workflow.md) at the start. Track the current stage in every response and keep a resumable record using [handoff-template.md](references/handoff-template.md).
+Read [workflow.md](references/workflow.md) at the start. Keep a resumable record with [handoff-template.md](references/handoff-template.md).
 
-## Prepare and confirm person material first
+## Confirmation 1: person material
 
-1. Before requesting files, explain the material logic in plain Chinese:
-   - 人物肖像素材好，整张海报的呈现才会好。人物原图决定主体是否清晰、真实、有表现力，也用来核对阵容、组合关系和每位达人适合承担的玩法。
-   - 案例图不是装饰。要用它提取达人的真实内容场景、叙事结构、人物关系、稳定笑点／反转和账号记忆点，让玩法像达人真的会拍，而不是泛化、悬浮的概念。
-   - 人物／动物原图必需；案例图强烈建议但不是必需，也不一定要放进最终海报。没有案例时，可接受账号主页截图、代表作链接或账号介绍；这些都没有也能根据 Brief 继续，但必须明确标注达人玩法贴合度有限。
-2. Ask first for the person/animal originals and build a source ledger with stable `Pxx` IDs, public names, counts, variants, and limitations. A Brief, cases, Logo, or fixed copy may arrive now or later, but do not enter direction work yet.
-3. For multiple subjects, use this Prompt verbatim:
+1. Ask first for person/animal originals. Cases are strongly recommended but optional; a homepage screenshot, representative-work link, or account description can substitute. Brief、Logo and fixed copy may arrive now or later.
+2. Build a source ledger with stable `Pxx/Cxx/Lxx/Txx` IDs, public names, subject counts, original group relationships, variants, limitations, and intended use.
+3. For multiple subjects, use this material-preparation Prompt:
 
    `把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些`
 
-4. Produce `横版白底组合预览图` for user review and retain a same-arrangement `透明底人物总图` internally. Show only the white review image by default. Generate `独立透明抠图` only when the chosen direction needs separate movement, regrouping, depth, overlap repair, or targeted replacement; never make individual cutouts a default user-facing deliverable or a new confirmation gate.
-   Mode A's later redraw permission does not apply here: every `PersonMaterialSet` must preserve the supplied identities, roster, and usable source detail before either mode is chosen.
-5. Record them as a `PersonMaterialSet`:
+4. Show only one `横版白底组合预览图`. Retain the same arrangement as one `透明底人物总图` internally; create separate transparent subjects only when later grouping, depth, overlap repair, strict fidelity, or targeted replacement truly needs them. The preview validates identity, roster, body completeness, and edges; it does not determine final-poster grouping, scale, or placement.
+5. Verify every identity, unique-subject count, original combination, body completeness, hair/fur edge, hand/foot edge, accidental deletion, and duplicate before asking.
+6. End with the copyable reply `人物没问题`. That reply or an equally explicit approval advances to `content_plan_pending`.
 
-   ```text
-   review_white: horizontal white-background preview
-   master_transparent: same arrangement with alpha
-   subjects_transparent: optional transparent layers generated only when the final direction needs independent control
-   source_ledger: stable Pxx IDs, public names, counts, variants, and limitations
-   approval: exact user message or none
-   ```
+## Confirmation 2: content plan and generation authorization
 
-6. Check every identity, unique-subject count, original combination, body completeness, hair/fur edge, hand/foot edge, accidental deletion, and duplicate. Resolve failures before asking for approval.
-7. Stop with the copyable reply `人物素材通过`. Only that reply or an equally explicit approval advances to `direction_and_mode_pending`.
+After person approval:
 
-## Combine direction and production-mode selection
+1. Analyze the Brief and available cases. If no creator-content evidence exists, continue but label creator-fit confidence as limited.
+2. If the user has not stated a visual preference, ask one skippable question from [novice-mode.md](references/novice-mode.md). Do not ask again when the preference is already clear.
+3. Read [direction-framework.md](references/direction-framework.md), [visual-director.md](references/visual-director.md), [layout-grammar.md](references/layout-grammar.md), and the selected original reference posters before drafting options.
+4. Present one recommended `ContentPlanCard` and one genuinely different alternative. Each must include the theme, concise background, evidence-based creator play, exact members, poster short line, first visual and broad composition, merged Brief/preference visual language, case/Logo/business use, and the 16:9 output.
+5. End with `选 1 生成`. This single reply selects the plan, approves its content, and authorizes the one formal generation call. Do not add a separate full-Prompt approval, placement-preview approval, or technical route choice.
 
-After person material is approved, use the available Brief and supporting material to present 2–3 genuinely different directions. Put the recommended direction first and explain it in one plain-language sentence. For one creator, connect a recognizable content asset to a concrete play. For multiple creators, group them by content/business logic and give each group a distinct play.
+## Production and QA
 
-Show this compact mode card exactly:
+- Compile the execution Prompt internally with [prompt-template.md](references/prompt-template.md); show it only when the user asks to inspect it.
+- For the default route, the first formal production artifact is the complete 16:9 poster itself. Do not generate a separate empty base or layout artifact first.
+- If exact preservation was explicitly requested, follow the background `strict_fidelity` rules in [material-integrity.md](references/material-integrity.md) and [platform-usage.md](references/platform-usage.md) without adding another user choice.
+- If the required image-generation capability is unavailable, return the approved plan, complete Prompt, and material mapping as a handoff. Never substitute SVG、HTML、Canvas、PPT or a programmatic board.
+- Run [qa-checklist.md](references/qa-checklist.md) on the actual final artifact. Use only `PASS`, `FAIL`, or `NOT VERIFIABLE`; missing evidence is unfinished.
+- Mark `complete` only after all hard checks pass and the user receives a viewable final poster or a clearly labeled handoff package.
 
-```text
-模式 A｜快速生图：整张海报一次生成，通常更统一、更快；人物、截图、Logo 和中文可能被重绘。
-模式 B｜保真合成：先生图生成完整艺术底图，再覆回确认过的人物、截图、Logo 和中文；更适合正式提报。
-```
-
-Accept a natural combined decision such as `选方向 1，用模式 B`. If the theme, play, and mode are already explicit, acknowledge them and continue without asking the user to choose them again. A wireframe may be supplied only when the user requests one; it is non-generative, optional, and never a production stop.
-
-## Confirm one compact generation card
-
-This local confirmation gate applies only when the current platform can perform the selected mode's image-generation step. If image generation is already known to be unavailable, do not enter `prompt_pending`: build the complete Prompt as clearly labeled handoff content, enter `handoff` immediately, and do not ask the user to reply `确认生成`. The receiving capable platform will present a compact generation card for production approval while retaining the full Prompt internally.
-
-1. Use the confirmed `PersonMaterialSet`, direction, play, and generation mode.
-2. Map every person/animal, case screenshot, Logo, and fixed-copy item to its exact role. Preserve supplied names and immutable copy verbatim.
-3. Build and retain the full mode-specific execution Prompt with [prompt-template.md](references/prompt-template.md).
-4. Show a one-screen `生成确认卡` instead of the entire execution Prompt. Keep only: theme/copy, concise background, creator/group play, first visual and broad composition, palette/style, case/Logo use, selected mode, and redraw/protection boundary. Use short fields, one sentence each, without repeating QA boilerplate or negative constraints.
-5. End with the copyable reply `确认生成`. If the user edits anything, update both the card and internal execution Prompt, then show only the revised card. Show the full execution Prompt only when the user explicitly asks `查看完整 Prompt`.
-
-## Produce and verify
-
-- 模式 A：快速生图. Give the image model the complete poster task and return the generated `完整海报预览`. Apply roster, theme, readability, and obvious-identity QA without making a pixel-preservation claim.
-- 模式 B：保真合成. `第一项生产动作必须调用生图模型` to create a PNG、WebP 或 JPEG visual base. Only after that bitmap exists may tools apply masks, proportional placement, protected-layer compositing, rasterized fixed copy, format conversion, and verification. `不得先运行 SVG、HTML、Canvas、PPT` or any fixed-grid renderer as the base.
-- When image generation becomes unavailable after a Prompt was confirmed, enter `handoff` with that approved Prompt, person assets, mappings, limitations, and next action; do not ask for the same confirmation again. Do not fall back to a programmatic information board.
-- `默认只调用一次正式生图`; do not spend a second generation automatically after a failure.
-- Run every applicable check in [qa-checklist.md](references/qa-checklist.md). Use only `PASS`, `FAIL`, or `NOT VERIFIABLE`; unfinished evidence is never a pass.
-- Mark `complete` only after all hard checks pass and the user receives the verified output or a clearly labeled handoff package.
-
-## Invalidate downstream work
+## Rollback
 
 | User change | Return to | Keep |
 |---|---|---|
-| Add, remove, replace, or change a person/animal source or material mask | `person_material_pending` | valid Brief facts and unaffected source files |
-| Change theme, play, or generation mode | `direction_and_mode_pending` | approved `PersonMaterialSet` when its sources are unchanged |
-| Change fixed copy, Logo, case mapping, price, or rights | `prompt_pending` | approved person material and direction/mode when still valid |
-| Change only final background or decoration after production | `production` | confirmed Prompt structure and unaffected protected layers |
+| Add, remove, replace, or change a person/animal source | `person_material_pending` | valid Brief facts and unaffected source files |
+| Change theme, grouping, concrete play, visual preference, or overall composition | `content_plan_pending` | approved person material when its sources are unchanged |
+| Change only one exact Logo, fixed-copy, price, right, case, or isolated final element | `production` for local replacement | approved plan and all unaffected pixels/layers |
+| Request a new overall style or background after production | `content_plan_pending` | approved person material and unchanged Brief facts |
 
-Announce every invalidated downstream decision explicitly and rerun the affected QA checks.
+Announce invalidated downstream work and rerun affected QA checks.
 
-## Load only the needed reference
+## Reference routing
 
-- Stages, confirmation language, and rollback: [workflow.md](references/workflow.md)
-- Low-barrier presentation and copyable replies: [novice-mode.md](references/novice-mode.md)
-- Brief analysis, single/matrix strategy, color, and direction comparison: [direction-framework.md](references/direction-framework.md)
-- Generative composition grammar: [layout-grammar.md](references/layout-grammar.md)
-- Person-material and protected-layer boundaries: [material-integrity.md](references/material-integrity.md)
-- Complete mode-specific final Prompt: [prompt-template.md](references/prompt-template.md)
-- Visual examples and non-copying retrieval: [visual-case-library.md](references/visual-case-library.md)
-- Final acceptance and failure routing: [qa-checklist.md](references/qa-checklist.md)
+- User-visible stages, confirmations, rollback, and handoff timing: [workflow.md](references/workflow.md)
+- Beginner-facing copy and the two low-barrier replies: [novice-mode.md](references/novice-mode.md)
+- Brief analysis and concrete single/matrix plays: [direction-framework.md](references/direction-framework.md)
+- Mandatory visual judgment before the plan and execution Prompt: [visual-director.md](references/visual-director.md)
+- Generative composition and density: [layout-grammar.md](references/layout-grammar.md)
+- Person and protected-material boundaries: [material-integrity.md](references/material-integrity.md)
+- Internal whole-poster or strict-fidelity execution Prompt: [prompt-template.md](references/prompt-template.md)
+- Original visual references and non-copying retrieval: [visual-case-library.md](references/visual-case-library.md)
+- Actual-final acceptance and failure routing: [qa-checklist.md](references/qa-checklist.md)
 - Capability routing and safe downgrade: [platform-usage.md](references/platform-usage.md)
 - Cross-window state record: [handoff-template.md](references/handoff-template.md)
