@@ -52,14 +52,14 @@ Read [workflow.md](references/workflow.md) at the start. Track the current stage
 
    `把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些`
 
-4. Produce all three person-material artifacts: `横版白底组合预览图`, `透明底人物总图` with the same arrangement, and `独立透明抠图` for every unique person/animal or inseparable original group.
+4. Produce `横版白底组合预览图` for user review and retain a same-arrangement `透明底人物总图` internally. Show only the white review image by default. Generate `独立透明抠图` only when the chosen direction needs separate movement, regrouping, depth, overlap repair, or targeted replacement; never make individual cutouts a default user-facing deliverable or a new confirmation gate.
    Mode A's later redraw permission does not apply here: every `PersonMaterialSet` must preserve the supplied identities, roster, and usable source detail before either mode is chosen.
 5. Record them as a `PersonMaterialSet`:
 
    ```text
    review_white: horizontal white-background preview
    master_transparent: same arrangement with alpha
-   subjects_transparent: one transparent layer per unique person/animal or inseparable original group
+   subjects_transparent: optional transparent layers generated only when the final direction needs independent control
    source_ledger: stable Pxx IDs, public names, counts, variants, and limitations
    approval: exact user message or none
    ```
@@ -80,15 +80,15 @@ Show this compact mode card exactly:
 
 Accept a natural combined decision such as `选方向 1，用模式 B`. If the theme, play, and mode are already explicit, acknowledge them and continue without asking the user to choose them again. A wireframe may be supplied only when the user requests one; it is non-generative, optional, and never a production stop.
 
-## Confirm one complete final Prompt
+## Confirm one compact generation card
 
-This local confirmation gate applies only when the current platform can perform the selected mode's image-generation step. If image generation is already known to be unavailable, do not enter `prompt_pending`: build the complete Prompt as clearly labeled handoff content, enter `handoff` immediately, and do not ask the user to reply `确认生成`. The receiving capable platform will present the Prompt for production approval.
+This local confirmation gate applies only when the current platform can perform the selected mode's image-generation step. If image generation is already known to be unavailable, do not enter `prompt_pending`: build the complete Prompt as clearly labeled handoff content, enter `handoff` immediately, and do not ask the user to reply `确认生成`. The receiving capable platform will present a compact generation card for production approval while retaining the full Prompt internally.
 
 1. Use the confirmed `PersonMaterialSet`, direction, play, and generation mode.
 2. Map every person/animal, case screenshot, Logo, and fixed-copy item to its exact role. Preserve supplied names and immutable copy verbatim.
-3. Build the full mode-specific Prompt with [prompt-template.md](references/prompt-template.md).
-4. Show a short production summary followed by the entire Prompt. This round is text-only and consumes no poster-generation call.
-5. End with the copyable reply `确认生成`. If the user edits anything, show the revised complete Prompt and wait again.
+3. Build and retain the full mode-specific execution Prompt with [prompt-template.md](references/prompt-template.md).
+4. Show a one-screen `生成确认卡` instead of the entire execution Prompt. Keep only: theme/copy, concise background, creator/group play, first visual and broad composition, palette/style, case/Logo use, selected mode, and redraw/protection boundary. Use short fields, one sentence each, without repeating QA boilerplate or negative constraints.
+5. End with the copyable reply `确认生成`. If the user edits anything, update both the card and internal execution Prompt, then show only the revised card. Show the full execution Prompt only when the user explicitly asks `查看完整 Prompt`.
 
 ## Produce and verify
 

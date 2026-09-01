@@ -45,7 +45,7 @@ Create and preserve one `PersonMaterialSet` before direction or mode work:
 ```text
 review_white: 横版白底组合预览图 (horizontal white-background review image)
 master_transparent: 透明底人物总图 (same arrangement with alpha)
-subjects_transparent: 独立透明抠图 (one transparent layer per unique person/animal or inseparable original group)
+subjects_transparent: optional 独立透明抠图 (generated only for subjects that need independent control)
 source_ledger: stable Pxx IDs, public names, counts, variants, and limitations
 approval: exact user message or none
 ```
@@ -56,13 +56,13 @@ For multiple subjects, use this exact user-approved processing Prompt without po
 把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些
 ```
 
-The Prompt describes the review arrangement only. It does not authorize face redraw, subject invention, body completion, or a final poster composition. Produce all three visual outputs even when one person is supplied, so the approved material set remains usable in either production mode.
+The Prompt describes the review arrangement only. It does not authorize face redraw, subject invention, body completion, or a final poster composition. Produce the white review and same-arrangement transparent master from the same material-preparation result. Show only the white review by default. Generate individual transparent cutouts only when independent movement, regrouping, depth, overlap repair, or targeted replacement is actually required.
 
 Before recording `approval`, verify:
 
 - every unique subject or inseparable original group is present exactly once;
 - the white review and transparent master have the same arrangement and subject count;
-- every individual cutout maps to one stable `Pxx` ID;
+- every on-demand individual cutout maps to one stable `Pxx` ID; an empty `subjects_transparent` list is valid when separate control is unnecessary;
 - faces, animal heads, hair, coat markings, clothing, pose, and original combinations remain recognizable and unchanged under the declared source-processing mode;
 - edges are usable on white, neutral solid, and checkerboard backgrounds;
 - missing source body regions and uncertain edges are explicitly labeled, never invented.
@@ -136,7 +136,7 @@ The `review_white` image proves roster completeness, identity, edge quality, siz
 
 The review image therefore has no separate composition-confirmation gate. After `人物素材通过`, direction work describes the final relationship through generative composition grammar, and the complete Prompt maps every subject to a role. If a user asks for a wireframe or placement explanation, it is optional, non-generative, and never a production gate.
 
-Mode B must composite from `master_transparent` or `subjects_transparent`. Never place the white `review_white` rectangle into a poster, mask white away from it, or treat it as a finished creator cluster. Choose the transparent master when its approved overlap works for the final direction; choose individual cutouts when creator-to-play roles require different positions or depths.
+Mode B must composite from `master_transparent` or on-demand `subjects_transparent`. Never place the white `review_white` rectangle into a poster, mask white away from it, or treat it as a finished creator cluster. Use the transparent master by default. Generate only the affected individual cutouts when creator-to-play roles truly require different positions, depths, overlap repair, or targeted replacement.
 
 Every final composition must still:
 
