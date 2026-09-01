@@ -70,6 +70,20 @@ def check_workflow(root: Path) -> None:
     ):
         require(skill + workflow + novice, needle, "workflow")
 
+    for needle in (
+        "人物肖像素材好，整张海报的呈现才会好",
+        "案例图不是装饰",
+        "避免悬浮",
+        "贴合度有限",
+    ):
+        require(skill + workflow + novice, needle, "intake material explanation")
+    require_order(
+        novice,
+        "为什么需要这些图",
+        "请先发送人物／动物原图",
+        "references/novice-mode.md startup explanation",
+    )
+
     active_corpus = "\n".join(
         path.read_text(encoding="utf-8") for path in active_package_files(root)
     )

@@ -43,14 +43,18 @@ Read [workflow.md](references/workflow.md) at the start. Track the current stage
 
 ## Prepare and confirm person material first
 
-1. Ask first for the person/animal originals and build a source ledger with stable `Pxx` IDs, public names, counts, variants, and limitations. A Brief, cases, Logo, or fixed copy may arrive now or later, but do not enter direction work yet.
-2. For multiple subjects, use this Prompt verbatim:
+1. Before requesting files, explain the material logic in plain Chinese:
+   - 人物肖像素材好，整张海报的呈现才会好。人物原图决定主体是否清晰、真实、有表现力，也用来核对阵容、组合关系和每位达人适合承担的玩法。
+   - 案例图不是装饰。Use it to extract the creator's actual content scenes, narrative structure, relationships, recurring jokes or reversals, and account memory points, so the proposed play feels like something this creator would really make instead of a generic, floating concept.
+   - Person/animal originals are required. Case images are strongly recommended but optional and do not have to appear in the final poster. If cases are unavailable, accept account screenshots, representative-post links, or a plain-language account description; if none is available, continue from the Brief while explicitly marking creator-fit confidence as limited.
+2. Ask first for the person/animal originals and build a source ledger with stable `Pxx` IDs, public names, counts, variants, and limitations. A Brief, cases, Logo, or fixed copy may arrive now or later, but do not enter direction work yet.
+3. For multiple subjects, use this Prompt verbatim:
 
    `把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些`
 
-3. Produce all three person-material artifacts: `横版白底组合预览图`, `透明底人物总图` with the same arrangement, and `独立透明抠图` for every unique person/animal or inseparable original group.
+4. Produce all three person-material artifacts: `横版白底组合预览图`, `透明底人物总图` with the same arrangement, and `独立透明抠图` for every unique person/animal or inseparable original group.
    Mode A's later redraw permission does not apply here: every `PersonMaterialSet` must preserve the supplied identities, roster, and usable source detail before either mode is chosen.
-4. Record them as a `PersonMaterialSet`:
+5. Record them as a `PersonMaterialSet`:
 
    ```text
    review_white: horizontal white-background preview
@@ -60,8 +64,8 @@ Read [workflow.md](references/workflow.md) at the start. Track the current stage
    approval: exact user message or none
    ```
 
-5. Check every identity, unique-subject count, original combination, body completeness, hair/fur edge, hand/foot edge, accidental deletion, and duplicate. Resolve failures before asking for approval.
-6. Stop with the copyable reply `人物素材通过`. Only that reply or an equally explicit approval advances to `direction_and_mode_pending`.
+6. Check every identity, unique-subject count, original combination, body completeness, hair/fur edge, hand/foot edge, accidental deletion, and duplicate. Resolve failures before asking for approval.
+7. Stop with the copyable reply `人物素材通过`. Only that reply or an equally explicit approval advances to `direction_and_mode_pending`.
 
 ## Combine direction and production-mode selection
 
