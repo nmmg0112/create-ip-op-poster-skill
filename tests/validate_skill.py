@@ -67,6 +67,8 @@ def check_workflow(root: Path) -> None:
         "prompt_pending",
         "人物素材通过",
         "确认生成",
+        "生成确认卡",
+        "查看完整 Prompt",
     ):
         require(skill + workflow + novice, needle, "workflow")
 
@@ -98,6 +100,10 @@ def check_workflow(root: Path) -> None:
         "four mandatory confirmation gates",
         "四个确认点不能跳过",
         "第 <n>/4 步",
+        "Produce all three person-material artifacts",
+        "交付并检查以下三项",
+        "Show a short production summary followed by the entire Prompt",
+        "展示生产摘要和完整 Prompt",
     ):
         forbid(active_corpus, legacy, "active package workflow")
 
@@ -253,6 +259,8 @@ def check_integrity(root: Path) -> None:
         "透明底人物总图",
         "独立透明抠图",
         "人物素材通过",
+        "Show only the white review image by default",
+        "generated on demand only",
     ):
         require(skill + integrity + workflow, needle, "integrity/workflow")
     for needle in ("人脸", "动物头部", "重复", "遗漏", "硬矩形边界", "无意义空白"):
@@ -301,6 +309,10 @@ def check_docs(root: Path) -> None:
     ):
         for reply in ("人物素材通过", "确认生成"):
             require(text, reply, label)
+        for needle in ("生成确认卡", "查看完整 Prompt"):
+            require(text, needle, label)
+    for needle in ("只展示", "按需生成"):
+        require(quick + chatgpt + readme, needle, "minimal person-material docs")
     for needle in ("ChatGPT", "豆包", "Coze", "交接包"):
         require(platform + chatgpt + readme, needle, "cross-platform docs")
 

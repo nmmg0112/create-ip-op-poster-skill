@@ -29,7 +29,7 @@ Inspect the actual final artifact at target viewing size and at high resolution.
 
 - The person-material set has an explicit `人物素材通过` approval before direction and mode selection.
 - The selected direction and generation mode are explicit; price or rights remain optional and were not invented.
-- The user explicitly approved the complete final Prompt with `确认生成` or an equally explicit reply.
+- The user explicitly approved the one-screen generation card representing the internally retained execution Prompt with `确认生成` or an equally explicit reply.
 - The Prompt-confirmation round was text-only and did not consume a formal poster generation.
 - Upstream changes invalidated the correct downstream work: person-source changes return to `person_material_pending`; theme/play/mode changes return to `direction_and_mode_pending`; fixed-copy/Logo/case mapping changes return to `prompt_pending`.
 - Default behavior used one formal poster-generation call. `formal_generation_count > 1` has explicit user authorization or a recorded exceptional reason; a failure never silently triggered another generation.
@@ -76,7 +76,8 @@ Any false or unverifiable provenance item keeps Mode B unfinished. A programmati
 
 - `review_white` is a 横版白底组合预览图 with every approved subject or inseparable source group exactly once.
 - `master_transparent` is a 透明底人物总图 with the same arrangement and count as `review_white`.
-- `subjects_transparent` contains one 独立透明抠图 per unique subject or inseparable source group, mapped to stable `Pxx` IDs.
+- Only `review_white` was shown by default for user confirmation; the internal transparent master was not presented as another decision.
+- `subjects_transparent` may be empty. When separate control is required, it contains only the needed 独立透明抠图 layers, each mapped to a stable `Pxx` ID and verified against its source.
 - The ledger records public names, source filenames, variants, counts, limitations, and the exact approval message.
 - White, neutral-solid, and checkerboard inspection covers face, hairstyle, hair edge, clothing, hands, feet, animal fur, recognizable markings, subject count, original combinations, and alpha edges.
 - Body regions missing in the source are labeled and were not generated or completed.
@@ -85,7 +86,7 @@ Any false or unverifiable provenance item keeps Mode B unfinished. A programmati
 ### Review-versus-final boundary
 
 - The white review proves material usability only; it was not treated as approved final layout.
-- Mode B uses `master_transparent` or `subjects_transparent`, never the white review rectangle or a white-background extraction of it.
+- Mode B uses `master_transparent` by default or on-demand `subjects_transparent`, never the white review rectangle or a white-background extraction of it.
 - Every final subject is mapped to the correct play, case, evidence, or scene; there is no 重复、遗漏、硬矩形边界、exposed furniture/background edge, meaningless hole, or detached sticker.
 - A user-requested wireframe, if any, was optional and non-generative and did not become a production gate, visual base, or final poster.
 

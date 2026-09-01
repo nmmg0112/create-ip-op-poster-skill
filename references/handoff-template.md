@@ -23,7 +23,7 @@ Use this after each explicit approval and whenever work moves to another window,
 ## PersonMaterialSet
 - review_white: <path or attachment for horizontal white-background preview>
 - master_transparent: <path or attachment for the same arrangement with alpha>
-- subjects_transparent: <one path/attachment per unique person/animal or inseparable original group>
+- subjects_transparent: <optional; none by default, or only paths for subjects needing independent control>
 - source_ledger: <stable Pxx IDs, public names, counts, variants, and limitations>
 - approval: <exact user message or none>
 - Identity/count/edge QA: <PASS | FAIL | NOT VERIFIABLE, with affected Pxx IDs>
@@ -51,6 +51,8 @@ Use this after each explicit approval and whenever work moves to another window,
 ## Final Prompt
 - Status: <not started | draft | explicitly confirmed>
 - Full Prompt location/content: <path, attachment, or complete text>
+- User-facing generation card: <one-screen confirmation summary shown to the user>
+- Full Prompt display status: <hidden by default | shown on explicit request>
 - Asset mapping verified: <yes/no with gaps>
 - Explicit confirmation: <verbatim user message or none>
 - Confirmation was text-only: <yes/no>

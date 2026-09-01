@@ -5,7 +5,7 @@
 1. Operating rule
 2. Intake and person material
 3. Direction and mode
-4. Complete Prompt confirmation
+4. Compact generation confirmation
 5. Production and QA
 6. Rollback
 7. Stage response format
@@ -61,7 +61,7 @@ For every `Pxx`, record the exact source filename, public name, unique-subject c
 ```text
 review_white: horizontal white-background preview
 master_transparent: same arrangement with alpha
-subjects_transparent: one transparent layer per unique person/animal or inseparable original group
+subjects_transparent: optional transparent layers, empty until independent control is actually needed
 source_ledger: stable Pxx IDs, public names, counts, variants, and limitations
 approval: exact user message or none
 ```
@@ -72,13 +72,15 @@ For multiple subjects, use this user-approved Prompt verbatim:
 
 Mode A's later redraw permission applies only to final-poster generation. At this stage, both modes use the same identity-preserving material standard; do not change a face, animal head, roster, original group, or recognizable source detail while preparing `PersonMaterialSet`.
 
-For one subject, create equivalent white-background and transparent outputs without inventing an ensemble. For inseparable original groups, keep the group as one transparent layer and record the limitation.
+For one subject, create equivalent white-background and transparent-master outputs without inventing an ensemble. For inseparable original groups, preserve the group and record the limitation.
 
-Create and retain all three artifacts:
+Create the minimum useful set:
 
-1. `横版白底组合预览图` → `review_white`;
-2. `透明底人物总图`, using the same arrangement → `master_transparent`;
-3. `独立透明抠图`, one per unique person/animal or inseparable original group → `subjects_transparent`.
+1. `横版白底组合预览图` → `review_white`, the only image shown for default user confirmation;
+2. `透明底人物总图`, using the same arrangement → `master_transparent`, retained internally for production;
+3. `独立透明抠图` → `subjects_transparent`, generated on demand only when separate movement, regrouping, depth, overlap repair, or targeted replacement is required.
+
+Creating `review_white` and `master_transparent` is one material-preparation operation with two backgrounds, not two user decisions. Do not list internal files unless the user asks or a capability problem changes the result. Optional individual cutouts never add another confirmation gate.
 
 The review arrangement is only for material inspection; it does not determine final-poster grouping, position, scale, or layer order. Mode B must use the transparent master or individual transparent layers, never the white review rectangle.
 
@@ -92,7 +94,7 @@ Before asking for approval, verify:
 - faces, defining hair, animal heads, markings, clothing, pose, and original group relationships remain recognizable;
 - bodies are not accidentally deleted and hair/fur, hand/foot, clothing, and source edges are usable;
 - white and transparent masters have the same subject arrangement;
-- every individual transparent layer is present or its inseparable-group limitation is recorded.
+- when `subjects_transparent` is required, every generated layer maps to a stable `Pxx` ID and any inseparable-group limitation is recorded; when it is not required, an empty list is valid.
 
 Redo only affected material when possible. If a required capability cannot produce or verify these outputs, enter `handoff` with the ledger, exact Prompt, mask instructions, protected regions, limitations, and required target formats. Do not continue to direction selection.
 
@@ -126,9 +128,9 @@ End with one natural combined reply, for example:
 
 Accept any reply that makes the chosen/merged direction and mode unambiguous. If the user has already made theme, play, and mode explicit, restate the understood decision and move to `prompt_pending` without asking for another choice. A vague aesthetic reaction or partial correction is feedback, not a completed decision.
 
-Before moving to `prompt_pending`, assess whether the current platform can call an image-generation model for the selected mode. If image generation is already known to be unavailable, do not create a local production-approval gate. Build the complete Prompt as part of a clearly labeled `handoff`, mark its approval status accurately, and do not end by asking the user to reply `确认生成`. The receiving capable platform must present that Prompt and obtain production approval before generating.
+Before moving to `prompt_pending`, assess whether the current platform can call an image-generation model for the selected mode. If image generation is already known to be unavailable, do not create a local production-approval gate. Build the complete Prompt as part of a clearly labeled `handoff`, mark its approval status accurately, and do not end by asking the user to reply `确认生成`. The receiving capable platform must retain the full Prompt, present a compact generation card, and obtain production approval before generating.
 
-## 4. Complete Prompt confirmation
+## 4. Compact generation confirmation
 
 Read [prompt-template.md](prompt-template.md). Build the final Prompt from the approved `PersonMaterialSet`, direction, play, and generation mode.
 
@@ -142,11 +144,22 @@ Before showing it, verify:
 - negative constraints prevent fabrication and copying reference art;
 - Mode B specifies a generated PNG、WebP 或 JPEG base before protected-layer compositing.
 
-Show a short production summary followed by the entire Prompt. This confirmation round contains text only and consumes no poster-generation call. End with:
+Compile and retain the complete execution Prompt, then show only a one-screen `生成确认卡` containing:
 
-> 以上是将实际用于生成／制作海报的完整 Prompt。本轮只展示文本，不会调用正式海报生成。可直接回复：确认生成
+- theme and fixed theme copy;
+- concise project background;
+- creator/group play and exact members;
+- first visual and broad composition relationship;
+- palette and visual language;
+- case and Logo use;
+- selected mode;
+- redraw risk or protected-layer boundary.
 
-Only `确认生成` or an equally explicit approval advances to `production`. If the user edits any item, show the complete revised Prompt and wait again.
+Use short fields and one sentence per item. Do not repeat long negative constraints, QA rules, provenance fields, or internal layer instructions. This confirmation round contains text only and consumes no poster-generation call. End with:
+
+> 以上是本次生成确认卡，不会调用正式海报生成。可直接回复：确认生成
+
+Only `确认生成` or an equally explicit approval advances to `production`. If the user edits any item, update the internal execution Prompt and show the revised card. Display the full execution Prompt only after the user explicitly asks `查看完整 Prompt`.
 
 ## 5. Production and QA
 
@@ -165,7 +178,7 @@ The generated base must be an artistic scene, not a programmatic information boa
 
 Use the transparent master or individual transparent layers for people/animals. Composite exact case screenshots and Logos as independent protected layers. Run [qa-checklist.md](qa-checklist.md) on the final artifact itself.
 
-If image generation becomes unavailable after the complete Prompt was already confirmed, return a handoff package containing that approved Prompt, person assets, material map, protected-layer manifest, limitations, and next action. Do not ask for the same confirmation again, and do not substitute a vector, page, presentation, drawing-command, or grid artifact for the poster base.
+If image generation becomes unavailable after the generation card was already approved, return a handoff package containing the corresponding internal execution Prompt, person assets, material map, protected-layer manifest, limitations, and next action. Do not ask for the same confirmation again, and do not substitute a vector, page, presentation, drawing-command, or grid artifact for the poster base.
 
 Use only `PASS`, `FAIL`, or `NOT VERIFIABLE`. Treat missing evidence as unfinished and return failures to the earliest responsible stage.
 
