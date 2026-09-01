@@ -1,224 +1,204 @@
-# QA checklist and failure routing
+# 最终 QA 与失败路由
 
-## Contents
+QA 必须实际查看最终图片、调用记录和原素材，检查实际成图，不能只检查 Prompt 或相信 Agent 自报。只使用：
 
-1. Evidence rule
-2. Process and generation-provenance checks
-3. Content checks
-4. Person-material checks
-5. Mode A checks
-6. Mode B protected-layer checks
-7. Visual checks and aesthetic hard failures
-8. Cross-platform and handoff checks
-9. Failure routing
-10. Report format
+- `PASS`：直接证据证明通过；
+- `FAIL`：直接证据证明不符合；
+- `NOT VERIFIABLE`：缺少原图、分辨率、文件、图层、调用记录或差异证据。
 
-## 1. Evidence rule
+`NOT VERIFIABLE` 代表未完成，不能因为“看起来差不多”改成通过。
 
-Use exactly:
+## 流程和调用次数
 
-- `PASS`: direct evidence proves the requirement.
-- `FAIL`: direct evidence contradicts it.
-- `NOT VERIFIABLE`: the artifact, resolution, source, hash, layer record, or tool record cannot prove it.
+- 人物素材在内容方案前获得 `人物没问题`、`人物素材通过` 或同等明确批准。
+- 默认只有两个必要决定：人物素材确认；内容方案选择并授权生成。
+- 视觉偏好问题可跳过，不是独立确认点；用户已经给出时没有重复询问。
+- 用户选择的 `ContentPlanCard` 包含具体玩法和视觉结论；`选 1 生成` 或同等回复同时授权正式生图。
+- 没有排布稿确认、面向用户的技术模式选择或独立 Prompt 确认。
+- 默认正式海报生图调用恰好一次；失败后没有静默生成第二次。
+- 人物素材处理不计入“正式海报生图”，但必须单独记录其工具与产物。
+- 没有两张用途相同、构图相同或文件哈希相同的完整海报被当作不同步骤交付。
 
-`NOT VERIFIABLE` is unfinished. Never promote it to pass because a manifest claims success or the output looks plausible.
-
-Inspect the actual final artifact at target viewing size and at high resolution. Compare it with the source ledger, approved `PersonMaterialSet`, chosen direction and mode, complete confirmed Prompt, production receipt, and protected-source files where applicable.
-
-## 2. Process and generation-provenance checks
-
-- The person-material set has an explicit `人物素材通过` approval before direction and mode selection.
-- The selected direction and generation mode are explicit; price or rights remain optional and were not invented.
-- The user explicitly approved the one-screen generation card representing the internally retained execution Prompt with `确认生成` or an equally explicit reply.
-- The Prompt-confirmation round was text-only and did not consume a formal poster generation.
-- Upstream changes invalidated the correct downstream work: person-source changes return to `person_material_pending`; theme/play/mode changes return to `direction_and_mode_pending`; fixed-copy/Logo/case mapping changes return to `prompt_pending`.
-- Default behavior used one formal poster-generation call. `formal_generation_count > 1` has explicit user authorization or a recorded exceptional reason; a failure never silently triggered another generation.
-
-For every production, record the selected mode, image-generation model/tool, output path and format, timestamps or equivalent ordering evidence, generation count, and QA artifact paths.
-
-For Mode B, require this exact receipt:
+每次生产记录：
 
 ```text
-visual_base_path: <saved bitmap path>
-visual_base_format: <PNG | WebP | JPEG>
-image_generation_model_or_tool: <model/tool record>
-visual_base_created_before_composite: <true | false | NOT VERIFIABLE>
-protected_layer_ids: <P/C/L/T IDs actually overlaid>
-formal_generation_count: <integer>
+generation_route: whole_poster | strict_fidelity
+image_generation_model_or_tool
+formal_generation_count
+final_output_path
+final_format
+final_dimensions
 ```
 
-Check all of the following:
+严格保真另记录 `visual_base_path`、`visual_base_format`、`visual_base_created_before_composite` 和 `protected_layer_ids`。
 
-- `visual_base_path` resolves to an existing, decodable bitmap whose real file signature and format are PNG、WebP 或 JPEG.
-- The first production action was the image-generation-model call that created the visual base.
-- `visual_base_created_before_composite` is backed by direct ordering evidence; a prose assertion alone is `NOT VERIFIABLE`.
-- The recorded model/tool is an image-generation capability, not a renderer, layout engine, or generic script.
-- The base is an image-model output, not SVG, HTML, Canvas, PPT, Sharp drawing commands, fixed rectangles, a grid renderer, or any programmatic base merely exported with a bitmap extension.
-- Protected compositing code ran only after the generated bitmap existed.
+## 正式生图前预检
 
-Any false or unverifiable provenance item keeps Mode B unfinished. A programmatic base is a hard `FAIL`; changing its extension does not cure the failure.
+下列项目必须全部通过：
 
-## 3. Content checks
+- `PersonMaterialSet.approval` 明确；
+- 未指定比例时执行参数为 16:9 横版；
+- 主题、主题文案和一到两句项目背景明确；
+- 每个玩法有：明确成员、账号/案例依据、具体场景或人物关系、动作/冲突/互动/反转、产品/项目自然进入方式、海报短文案；
+- 每位达人有且只有一个清楚的主要玩法归属；
+- 无案例时已披露玩法贴合度有限，没有虚构账号机制；
+- 用户视觉偏好已提供、被询问后跳过，或明确交由系统推荐；
+- 配色、材质、光影和气质说明同时体现用户偏好与 Brief；冲突时有一句调整说明；
+- 实际打开 2—4 张互补原参考图，结构／密度／气质角色和禁止复制元素已记录；
+- 第一视觉、阅读路径、信息密度、人物呈现、前中后景和视觉动势明确；
+- 案例、Logo、报价、权益、数据和合作方式均来自用户材料。
 
-- Theme and one-line expression match the confirmed direction.
-- Project background is concise and contains no unsupported claims.
-- The play is the main information body, not a generic slogan.
-- Single-creator work explains the concrete creator action and content mechanism.
-- Multi-creator work has evidence-based groups, exact members, and a distinct play per group.
-- Creator image(s), IP theme, concise background, and refined play are all present.
-- Case/data evidence appears only when supplied and legible.
-- Price, rights, dates, client names, metrics, and collaboration facts are supplied and confirmed.
-- No unconfirmed cooperation mode, live-streaming claim, long category list, platform feature, or fabricated result was added.
+任一项不满足，留在 `content_plan_pending`，不得消耗正式生图。
 
-## 4. Person-material checks
+## 内容检查
 
-### PersonMaterialSet outputs
+- 主题和主题文案与用户选择的方案一致；
+- 项目背景精炼，不含无依据结论；
+- 具体玩法是信息主体，不是装饰性口号；
+- 单人项目写清达人动作、内容机制和产品进入；
+- 多人项目按证据支持的内容／商业逻辑分组，每组有不同玩法；
+- 最终海报能读出人物、主题、精炼背景和关键玩法；
+- 案例／数据只在用户提供且可读时出现；
+- 未虚构粉丝量、播放量、点赞量、客户、案例、报价、权益、日期、直播或短直能力。
 
-- `review_white` is a 横版白底组合预览图 with every approved subject or inseparable source group exactly once.
-- `master_transparent` is a 透明底人物总图 with the same arrangement and count as `review_white`.
-- Only `review_white` was shown by default for user confirmation; the internal transparent master was not presented as another decision.
-- `subjects_transparent` may be empty. When separate control is required, it contains only the needed 独立透明抠图 layers, each mapped to a stable `Pxx` ID and verified against its source.
-- The ledger records public names, source filenames, variants, counts, limitations, and the exact approval message.
-- White, neutral-solid, and checkerboard inspection covers face, hairstyle, hair edge, clothing, hands, feet, animal fur, recognizable markings, subject count, original combinations, and alpha edges.
-- Body regions missing in the source are labeled and were not generated or completed.
-- No body part or animal was accidentally removed; 人脸、动物头部 and every identity-critical region remain unchanged under the declared material mode.
+## 人物素材检查
 
-### Review-versus-final boundary
+- `review_white` 是横版白底组合预览，每个主体或不可分组合出现一次；
+- `master_transparent` 与白底预览排布和数量一致，只在后台保留；
+- `subjects_transparent` 可以为空，只有独立移动、分组、遮挡修复或替换需要时才生成；
+- 脸、表情、主要发型、动物脸、品种、毛色、识别性花纹、服装、姿势和原始组合可识别；
+- 没有陌生人、遗漏、重复、错误变体、身体意外删除、生成式补全、家具残边、硬矩形、白边或大空洞；
+- 白底预览未被当作最终排布或整块白色矩形贴进海报；
+- 最终每个主体与正确玩法相连，脸和动物头部没有被文字或装饰遮挡。
 
-- The white review proves material usability only; it was not treated as approved final layout.
-- Mode B uses `master_transparent` by default or on-demand `subjects_transparent`, never the white review rectangle or a white-background extraction of it.
-- Every final subject is mapped to the correct play, case, evidence, or scene; there is no 重复、遗漏、硬矩形边界、exposed furniture/background edge, meaningless hole, or detached sticker.
-- A user-requested wireframe, if any, was optional and non-generative and did not become a production gate, visual base, or final poster.
+## 默认整图生成检查
 
-## 5. Mode A checks
+- 生图模型一次接收已确认人物、案例、Brief、玩法、视觉方向和固定信息；
+- 输出是一张完整 16:9 横版海报，不是空背景、排布稿或中间预览；
+- 对人物、截图、Logo 和中文只声明“尽量保持”，没有像素保真承诺；
+- 明显错脸、漏人、重复、陌生人、动物错误、案例乱码、虚构数据或 Logo 严重变形均为 `FAIL`；
+- 用户明确要求素材完全不变却仍走默认整图路线，直接 `FAIL` 并路由到严格保真。
 
-Mode A is evaluated as an end-to-end generated poster, not as protected-layer compositing:
+## 严格保真检查
 
-- The Prompt and user-facing summary clearly disclosed that people, animals, screenshots, Logos, and Chinese copy may be redrawn.
-- The final report makes no pixel-preservation, original-pixel, source-layer, or exact-Logo claim for any model-generated `P/C/L/T` item.
-- Visible subject and creator roster matches the approved ledger; there is no obvious duplicate, omission, invented stranger, split original combination, or wrong variant.
-- Theme, project context, play, first visual, commercial-poster readability, and aesthetics match the confirmed direction.
-- Faces and animal heads receive an obvious-identity screen; distorted or substituted identities are `FAIL`, even though exact pixel equality is not expected.
-- Screenshot, Logo, and Chinese-copy errors are reported honestly. If exactness is required, the result fails the requested requirement and must be rerouted to Mode B rather than mislabeled as preserved.
+### 艺术底图与先后顺序
 
-## 6. Mode B protected-layer checks
+- 第一项生产动作调用生图模型并落盘真实 PNG、WebP 或 JPEG；
+- 文件签名、格式、尺寸和来源可验证；
+- 底图有完整场景、玩法关系、材质、光影、前景、中景、背景、装饰语言和视觉动势；
+- 底图不是空背景、留洞页、线框、头像网格、等权卡片墙、PPT 信息板或代码渲染页；
+- SVG、HTML、Canvas、PPT、Sharp、固定矩形或网格没有创建或替代底图；
+- 原素材合成只发生在艺术位图存在后。
 
-### Visual base and operation order
+任何来源为程序绘图的底图都是硬 `FAIL`，改成 `.png` 后缀也不合格。
 
-- The first production action called an image-generation model and produced a real PNG, WebP, or JPEG base.
-- The bitmap is a complete artistic visual base: background scene, composition, material, lighting, foreground/middle/background, decoration language, and visual movement are all present.
-- The base is not a wireframe, layout guide, avatar grid, equal-weight card board, PPT-like information board, or code-rendered composition.
-- No SVG, HTML, Canvas, PPT, Sharp, fixed-rectangle, or grid-rendering step created or substituted for the base.
-- After the base existed, deterministic operations were limited to masks, proportional placement, protected-layer compositing, non-destructive shadow connection, rasterized fixed copy, format conversion, export, and verification.
+### 保护素材
 
-### People and animals
+- 每个 `Pxx` 使用批准的透明人物总图或按需独立抠图，数量、比例和身份正确；
+- 每个 `Cxx` 使用完整原截图，文字、画面、数据和边界与源文件一致；
+- 每个 `Lxx` 使用原文件，元素、文字、颜色、比例和内部关系不变；
+- 每个准确 `Txx` 逐字正确且可读；
+- 无生成式修脸、换脸、补身体、改姿势、改服装、改动物或重绘截图／Logo；
+- 即使素材保真，最终像 PPT 或人物贴纸也仍然失败。
 
-- Every required `Pxx` source layer appears once unless intentional repetition was explicitly approved.
-- Each `Pxx` uses the approved transparent master or individual cutout, with natural proportions and safe faces/animal heads.
-- Creator-to-play mapping and foreground/middle/background role match the final Prompt.
-- No generative repair, face edit, pose change, clothing change, body completion, or whole-subject redraw was used during compositing.
+## 精确后期检查
 
-### Case screenshots
+添加／替换 Logo、准确文字、报价、权益、案例或移动单个元素时，只做局部图层修改，不得整图重绘：
 
-- Every specified `Cxx` appears exactly in its mapped role.
-- Complete screenshot bounds and meaningful content are visible.
-- Text, titles, images, and data match the source.
-- No crop, recolor, repair, rewrite, fabricated metric, or duplicate use occurred.
+- 没有再次调用整图生图；
+- 只新增、替换或移动目标独立图层；
+- 修改前后文件均存在；
+- 差异图、遮罩或等价证据表明目标区域及必要边缘之外没有变化；
+- 人物、背景、案例、其他文字和其他 Logo 未改变。
 
-### Logos
+非目标稳定性无法证明时记 `NOT VERIFIABLE`，不能写通过。
 
-- Every specified `Lxx` appears once in its mapped position.
-- All Logo elements, text, colors, and internal relationships match the source.
-- Logo aspect ratio is preserved; visual-size normalization does not stretch it.
-- A supplied SVG Logo may remain a source layer, but no SVG is accepted as the poster base.
+精确后期回执至少记录：
 
-### Fixed copy and exact post-production changes
+```text
+edit_target_region
+pre_edit_image
+post_edit_image
+allowed_difference_mask
+non_target_diff_pixel_count
+formal_generation_count
+```
 
-- Every `Txx` is reproduced exactly, readable at target size, and mapped to the specified role.
-- A Logo/text/screenshot adjustment changes only its target layer and necessary edge pixels; direct before/after evidence confirms non-target regions remain unchanged.
-- The whole finished image was not sent through a generative edit to make an exact Logo, text, screenshot, or protected-person correction.
-- If non-target stability cannot be proven, record `NOT VERIFIABLE`, never `PASS`.
+必须保存前后图像差异证据；`non_target_diff_pixel_count` 应为 0，或只包含事先声明的必要边缘抗锯齿像素。
 
-## 7. Visual checks
+## 视觉检查
 
-- The first visual focus (`第一视觉`) is explicit and matches the confirmed direction.
-- Title, creator, play, and evidence use visibly different weights instead of equal-sized treatment.
-- Palette, materials, containers, and decoration are justified by the current Brief, audience emotion, person/account evidence, brand rule, or content mechanism.
-- Surface style is not a default seasonal, poetic, technology-blue, neon-interface, or prior-project carryover.
-- Theme, key play, nicknames, and necessary evidence are readable at target viewing size.
-- Every creator is visibly connected to the correct play through scene, gesture, proximity, overlap, eye line, container relationship, or another intentional device.
-- White space is sufficient, and every major blank area has a focusing, separation, breathing, or eye-guidance purpose.
-- Foreground, middle ground, and background are distinguishable; overlap creates depth without blocking faces or animal heads.
-- Repeated peer elements have rhythm, while non-peer content is not forced into identical weight.
-- Safe margins hold; text does not press against faces; screenshots are not clipped.
-- Decorations support the visual premise and remain subordinate.
-- No 参考案例 (reference case) has had its distinctive title, concrete composition, Logo, seal, or decorative system copied.
+必须直接打开最终图片，以目标观看大小和高分辨率分别检查：
 
-### Aesthetic hard failures
+- 第一视觉一秒内可识别；
+- 人物或关键场面、主题、玩法、案例和合作信息有明显大小层级；
+- 人物尺寸没有被大段文字压过；
+- 人物通过动作、视线、距离、交叠、场景物件、光线或容器关系与玩法连接；
+- 前景、中景、背景可区分，画面不是一个平面；
+- 中高密度信息能按主题、玩法和证据快速扫描；
+- 每块主要留白用于聚焦、分隔、呼吸或引导；
+- 配色和视觉语言符合用户偏好与当前 Brief，不套历史项目或行业刻板印象；
+- 主题、关键玩法、昵称和必要证据在目标尺寸下可读；
+- 参考案例只被借鉴抽象语法，没有复制标题、Logo、专属容器、人物排布或标志性装饰；
+- 最终文件能在对话中直接预览并下载／使用。
 
-Any item below is a hard `FAIL`, even if all required text and assets are present:
+### 美学硬失败
 
-- The output resembles a PPT-like information board (`像 PPT／画板`) rather than a legible commercial-recruitment poster.
-- An equal-weight card grid, avatar matrix, or fixed-rectangle renderer flattens all content into the same visual weight.
-- The first visual focus cannot be identified.
-- Foreground, middle ground, or background is missing, or all elements sit on one flat plane.
-- A large meaningless blank area (`无意义空白`) has no focusing, separation, breathing, or eye-guidance purpose.
-- A creator is detached from the play they support (`人物与玩法脱节`) or floats as an isolated sticker.
-- A title, decoration, or foreground object covers a face or animal head.
-- Essential theme, play, nickname, or evidence is unreadable at target size.
-- The style contradicts the confirmed direction or silently reuses an unsupported historical formula.
-- The output copies a reference's distinctive composition or branded elements.
-- Any programmatic base is used for Mode B, even if its pixels or extension look like a normal bitmap.
+以下任一项直接 `FAIL`：
 
-### Duplicate-output and preview checks
+- 不是用户明确要求的比例，默认任务却生成竖版或 3:4；
+- 成品像 PPT／画板、网页后台、系统字体信息页或规则色块页；
+- 只有主题和背景而无玩法；
+- 等权卡片、头像矩阵或固定矩形把所有内容压平；
+- 只有主题和漂亮背景，没有具体玩法；
+- 第一视觉无法识别；
+- 没有前中后景，或所有内容处于同一平面；
+- 存在大块无意义空白或空科技舞台；
+- 人物与玩法脱节，像孤立贴纸；
+- 标题、装饰或前景物遮住脸／动物头部；
+- 必要主题、玩法、昵称或证据不可读；
+- 用户要求“蓝色清爽”却变成冷硬霓虹科技套壳，且没有 Brief 依据；
+- 复制参考图的独特构图或品牌元素；
+- 最终无法直接预览或下载。
 
-- Hash the final artifact and any complete-poster preview or Mode B visual-base preview.
-- If the final file hash equals a complete-poster preview hash, return `FAIL`: the confirmed production did not create or apply a distinct final composite.
-- Do **not** compare the final hash against the white person-material `review_white` image; that image is a roster/edge review, not a complete-poster preview.
-- A different hash alone is not a visual pass. Inspect the final pixels for the artistic base, protected overlays, hierarchy, depth, readability, and people/play connection.
+## 重复输出检查
 
-Aesthetic repair never overrides material safety. Do not regenerate or repaint a protected person, animal, screenshot, Logo, or fixed copy to fix a visual failure.
+对所有“完整海报”产物和最终文件计算哈希并比较：
 
-## 8. Cross-platform and handoff checks
+- 两个不同步骤交付的完整海报哈希相同，判 `FAIL`；
+- 两张图虽哈希不同但构图、内容和用途相同，仍需查正式生图调用记录，不能仅凭不同哈希通过；
+- 不把人物白底预览计为完整海报；
+- 默认流程本来就不应生成排布稿或完整海报中间版。
 
-- The platform loaded the common `SKILL.md` and relevant references, not a divergent logic fork.
-- Capability assessment distinguishes image generation from viewing images, programmatic drawing, and protected-layer compositing.
-- With image generation plus layered compositing, Mode A or Mode B may complete.
-- With image generation only, Mode A may complete; Mode B may generate the bitmap base and then must hand off protected compositing.
-- With no image generation, the output is a Prompt/material map only and never an SVG/HTML/Canvas/PPT/programmatic fallback.
-- A handoff includes the mode, approved person-material files, source ledger, complete Prompt, visual-base provenance if created, protected-layer map, formal generation count, current QA, and one next action.
-- A new agent can resume without the user repeating confirmed choices.
+## 失败路由
 
-## 9. Failure routing
-
-| Failure | Return to |
+| 失败 | 返回 |
 |---|---|
-| Changed, missing, duplicate, or newly supplied person/animal source; failed mask or identity review | affected `Pxx` in `person_material_pending` |
-| Wrong brief interpretation, theme, grouping, play, visual premise, density, or selected mode | `direction_and_mode_pending` |
-| Missing/wrong asset mapping, fixed copy, price/rights, mode disclosure, palette instruction, or production constraint | `prompt_pending` |
-| No image-generation capability | `handoff` with Prompt/material map; do not produce a programmatic poster |
-| Mode B has an invalid/unverifiable bitmap source or code ran first | `production` for a real generated bitmap, or `handoff` if unavailable |
-| Mode B protected layer changed, disappeared, or cannot be verified | rebuild the affected deterministic composite from source |
-| PPT-like board, weak hierarchy, missing depth, unreadable copy, detached person/play, or meaningless blank space | `production` if execution drifted; `direction_and_mode_pending` if the confirmed direction itself caused it |
-| Evidence too weak to verify protected pixels or operation order | `handoff` or a capable editing/verifying tool |
+| 人物新增、替换、遗漏、重复、身份或边缘失败 | `person_material_pending` |
+| Brief、玩法、分组、视觉偏好合成、第一视觉或比例错误 | `content_plan_pending` |
+| 没有生图能力 | `handoff`，只交付 Prompt／素材映射 |
+| 默认整图执行偏离已选方案 | `production`，报告失败；不自动重生 |
+| 严格保真底图来源或先后顺序失败 | `production` 或能力不足时 `handoff` |
+| 保护素材改变或遗漏 | 重做确定性合成，不重绘整图 |
+| PPT 感、无玩法、空背景、弱层级或人物玩法脱节 | 执行漂移返回 `production`；方案本身有问题返回 `content_plan_pending` |
+| 精确后期非目标区域变化 | 从原成稿重新做目标图层修改 |
 
-Never repair a protected-source failure by regenerating the whole image. Never repair a human face or animal head with generation. For an exact Logo, fixed-copy, or screenshot correction, replace only the affected independent layer and verify non-target regions.
+不能用整图重绘修复受保护的人脸、动物、截图、Logo 或准确中文。
 
-## 10. Report format
+## 报告格式
 
 ```markdown
-## QA result
+## QA 结果
 
 Overall: <PASS | FAIL | NOT VERIFIABLE>
-Mode: <A | B>
-Formal generation count: <integer>
+Generation route: <whole_poster | strict_fidelity>
+Formal generation count: <整数>
 
-| ID | Requirement | Result | Evidence | Return stage/action |
+| ID | Requirement | Result | Direct evidence | Return/action |
 |---|---|---|---|---|
-| QA-01 | <exact requirement> | <status> | <file/layer/hash/visual comparison> | <action or none> |
+| QA-01 | <要求> | <状态> | <文件/尺寸/调用/图像对比> | <动作或 none> |
 
-Visual-base provenance: <Mode B receipt or not applicable>
-Hard failures: <count and summary>
-Unverifiable items: <count and required evidence>
-Next action: <one concrete step>
+Hard failures: <数量与摘要>
+Unverifiable items: <数量与所缺证据>
+Next action: <唯一下一步>
 ```

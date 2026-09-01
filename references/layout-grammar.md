@@ -1,150 +1,115 @@
-# OP generative layout grammar
+# OP 生成式版式语法
 
-This reference turns content topology into composition language for an image-generation model. It does not define a mandatory placement-preview artifact. The approved white person-material review establishes roster and source usability only; its arrangement never locks the final poster.
+本文件把内容关系翻译成生图模型能理解的艺术构图，不提供固定坐标模板。默认画布是 16:9 横版；白底人物预览只用于核对素材，永远不锁定最终排布。
 
-## Contents
+## 从内容关系开始
 
-1. Decide from content topology
-2. Layout families
-3. Creator-presentation modes
-4. Density planning
-5. Direction requirements
-6. Production-mode translation
-7. Failure patterns
+先判断主题、玩法、人物、案例和数据之间的关系：
 
-## 1. Decide from content topology
+- `parallel`：多个玩法并列；
+- `sequence`：阶段、接力、前后变化或路线；
+- `hierarchy`：一个主角／主机制带领其他内容；
+- `scene`：玩法属于不同生活场景；
+- `radial`：一个共同主题向外产生多种表达；
+- `evidence`：案例和数据用于证明主张；
+- `matrix`：人物、角色、玩法和证据交叉映射；
+- `manifesto`：一个情绪或概念占绝对主导。
 
-Do not begin from `left text/right people`, `three columns`, or another favorite template. First classify the relationship among theme, plays, creators, cases, and data:
+不允许为了套版式，把并列玩法伪装成时间线，或把有明确主次的人物做成等权网格。
 
-- `parallel`: several plays have equal weight;
-- `sequence`: phases, route, relay, before/during/after, or funnel;
-- `hierarchy`: one hero or mechanic leads supporting modules;
-- `scene`: plays belong to distinct life spaces or occasions;
-- `radial`: one shared IP idea has several expressions;
-- `evidence`: cases, screenshots, or data prove the main proposal;
-- `matrix`: creators, roles, plays, and evidence cross-map;
-- `manifesto`: one emotional or conceptual premise dominates.
+## 六类版式家族
 
-Select a layout family that expresses the real relationship. Do not imply sequence when the plays are parallel or equality when one creator is clearly primary.
+| 家族 | 适合 | 主要风险 |
+|---|---|---|
+| 概念场景 | 一个视觉隐喻贯穿整页，人物和玩法进入同一世界 | 只剩漂亮背景，玩法太少 |
+| 群像主视觉 | 一个共同承诺、人物阵容或清楚主次 | 人太大而玩法失焦 |
+| 玩法分舱 | 2—4 个并列玩法，各自有成员与案例 | 等权卡片墙、像 PPT |
+| 路线阶段 | 真实存在先后、接力、分镜或旅程 | 为了好看虚构顺序 |
+| 矩阵档案 | 人物、玩法、案例和数据都重要的高密度提案 | 小字、系统后台感 |
+| 编辑拼贴 | 情绪、文化、生活方式或场景切片主导 | 装饰性空白、映射不清 |
 
-## 2. Six core layout families
+可以提出新结构，但必须写清内容关系、阅读顺序、第一视觉、区域分配、景深和它为什么优于以上家族。左文右人、三列和中心发散都只是可能的变体，不是默认模板。
 
-Retain the capabilities of the 12 structures below, but retrieve them through six core families. The core family describes the content logic; the variant describes the concrete composition.
+## 人物呈现方式
 
-| 核心家族 | 可用变体 |
-|---|---|
-| 概念场景 | 左右叙事、中心发散、情绪宣言 |
-| 群像主视觉 | 舞台层级、主角＋辅助群像 |
-| 玩法分舱 | 纵向栏目、分组岛、上下矩阵 |
-| 路线阶段 | 时间线、接力、分镜 |
-| 矩阵档案 | 横向信息带、证据墙、混合提案 |
-| 编辑拼贴 | 杂志拼贴、纸张拼贴、场景切片 |
+版式确定后再选人物方式：
 
-The 12 retained structures map to those families as follows:
+- `unified-ensemble`：所有人物共同表达一个承诺；
+- `grouped-by-play`：每个玩法拥有自己的人物、机制和证据；
+- `independent-cutouts`：人物作为独立素材进入不同深度与场景；
+- `hybrid-hero-groups`：一个主角／群像锚定画面，其他人物留在各自玩法。
 
-| Retained structure | Core family | Best for | Reading path | Main risk |
-|---|---|---|---|---|
-| Left/right split | 概念场景 | one strong creator cluster plus rationale | title -> play -> people | repetitive and empty with many parallel plays |
-| Top theme/bottom matrix | 玩法分舱 | several equal groups | title -> row/column groups -> footer | can become a rigid template |
-| Horizontal content bands | 矩阵档案 | dense parallel groups | top to bottom | long rows and small evidence |
-| Vertical pillars | 玩法分舱 | 2–4 parallel plays | left to right | falsely equal modules; easy to copy references |
-| Group islands | 玩法分舱 | distinct scenes or creator families | visual cluster to cluster | weak reading order without anchors |
-| Central hero/radial | 概念场景 | one common IP with several expressions | center -> surrounding scenes | crowding around the hero |
-| Route/timeline/relay | 路线阶段 | real sequence or journey | start -> steps -> close | misleading when plays are not sequential |
-| Stage/tiers | 群像主视觉 | roster, hierarchy, or reveal | front hero -> back support | people can overpower the play |
-| Split-screen/storyboard | 路线阶段 | contrasts, episodes, or scene cuts | frame sequence | screenshots can become too small |
-| Evidence wall/contact sheet | 矩阵档案 | case-heavy proof | claim -> evidence clusters | dense but strategically weak |
-| Editorial collage | 编辑拼贴 | emotion-led or culture-led idea | title -> visual anchors -> modules | decorative emptiness or unclear mapping |
-| Hybrid dossier | 矩阵档案 | strategy, people, cases, and data all matter | summary -> modules -> proof | needs strict density and alignment control |
+规则：
 
-Do not treat this table as a closed template library or a set of code-renderable grids. A new layout is valid when its reading path, scene logic, content mapping, depth, and visual movement are explicit.
+- 让玩法关系决定人物方式，不让白底预览排布决定；
+- 每个主体默认出现一次，不漏、不重、不新增；
+- 不可分的人物／宠物原始组合保持完整；
+- 每个创作者与所属玩法的视觉连接一眼可见；
+- 可以通过非身份区域交叠、前后层级和大小差形成深度，但不得遮脸或动物头部；
+- 当玩法需要分开时，按需使用独立透明抠图，不把统一群像硬塞进所有玩法。
 
-## 3. Creator-presentation modes
+## Density planning
 
-Choose after the layout family, not before it:
+- `low`：一个概念或一个玩法，证据很少；
+- `medium`：2—3 个玩法，有简短背景和精选案例；
+- `high`：多个分组、角色映射、执行方法、案例或数据同时存在。
 
-- `unified-ensemble`: all creators jointly express one promise; use one protected group cluster.
-- `grouped-by-play`: each play owns its creator cluster and case evidence; no all-person collage is required.
-- `independent-cutouts`: creators appear as separate protected layers where the layout needs flexible placement.
-- `hybrid-hero-groups`: one hero or ensemble anchors the poster while supporting creators remain inside their play modules.
+高密度不是小字越多越好。优先保留主题、精炼背景、玩法机制、达人归属和必要证据；删除重复摘要、无用装饰和虚构信息。可用尺度对比、编号、颜色分工、局部对齐和重复节奏提高扫描效率，但不能把所有内容压成等大的矩形卡片。
 
-Rules:
+## 每个方向必须记录
 
-- Let the play relationship decide the mode.
-- Preserve every creator once unless repetition has a declared communication purpose and user approval.
-- Keep creator-to-play attribution visually immediate.
-- For grouped-by-play, name every member and give each group a scene role, depth, scale relationship, and visual connection to its play in the complete Prompt.
-- Do not create a unified ensemble merely because multiple source images exist.
-- Do not reuse the white-background review as a final creator cluster. Mode B uses its transparent same-arrangement master or individual transparent cutouts.
-- Protect every face and animal head while allowing intentional non-identity overlap and foreground/middle/background depth.
+```text
+画幅：默认 16:9 横版，建议 1920×1080 或同等比例高清尺寸
+内容关系
+版式家族和具体变体
+阅读顺序
+第一视觉
+信息密度和大致占用率
+人物呈现方式
+每个玩法／人物／案例的场景角色
+前景、中景、背景
+主光方向、接触面和视觉动势
+主要留白用途
+结构／密度／气质参考及借鉴边界
+最大构图风险
+```
 
-## 4. Density planning
+不需要再制作排布预览。用户主动索要线框、关系图或布局说明时，可以提供非生成式说明，但它不是确认点、不是正式海报预览，也不能成为后续艺术底图。
 
-Choose a density band before styling:
+## 默认完整海报一次生成
 
-- `low`: concept/manifesto-led; one play, minimal proof.
-- `medium`: 2–3 plays with concise rationale and selected proof.
-- `high`: several groups, role mapping, execution detail, cases, or data.
+默认路线把已确认人物拼贴、案例、Logo、主题、玩法、固定文案和完整视觉语法一起交给生图模型，直接生成一张统一的完整招商海报。Prompt 要描述：
 
-High density does not mean small text everywhere. Reserve visual capacity for:
+- 一个完整场景，而不是人物和文字各占一块；
+- 第一视觉、第二层玩法、第三层证据；
+- 大、中、小尺度节奏；
+- 人物与玩法通过动作、视线、距离、交叠、场景物件或光线连接；
+- 前景、中景、背景和有方向的视觉动势；
+- 案例和商务信息在画面中的实际作用；
+- 16:9 横版和安全边距。
 
-1. theme and one-line premise;
-2. concise project context;
-3. play title and mechanism;
-4. creator attribution;
-5. supplied evidence;
-6. optional supplied commercial information.
+不得先生成空背景、空舞台、留洞底图、规则色块页、SVG、HTML、Canvas、PPT、头像网格或程序化信息板。
 
-Use grouping, numbering, color coding, scale contrast, and repeated alignment to make density scannable. Remove decorative emptiness and repeated summaries before shrinking essential copy.
+## 后台严格保真路线
 
-## 5. Direction requirements
+只有用户明确要求人脸、案例、Logo、数据或固定中文完全不变时启用：
 
-Every proposed direction must state:
+1. 生图模型先生成一张真实 PNG、WebP 或 JPEG 艺术底图；
+2. 底图本身包含完整场景、材质、光影、前中后景、装饰语言、玩法关系和视觉动势，不是空背景或程序排版页；
+3. 底图为原人物、完整截图、原 Logo 和准确文字提供自然接触面、光线接口和安全位置；
+4. 位图存在后才允许确定性工具覆回保护素材。
 
-- content topology;
-- core layout family, concrete variant, and 阅读顺序;
-- 第一视觉 and 区域分配;
-- density band and approximate occupied-area target;
-- creator-presentation mode;
-- generative scene role and approximate spatial relationship of each play, creator group, screenshot, data block, and footer;
-- foreground, middle ground, background, light direction, contact surfaces, and visual movement;
-- 留白用途;
-- what reference grammar is borrowed and what is deliberately different;
-- 构图风险.
+严格保真拆分的是生产动作，不是视觉思考。即使所有原素材都准确，最终像 PPT、等权卡片墙或人物贴纸，也必须判定失败。
 
-When layout is the unsettled decision, present 2–3 genuinely different layout structures for the same creative direction. Do not disguise recolors as layout options.
+## 常见失败
 
-Translate the chosen structure directly into the complete text Prompt. Do not require a separate creator-layout preview or a layout-confirmation reply. If the user specifically asks to see a wireframe, relationship diagram, grid guide, or layout-guide SVG, it is optional, non-generative, consumes no formal poster-generation call, and never becomes a gate.
-
-## 6. Production-mode translation
-
-### 模式 A：快速生图
-
-Describe the whole composition as one coherent generated poster: complete scene, people as references, title energy, play relationships, evidence roles, materials, lighting, foreground/middle/background, decoration language, and visual movement. Disclose that `P/C/L/T` reference content may be redrawn. Do not make pixel-preservation claims.
-
-### 模式 B：保真合成
-
-Split execution, not visual thinking:
-
-1. The image-generation model first creates a complete PNG、WebP 或 JPEG artistic base with the entire scene, composition, material, lighting, depth, decoration language, and movement.
-2. The base reserves natural roles, contact points, light direction, and safe zones for protected `P/C/L/T` layers without generating or imitating them.
-3. Only after the bitmap exists may deterministic tools place the approved transparent person master or individual cutouts, complete screenshots, original Logos, and rasterized fixed copy.
-
-The first production action must never be a grid renderer, fixed rectangles, or SVG/HTML/Canvas/PPT/Sharp drawing. Grids, diagrams, and layout-guide SVGs can explain a relationship, but they may never become the Mode B base, complete-poster preview, or final poster. Rasterizing a programmatic guide into PNG does not make it an image-generated base.
-
-For matrix and compartment families, create hierarchy through scene, scale, depth, material, overlap, and directional flow. Stable alignment can support scanning, but an equal-weight card board is not an acceptable artistic base.
-
-## 7. Failure patterns
-
-- defaulting every poster to left text/right people;
-- defaulting every matrix to three equal columns;
-- forcing all creators into one collage before choosing the layout;
-- isolating the creator ensemble from the plays it is meant to support;
-- filling a large region with repeated summary text instead of new information;
-- choosing a style reference by color while ignoring its information architecture;
-- treating high density as permission for unreadable type;
-- adding route, screen, interface, or stage metaphors that the content does not justify.
-- copying the white person-material arrangement into the final composition without reconsidering creator-to-play roles;
-- using an optional wireframe, grid, diagram, SVG, HTML, Canvas, PPT, Sharp render, or programmatic information board as the Mode B base;
-- producing a PPT-like equal-weight card wall without foreground, middle ground, background, or visual movement;
-- leaving people detached from the play, scene, evidence, or visual action they are meant to support.
+- 所有项目默认左文右人；
+- 所有矩阵默认三列；
+- 因为人物素材很多，就先做一个不可拆的总群像；
+- 人物站在玩法旁边，却没有动作、视线或场景连接；
+- 大块区域只放重复摘要或无意义空白；
+- 只因颜色好看选择参考，忽略信息结构；
+- 把高密度理解成小字和矩形越多越好；
+- 数码项目自动套蓝色霓虹界面或空科技舞台；
+- 把线框、SVG、PPT 或规则网格转成 PNG 冒充海报；
+- 最终比例变成 3:4 或其他未经用户要求的竖版。

@@ -1,87 +1,114 @@
-# Resumable poster handoff template
+# 可恢复海报交接记录
 
-Use this after each explicit approval and whenever work moves to another window, agent, image model, or compositing tool. Keep one current record and append user changes in chronological order.
+每次人物素材获得明确批准、方案被选择，或工作跨窗口／平台／生图模型／合成工具时更新同一份记录。只保留一个当前版本，并按时间追加用户修改。
 
 ```markdown
 # IP OP poster handoff
 
 ## State
 - Skill: create-ip-op-poster
-- Current stage: <intake | person_material_pending | direction_and_mode_pending | prompt_pending | production | qa | complete | handoff>
-- generation_mode: <A | B | undecided>
-- Last explicit confirmation: <verbatim user message or none>
-- Confirmation time/context: <available timestamp or turn>
-- Next required decision: <person material | direction and mode | final Prompt | none>
+- Current stage: <intake | person_material_pending | content_plan_pending | production | qa | complete | handoff>
+- generation_route: <whole_poster | strict_fidelity | undecided>
+- Last explicit confirmation: <用户原话或 none>
+- Next required decision: <person material | content plan and generation | none>
 
 ## Brief facts
-- Project/IP: <exact supplied text>
-- Business background: <exact concise facts>
-- Required direction/scene: <exact supplied or confirmed scope>
-- Period/deadline/channel: <only if supplied>
-- Other explicit constraints: <retain unfamiliar requirements>
+- Project/IP: <用户原文>
+- Concise background: <一到两句事实>
+- Required scene/direction: <用户明确要求或 none>
+- Period/deadline/channel: <仅在提供时记录>
+- Other fixed requirements: <准确保留>
 
 ## PersonMaterialSet
-- review_white: <path or attachment for horizontal white-background preview>
-- master_transparent: <path or attachment for the same arrangement with alpha>
-- subjects_transparent: <optional; none by default, or only paths for subjects needing independent control>
-- source_ledger: <stable Pxx IDs, public names, counts, variants, and limitations>
-- approval: <exact user message or none>
-- Identity/count/edge QA: <PASS | FAIL | NOT VERIFIABLE, with affected Pxx IDs>
+- review_white: <横版白底预览附件/路径>
+- master_transparent: <同排布透明底总图附件/路径>
+- subjects_transparent: <按需独立透明图；默认 none>
+- source_ledger: <Pxx、公开昵称、数量、变体、原始组合、限制>
+- approval: <用户批准原话或 none>
+- identity/count/edge QA: <PASS | FAIL | NOT VERIFIABLE，含 Pxx>
 
 ## Source ledger
-| ID | Source filename | Public name | Type | Unique subjects | Variant relation | Use status | Limitation |
+| ID | Source filename | Public name | Type | Unique subjects | Variant relation | Use | Limitation |
 |---|---|---|---|---:|---|---|---|
-| <ID> | <exact filename> | <display name> | <type> | <count> | <relation> | <status> | <note> |
+| <ID> | <原文件名> | <公开名> | <type> | <count> | <relation> | <status> | <note> |
 
-## Confirmed direction and mode
-- Theme: <confirmed theme>
-- One-line expression: <confirmed copy>
-- Content play: <confirmed play>
-- Creator/group mapping: <single-creator logic or exact multi-creator groups>
-- Palette/visual language: <confirmed rationale>
-- Broad generative composition: <scene, depth, movement, and hierarchy>
-- Direction/mode decision: <verbatim user reply or none>
-- Price/rights on poster: <no | yes with supplied content | unanswered>
+## Visual preference
+- visual_preference: <用户原话 | 你来定 | not asked>
+- User words: <用户原话 | 你来定 | not asked>
+- brief_basis: <主题、场景、人物行动、受众情绪、品牌规则>
+- Brief/theme evidence: <场景、人物行动、受众情绪、品牌规则>
+- Combined visual direction: <配色、材质、光影、景深、标题能量、装饰边界>
+- Conflict adjustment: <一句说明或 none>
 
-## Immutable items and protected-layer manifest
-| Layer ID | Source ID | Type | Exact content/path | Allowed operations | Planned role | Limitation |
+## ContentPlanCard
+- play_preflight: <PASS | FAIL，说明每组是否具备成员、证据、场景、机制、产品进入和短文案>
+- Selected option: <方案编号/名称或 none>
+- Theme: <主题>
+- Theme copy: <一句文案>
+- Brief background: <精炼背景>
+- Plays:
+  - <标题> | <明确成员> | <A/C 证据> | <具体场景/关系> | <动作/冲突/互动/反转> | <产品进入> | <海报短文案>
+- First visual: <对象、尺度、位置、视觉动作>
+- Layout family/reading path: <结构与顺序>
+- Foreground/middle/background: <三层关系>
+- Case/Logo/price use: <真实映射；未提供不写>
+- Fidelity boundary: <尽量保持 | 严格保真>
+- Selection and generation authorization: <用户“选 1 生成”等原话或 none>
+
+## Visual references
+| Case | Role | Borrowed grammar | Intentional difference | Forbidden copy elements | Original opened |
+|---|---|---|---|---|---|
+| <case> | <结构/密度/气质> | <抽象语法> | <本次变化> | <禁止元素> | <yes/no> |
+
+## Execution Prompt
+- Status: <not started | compiled | executed>
+- Full Prompt: <路径、附件或完整文本>
+- User display: <hidden by default | shown on request>
+- Asset mapping verified: <yes/no 与缺口>
+- Contains no extra confirmation gate: <yes/no>
+
+## Protected manifest (strict_fidelity only)
+| Layer ID | Source ID | Type | Exact source/content | Allowed operations | Planned role | Limitation |
 |---|---|---|---|---|---|---|
-| <layer> | <P/C/L/T ID> | <person, animal, screenshot, Logo, fixed copy> | <source> | <operations> | <role> | <note> |
+| <layer> | <P/C/L/T> | <type> | <source> | <operations> | <role> | <note> |
 
-## Final Prompt
-- Status: <not started | draft | explicitly confirmed>
-- Full Prompt location/content: <path, attachment, or complete text>
-- User-facing generation card: <one-screen confirmation summary shown to the user>
-- Full Prompt display status: <hidden by default | shown on explicit request>
-- Asset mapping verified: <yes/no with gaps>
-- Explicit confirmation: <verbatim user message or none>
-- Confirmation was text-only: <yes/no>
+## Production receipt
+- generation_route: <whole_poster | strict_fidelity>
+- formal_generation_count: <integer>
+- image_generation_model_or_tool: <记录或 none>
+- visual_base_path: <strict_fidelity 位图或 not applicable>
+- visual_base_format: <PNG | WebP | JPEG | not applicable>
+- visual_base_created_before_composite: <true | false | NOT VERIFIABLE | not applicable>
+- protected_layer_ids: <IDs 或 not applicable>
+- final_output_path: <路径或 none>
+- final_image_path: <可直接预览的最终图片路径或 none>
+- final_format/dimensions: <格式与像素>
+- directly previewed: <yes/no>
 
-## Production provenance
-- formal_generation_count: <0 or positive integer>
-- visual_base.path: <path or none>
-- visual_base.format: <PNG | WebP | JPEG | none>
-- visual_base.image_generation_model_or_tool: <exact record or none>
-- visual_base.created_before_composite: <yes | no | not applicable>
-- Composite/output path and format: <path and format or none>
-- Protected layer IDs actually composited: <IDs or none>
-- Known production limitations: <facts>
+## Exact post-edit receipt
+- Requested target: <Logo/text/price/case/element or none>
+- Whole-poster generation called again: <must be no for an exact edit>
+- Before/after files: <paths>
+- Allowed difference mask: <path/description>
+- Non-target region unchanged: <PASS | FAIL | NOT VERIFIABLE>
 
 ## User change log
-| Order | User change | Return stage | Invalidated downstream decisions | Applied result |
+| Order | User change | Return stage | Invalidated work | Applied result |
 |---:|---|---|---|---|
-| 1 | <change> | <stage> | <decisions> | <result> |
+| 1 | <change> | <stage> | <items> | <result> |
 
 ## Current QA
 - Overall: <not run | PASS | FAIL | NOT VERIFIABLE>
 - Person roster/identity: <status and evidence>
-- Protected-layer integrity: <status and evidence or not applicable>
-- Visual quality/readability: <status and evidence>
+- Content play closure: <status and evidence>
+- 16:9/default ratio: <status and dimensions>
+- Visual quality/readability: <status and direct image evidence>
+- Protected-source integrity: <status or not applicable>
 - Hard failures: <list>
 - Unverifiable items: <list and missing evidence>
 
 ## Next action
-<one action the receiving agent should take, including the next required user decision>
+<唯一下一步；不要让用户重复已经完成的确认>
 ```
 
-Do not replace source filenames with guessed public names, omit limitations, claim pixel fidelity for Mode A, or mark missing evidence as passed.
+不要猜公开昵称、遗漏限制、把默认整图说成像素保真、把程序图说成艺术底图，或把缺少证据的 QA 写成通过。

@@ -1,203 +1,140 @@
-# Material integrity rules
+# 素材完整性规则
 
-## Contents
+人物素材准备和最终海报生产是两件事。人物阶段必须严格保持身份；最终海报默认由生图模型尽量保持素材，只有用户明确要求完全不变时才启用严格保真合成。
 
-1. Protected-source model
-2. Material ledger
-3. PersonMaterialSet
-4. People and animals
-5. Case screenshots
-6. Logos
-7. Material review is not poster layout
-8. Mode-specific fidelity boundaries
-9. Capability decision
-10. Preservation and production evidence
+## 素材台账
 
-## 1. Protected-source model
+每个原文件使用稳定编号，不改原文件名：
 
-Person-material preparation and Mode B use one of two declared source-processing modes:
+| ID | Source filename | Public name | Type | Subjects | Variant relation | Use status | Limitation |
+|---|---|---|---|---:|---|---|---|
 
-- `strict-preserve` (default): treat people, animals, screenshots, and Logos as immutable source pixels. The task is masking and compositing, not re-illustration.
-- `identity-locked-blend` (explicit opt-in): keep identity-critical regions immutable while allowing generative cleanup only outside them. Use this only when the user accepts non-face reconstruction to make an otherwise unusable person source compositable.
+- `Pxx`：人物／动物；
+- `Axx`：账号主页或账号介绍；
+- `Cxx`：案例截图；
+- `Lxx`：Logo；
+- `Txx`：固定文案、报价、权益或其他不可擅改信息。
 
-Screenshots and Logos always stay in `strict-preserve`. Never silently switch source-processing mode. Mode A is a separate end-to-end generation choice, not a pixel-preservation mode; its disclosure rules appear in section 8.
+同一达人的备用照片记为变体，不算新达人。不可分的多人、人物＋宠物或多动物组合保留原始关系。文件名后缀默认只是文件管理信息，不能直接写进公开昵称。身份、重复、遗漏或名称映射未解决时停止。
 
-## 2. Material ledger
+## `PersonMaterialSet`
 
-Use one row per source file:
-
-| ID | Source filename | Public name | Type | Subjects | Variant relation | Use status | Layer ID | Limitation |
-|---|---|---|---|---:|---|---|---|---|
-
-Rules:
-
-- Count unique creator accounts/combinations and visible subjects separately.
-- Mark alternate photos of the same creator as variants, not new creators.
-- Preserve inseparable multi-person, creator-and-pet, and multi-animal combinations as one source group.
-- Remove file-management suffixes from public names only after distinguishing them from the real nickname.
-- Stop on an unresolved duplicate, omission, source limitation, or name-to-source conflict.
-- Assign stable `Pxx` IDs before producing review assets; later `Cxx`, `Lxx`, and `Txx` IDs must not reuse them.
-
-## 3. PersonMaterialSet
-
-Create and preserve one `PersonMaterialSet` before direction or mode work:
+创意方向前先建立：
 
 ```text
-review_white: 横版白底组合预览图 (horizontal white-background review image)
-master_transparent: 透明底人物总图 (same arrangement with alpha)
-subjects_transparent: optional 独立透明抠图 (generated only for subjects that need independent control)
-source_ledger: stable Pxx IDs, public names, counts, variants, and limitations
-approval: exact user message or none
+review_white: 横版白底组合预览图
+master_transparent: 与预览同排布的透明底人物总图，后台保留
+subjects_transparent: 只有后续需要单独移动、重新分组、修复遮挡或局部替换时才按需生成
+source_ledger: Pxx、公开昵称、数量、变体、原始组合和限制
+approval: 用户原话或 none
 ```
 
-For multiple subjects, use this exact user-approved processing Prompt without polishing it:
+多人物使用用户确认过的原指令，不润色：
 
 ```text
 把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些
 ```
 
-The Prompt describes the review arrangement only. It does not authorize face redraw, subject invention, body completion, or a final poster composition. Produce the white review and same-arrangement transparent master from the same material-preparation result. Show only the white review by default. Generate individual transparent cutouts only when independent movement, regrouping, depth, overlap repair, or targeted replacement is actually required.
+这条指令只用于人物素材审核，不授权换脸、补身体、增加主体或锁定最终海报排布。
 
-Before recording `approval`, verify:
+默认只展示一张 `review_white` 给用户。`master_transparent` 是同一次素材准备的后台产物，不增加确认点；`subjects_transparent` 不是默认必做项。
 
-- every unique subject or inseparable original group is present exactly once;
-- the white review and transparent master have the same arrangement and subject count;
-- every on-demand individual cutout maps to one stable `Pxx` ID; an empty `subjects_transparent` list is valid when separate control is unnecessary;
-- faces, animal heads, hair, coat markings, clothing, pose, and original combinations remain recognizable and unchanged under the declared source-processing mode;
-- edges are usable on white, neutral solid, and checkerboard backgrounds;
-- missing source body regions and uncertain edges are explicitly labeled, never invented.
+## 人物素材 QA
 
-Only the exact user reply `人物素材通过` or an equally explicit approval completes the set. If any source changes, rebuild the affected outputs and approval before direction or mode selection.
+要求直接检查：
 
-## 4. People and animals
+- 每个唯一人物／动物或不可分组合只出现一次；
+- 无陌生主体、遗漏、重复或错误变体；
+- 脸、五官、表情、发际线和主要发型保持原样；
+- 动物的脸、品种、毛色和识别性花纹保持原样；
+- 服装、姿势和原始组合关系可识别；
+- 身体没有被意外删除，原图没有的身体部分也没有被虚构补全；
+- 头发、毛发、手脚、服装边缘可用；
+- 交叠不遮脸，也不遮挡动物头部；
+- 没有家具残边、硬矩形、白边或大块透明空洞；
+- 白底预览和透明总图的主体数量与排布一致。
 
-### Allowed in `strict-preserve`
+允许的操作只有去背景、细化蒙版、等比缩放、移动、前后层级和不覆盖主体的非破坏性阴影。不得使用生成式换脸、修脸、美颜、换发型、换服装、改姿势、身体补全、动物重绘、拉伸或卡通化。
 
-- remove only the background;
-- refine the alpha mask without painting new identity pixels;
-- proportionally scale and move;
-- change front/back layer order;
-- place a non-destructive shadow behind the protected cutout when it does not cover or recolor the subject.
+如果唯一可用的处理方式会重新生成脸或动物头部，能力不足，输出人物素材交接，不得继续创意和正式海报。
 
-### Conditionally allowed in `identity-locked-blend`
+向用户说明人物确认只核对长相、数量、完整性、大小、交叠和边缘，不代表最终海报排布。等待 `人物没问题`、`人物素材通过` 或同等明确回复。
 
-Only after explicit user authorization:
+## 白底预览不是最终布局
 
-- delete or hide lower limbs, off-frame fragments, furniture, or source-background pieces that disrupt material usability;
-- cover non-core body regions with another confirmed source layer;
-- reconstruct small missing clothing/body-edge transitions outside locked identity masks;
-- harmonize restrained light, color temperature, contact shadow, and edge treatment outside locked regions.
+`review_white` 不锁定人物最终的位置、大小、分组、层级或遮挡。最终海报可以：
 
-Keep human faces, facial features, expression, hairline/core hairstyle, and animal faces/recognizable coat markings locked. Preserve subject count and identity. Do not describe a blended result as pixel-preserved or original-pixel-only.
+- 让全部人物形成一个主群像；
+- 按玩法拆分到不同场景；
+- 用一个人物做主视觉，其他人物分组辅助；
+- 在确有需要时使用独立透明抠图重新组织。
 
-### Forbidden
+任何最终构图都必须保证每个批准主体出现一次、人物与所属玩法相连、脸和动物头部安全、没有暴露原图残边或贴纸式悬浮。
 
-- generative cutout recreation, face repair, face swap, beauty filters, skin smoothing, body completion, relighting that repaints the subject, clothing changes, pose changes, expression changes, hair changes, stylization, or cartoonization;
-- changing animal species, coat, body, pose, accessories, or original pairing;
-- mirroring when it changes visible text, asymmetrical identity cues, or user intent;
-- stretching, non-proportional resizing, face obstruction, duplicate use, hidden subject, or an invented stranger;
-- presenting an approximation as `原脸保真`.
+## Case screenshots
 
-In authorized blend mode, face repair/swap, beauty edits, expression changes, new subjects, species/coat changes, and screenshot/Logo regeneration remain forbidden.
+案例图首先用于分析账号真实场景、人物关系、叙事、笑点、反转和记忆点，不一定进入海报。进入严格保真成图时，每张 `Cxx` 作为完整矩形原图层：
 
-Prefer deterministic segmentation, path/mask extraction, or manual masking. If the only available material-preparation action can resynthesize identity-critical source pixels without a reliable lock or restore path, treat the capability as insufficient and hand off.
+允许：等比缩放、移动，在不裁内容的前提下增加圆角外框或阴影。
 
-## 5. Case screenshots
+禁止：裁切、透视扭曲、改色、模糊、AI 重绘、改字、改数据、修复文字、虚构点赞／播放／粉丝／客户数据或遮挡有意义内容。原图太小就请求更清晰版本，不能生成修复。
 
-Keep each `Cxx` as one complete rectangular layer.
+默认整图生成时只承诺尽量保持案例；出现明显乱码、错字、虚构数据或严重变形必须在 QA 中报告，不能声称原图保真。
 
-Allowed:
+## Logos
 
-- proportional scale and movement;
-- a border, corner-radius mask, or shadow outside the image when no content is cut off;
-- placement inside a larger frame while the full screenshot remains visible.
+严格保真与精确后期必须保留 Logo 的图形、文字、边框、标语、颜色和内部关系。只允许去背景、等比缩放、移动和排列。两个 Logo 需要视觉等大时，按有效包围盒归一，不得拉伸、融合、漏元素或重新生成。
 
-Forbidden:
+默认整图生成中 Logo 可能被重绘；如果准确 Logo 是正式提报硬要求，应自动进入严格保真，或在成图后把原 Logo 作为独立图层局部覆回。
 
-- crop, perspective warp, recolor, blur, content-aware fill, AI upscale that rewrites text, text replacement, data replacement, retouching, invented like/play/fan/customer numbers;
-- hiding the screenshot title, source identity, or meaningful data beneath another layer;
-- recreating a screenshot from its description.
+## 两条生成路线的保真边界
 
-If text is unreadable because the supplied file is too small, request a clearer original. Do not repair it with generation.
+### `whole_poster`（默认）
 
-## 6. Logos
+生图模型把人物、案例、Logo、中文和完整视觉世界一次生成。必须提前用一句普通中文说明：会最大程度保持人物和案例，但可能产生细节变化，不承诺逐像素保真。
 
-Keep all marks, symbols, taglines, borders, and internal spacing in the supplied Logo.
+默认路线仍需检查明显的错脸、漏人、重复、陌生人、动物错误、截图乱码和虚构数据；发现时判定失败，不得因为“生成式”而忽略。
 
-Allowed: background removal, proportional scale, movement, and left/right or top/bottom arrangement. When two Logos must be equal in visual size, normalize their bounding boxes without stretching either one.
+### `strict_fidelity`（明确要求时）
 
-Forbidden: redraw, omit an element, recolor without an explicit brand rule, rewrite text, fuse the Logos, or generate a new mark.
+第一项生产动作必须由生图模型生成真实 PNG、WebP 或 JPEG 艺术底图。底图必须有完整场景、玩法关系、材质、光影、前中后景和视觉动势，不能是 SVG、HTML、Canvas、PPT、Sharp、线框、固定矩形、网格、空背景或留洞页。
 
-A user-supplied SVG Logo is allowed as a protected source layer. An SVG generated or drawn as the Mode B poster base is not allowed.
+位图落盘并记录来源后，才可把 `master_transparent`／按需 `subjects_transparent`、完整案例 `Cxx`、原 `Lxx` 和准确 `Txx` 覆回。确定性工具只负责蒙版、等比缩放、位置、层级、非破坏性阴影、文字栅格化、格式转换、导出和验证，不得补画主视觉。
 
-## 7. Material review is not poster layout
+## 精确修改
 
-The `review_white` image proves roster completeness, identity, edge quality, size coordination, overlap usability, and absence of duplicates. It does **not** lock creator-to-play mapping, final position, scale, overlap, z-order, crop relationship, foreground/middle/background role, or any other poster composition decision.
+成图后添加 Logo、改准确中文／报价／权益、换案例或只移动一个元素时：
 
-The review image therefore has no separate composition-confirmation gate. After `人物素材通过`, direction work describes the final relationship through generative composition grammar, and the complete Prompt maps every subject to a role. If a user asks for a wireframe or placement explanation, it is optional, non-generative, and never a production gate.
+- 只做局部图层修改；
+- 不得整图重绘，不得把整张成稿送回生图模型；
+- 保存修改前后文件；
+- 保存前后图像差异，用像素差异、遮罩差异或等价直接证据证明非目标区域未变；
+- 无法证明时记为 `NOT VERIFIABLE`，不能写 `PASS`。
 
-Mode B must composite from `master_transparent` or on-demand `subjects_transparent`. Never place the white `review_white` rectangle into a poster, mask white away from it, or treat it as a finished creator cluster. Use the transparent master by default. Generate only the affected individual cutouts when creator-to-play roles truly require different positions, depths, overlap repair, or targeted replacement.
-
-Every final composition must still:
-
-- include each approved subject exactly once unless intentional repetition was explicitly approved;
-- keep every creator connected to the correct play, case, evidence, or scene;
-- protect faces and animal heads from text, decoration, and foreground occlusion;
-- avoid exposed source furniture/background edges, meaningless holes, hard white rectangles, or detached sticker-like subjects;
-- create an intentional hierarchy and foreground/middle/background relationship rather than an even lineup or equal-weight avatar grid.
-
-## 8. Mode-specific fidelity boundaries
-
-### 模式 A：快速生图
-
-The image model receives the confirmed person material as reference and generates the entire poster in one end-to-end pass. Before production, disclose that people, animals, screenshots, Logos, and Chinese copy may be redrawn, distorted, omitted, or misspelled. The final report may assess roster, theme, readability, aesthetics, and obvious identity failures, but it must not claim pixel preservation for any model-generated `P/C/L/T` item.
-
-If exact faces, screenshots, Logos, or Chinese wording are required, recommend Mode B. Choosing Mode A after disclosure does not relax the requirement to report obvious identity, roster, or content failures.
-
-### 模式 B：保真合成
-
-The first production artifact must be a real PNG、WebP 或 JPEG visual base created by an image-generation model. It must establish the artistic scene, composition, materials, lighting, depth, decoration language, and visual movement while reserving natural roles for protected layers. It may not be an SVG/HTML/Canvas/PPT/Sharp layout, wireframe, fixed-rectangle information board, or grid renderer.
-
-Only after that generated bitmap exists on disk may code or deterministic editing run. It may then perform masks, proportional placement, protected-layer compositing, non-destructive shadow connection, rasterized fixed copy, format conversion, export, and verification. It may not draw, repair, or substitute the artistic base.
-
-Use the original `Cxx`, `Lxx`, and exact `Txx` content, plus `master_transparent` or `subjects_transparent`. For an exact post-production Logo, text, or screenshot change, edit only the targeted independent layer; never send the whole finished poster through a generative edit.
-
-## 9. Capability decision
-
-Before production, answer:
-
-1. Can the platform call an image-generation model and save its output as PNG, WebP, or JPEG?
-2. Can person material be inspected at useful resolution?
-3. For Mode B, can the platform preserve and composite original `P/C/L/T` layers after the bitmap base exists?
-4. For Mode B, can it prove the base was created before code or deterministic compositing ran?
-5. For any authorized identity-locked blend, can identity regions be locked/restored and inspected independently?
-
-If image generation is unavailable, return a Prompt/material-map handoff and never substitute SVG, HTML, Canvas, PPT, Sharp drawing commands, a rule-based grid, or a programmatic information board. If image generation exists but protected compositing does not, Mode A may complete; Mode B may generate its bitmap base and then hand off the protected-layer composite.
-
-## 10. Preservation and production evidence
-
-For the `PersonMaterialSet`, record:
-
-- source and output dimensions;
-- unique-subject and inseparable-group counts before/after;
-- source-to-`Pxx` map;
-- whether each cutout used segmentation/mask or generative editing;
-- visible edge limitations and reviewer result;
-- the exact approval message.
-
-For protected screenshots and Logos, record source checksums when files are available and confirm the original file is embedded as the layer. For a person mask, compare retained foreground pixels against the source and inspect every face/animal head at high resolution.
-
-Mode B additionally requires this provenance receipt:
+记录：
 
 ```text
-visual_base_path: <saved bitmap path>
-visual_base_format: <PNG | WebP | JPEG>
-image_generation_model_or_tool: <model/tool record>
-visual_base_created_before_composite: <true only with direct evidence>
-protected_layer_ids: <P/C/L/T IDs actually overlaid>
-formal_generation_count: <integer>
+edit_target_region
+pre_edit_image
+post_edit_image
+allowed_difference_mask
+non_target_diff_pixel_count
+formal_generation_count
 ```
 
-Record base dimensions and hash, composite/final dimensions and hash, operation timestamps or equivalent ordering evidence, the deterministic operations performed after base creation, and the final layer map. `visual_base_created_before_composite` is `NOT VERIFIABLE` unless the record proves the order; a programmatic file renamed `.png` is not evidence of image-model provenance.
+## 生产证据
 
-For `identity-locked-blend`, also record user authorization, edited-region description, locked-region list, face/animal-head comparison sheet, and any region that could not be verified.
+人物阶段记录源尺寸、输出尺寸、主体数量、Pxx 映射、处理方式、边缘限制和批准原话。严格保真路线另记录：
+
+```text
+generation_route: strict_fidelity
+visual_base_path
+visual_base_format
+image_generation_model_or_tool
+visual_base_created_before_composite
+protected_layer_ids
+formal_generation_count
+final_output_path
+```
+
+`visual_base_created_before_composite` 只有直接的调用顺序、文件或时间证据才能写 true。把程序图改成 `.png` 不是生图来源证据。

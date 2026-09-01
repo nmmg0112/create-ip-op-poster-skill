@@ -1,183 +1,156 @@
-# Direction framework
+# 内容方案与方向判断
 
-Run direction work only after the `PersonMaterialSet` has been explicitly approved. The white-background person review proves roster and edge usability; it does not lock the final poster layout. Directions describe a generative composition and production mode, not a separate placement-preview deliverable.
+只在 `PersonMaterialSet` 明确通过后使用本文件。白底人物预览只证明人物、数量和边缘可用，不锁定最终海报中的位置、大小、分组或层级。
 
-## Contents
+## 证据边界
 
-1. Evidence layers
-2. Single-creator strategy
-3. Multi-creator strategy
-4. Required option structure
-5. Color and visual logic
-6. Information hierarchy and layout
-7. Visual references
-8. Direction and mode decision
+内部判断分三层：
 
-## 1. Evidence layers
-
-Keep three columns in analysis:
-
-| Layer | Meaning | Allowed wording |
+| 层级 | 内容 | 写法 |
 |---|---|---|
-| User/brief facts | Explicit brief, user statement, visible source content | state directly and preserve wording |
-| Evidence-based interpretation | A conclusion supported by account screenshots or supplied works | label as interpretation and cite the evidence ID |
-| Open question | Missing fact that could affect execution | ask only when necessary |
+| Brief／用户事实 | 用户原话、Brief、明确限制、可见素材 | 直接保留，不改写成新事实 |
+| 案例支持的判断 | 由账号主页、代表作或案例截图支持的内容特征 | 标注对应 `Axx/Cxx` |
+| 缺失信息 | 会影响玩法或执行的未知项 | 只有确实改变结果时才问 |
 
-Do not convert a filename, visual guess, platform trend, assumed fan profile, or stylistic stereotype into an account fact.
+文件名、画面猜测、行业印象和平台趋势不能当作达人事实。没有案例、主页、链接或账号介绍时仍可继续，但必须说明“玩法主要依据 Brief，和达人既有内容的贴合度有限”。
 
-## 2. Single-creator strategy
+## 先回答玩法，再谈画面
 
-Answer four questions:
+单人项目必须回答：
 
-1. What is this creator's most recognizable content asset, based on evidence?
-2. Which brief scene, audience tension, or business need can that asset naturally carry?
-3. What situation, role, conflict, interaction, or recurring device makes the product/IP enter organically?
-4. What one visual moment can summarize the play on a poster?
+1. 这个达人最可识别的内容资产是什么；
+2. Brief 中哪个真实场景或需求最适合由它承载；
+3. 达人在这个场景里具体做什么，产生什么互动、冲突、挑战、观察或反转；
+4. 产品／项目如何进入剧情，而不是被摆在旁边；
+5. 哪个瞬间最适合成为海报第一视觉。
 
-Avoid generic statements such as `用达人影响力种草`. Specify the action and content mechanism, for example `以返乡前后两种生活节奏形成反差，让新品成为家宴准备中的剧情触发物`.
+多人项目按真实的内容生效机制或商业作用分组，不能为了人数平均。可用的分组轴包括真实场景、人物关系、叙事机制、受众需要和传播任务。不可拆散原本不可分的人物／宠物组合。
 
-## 3. Multi-creator strategy
-
-Group by a real shared mechanism, not equal headcount. Candidate axes include:
-
-- content scene: family, commute, outdoor, workplace, couple, pets;
-- narrative engine: reversal, observation, challenge, tutorial, role-play, reaction;
-- audience need: emotional recovery, discovery, social bonding, utility, status;
-- business role: awareness hook, scenario proof, trust explanation, conversion support;
-- creator relationship: existing duo/family/pet combination that must remain intact.
-
-For every group, record:
-
-- group title;
-- exact member list;
-- evidence for the grouping;
-- one-sentence content play;
-- how the play differs from other groups;
-- how it supports the common IP theme;
-- one suitable case/evidence type.
-
-Do not split an original creator-and-pet or multi-person account into invented independent creators.
-
-## 4. Required option structure
-
-Generate 2–3 options. The user-visible direction card is deliberately short:
-
-```markdown
-### 方向 <数字>｜<主题名>
-- 一句话主题：
-- 具体玩法：
-- 人物怎么放：
-- 视觉氛围：
-- 主要风险：
-- 推荐理由：
-```
-
-Options must change at least two of: chosen brief scene, grouping logic, content mechanism, visual metaphor, information architecture. A title swap or recolor is not a different option.
-
-`人物怎么放` describes the creator's scene role, relative emphasis, depth, overlap logic, and connection to the play. It must not turn into a fixed avatar-coordinate chart or require a placement preview. The image model should receive enough generative composition grammar to create a coherent scene, while Mode B later overlays the approved transparent person layers.
-
-Keep the following internal visual record for every option. It is used for execution and review, and only needs to be shown when it helps the user decide:
-
-```markdown
-- 内容关系：
-- 版式家族：
-- 阅读顺序：
-- 区域分配：
-- 第一视觉：
-- 信息密度：
-- 视觉母题：
-- 人物与玩法映射：
-- 案例／数据位置：
-- 留白用途：
-- 构图风险：
-```
-
-## 5. Color and visual logic
-
-Industry labels are retrieval hints, not surface-style evidence. For each palette, material, container, and motif choice, cite at least one current-project source: exact brief wording, audience emotion stated in the brief, supplied creator/account evidence, a supplied brand rule, or the confirmed content mechanism. Define roles rather than a list of colors:
-
-- dominant background color;
-- primary title/accent color;
-- readable text color;
-- small emphasis color;
-- neutral container/border color.
-
-Seasonal heuristics are examples, not defaults:
-
-- summer: fresh, breathable, bright or cool colors when they support the scene;
-- autumn: warm yellow, osmanthus gold, orange, brown, or deep green when they support the theme;
-- winter: snow white, ice blue, silver gray, or other cool tones when appropriate.
-
-Industry/node may constrain execution only when the brief, creator evidence, brand rule, audience emotion, or content mechanism supports the choice. Keep the palette harmonious and readable, and explain the evidence for why every surface treatment belongs to this brief.
-
-Do not infer `seasonal` merely from a date. Do not force Chinese-poetic motifs, moons, scrolls, seals, or festival red without brief evidence.
-
-行业标签本身不是表面风格证据。颜色、材质、信息容器和装饰母题必须分别回指以下至少一种证据：Brief 原文、受众情绪、人物／账号证据、品牌规则或内容机制。不得自动套用“数码＝科技蓝／霓虹／玻璃／UI／控制台”，也不得把任何其他行业名称直接翻译成固定配色、材质、容器或装饰。`符合行业`、`有科技感`、`更商业` 不能单独构成理由。
-
-推荐方向必须以 Brief 专属的人物行动或内容机制作为视觉母题。先写清“谁在什么场景，通过什么动作、互动或冲突承载主题”，再选择表面语言。没有达人／账号细节时，只能使用 Brief 明示的场景、人物关系、受众情绪或内容机制；这些也未提供时，保持结构中性并列出待补信息，不得用行业默认风格代填。
-
-## 6. Information hierarchy and layout
-
-Minimum content hierarchy:
-
-1. creator(s) as the visual evidence and primary human focus;
-2. IP theme and one-line expression;
-3. concise project background/why now;
-4. the most important content play: what the single creator does or how groups differ;
-5. optional supplied case screenshots or real data if space remains;
-6. optional supplied collaboration information, price, or rights only when requested.
-
-Write the project background in one or two short sentences. Give most of the copy budget to the play. If space becomes tight, remove decoration and optional evidence before shrinking essential copy into unreadable text.
-
-Read `layout-grammar.md`. Choose a generative composition grammar based on the content topology, not a preferred template:
-
-- left-text/right-people or right-text/left-people for one strong creator cluster;
-- top-theme/bottom-groups for several equal strategy modules;
-- central-hero/radial-scenes for one shared IP with multiple expressions;
-- route, stage, map, split-screen, interface, or other metaphors only when linked to the play.
-
-State the content topology, reading path, density band, occupied-area target, creator-presentation mode, scene roles, foreground/middle/background, and visual movement for every direction. Do not force all creators into one collage merely because the material review placed them together.
-
-Translate the direction into the selected production mode:
-
-- **模式 A：快速生图** uses the approved people as generation references and asks the image model to realize the entire composition. Disclose that people, screenshots, Logos, and Chinese copy may be redrawn.
-- **模式 B：保真合成** asks the image model to create the full artistic bitmap base while reserving natural scene roles for protected layers, then maps the transparent person master or individual cutouts, complete screenshots, original Logos, and accurate fixed copy onto that base.
-
-Grids, diagrams, placement guides, and layout-guide SVGs may explain content relationships only. They may never become the Mode B visual base or final poster. If the user asks for a wireframe, make it optional, non-generative, and non-gating; do not spend a formal poster-generation call on it.
-
-## 7. Visual references
-
-Read `visual-case-library.md`. Retrieve 2–4 examples by:
-
-1. industry or marketing-node similarity;
-2. single/matrix structure and creator count;
-3. play/information complexity;
-4. surface color/style last.
-
-Before presenting a direction, state internally or in the work record:
-
-- borrowed grammar;
-- intentional differences;
-- forbidden copy elements.
-
-Never choose a case solely because it looks attractive.
-
-## 8. Direction and mode decision
-
-After the options, provide a compact comparison:
-
-| Direction | Best for | Main advantage | Main risk | Missing input |
-|---|---|---|---|---|
-
-Recommend one option with evidence, but keep the choice with the user. Present the mode choice beside the directions:
+每个玩法都必须形成以下闭环：
 
 ```text
-模式 A｜快速生图：整张海报一次生成，通常更统一、更快；人物、截图、Logo 和中文可能被重绘。
-模式 B｜保真合成：先生图生成完整艺术底图，再覆回确认过的人物、截图、Logo 和中文；更适合正式提报。
+玩法标题
+明确成员
+账号/案例依据
+具体场景或人物关系
+动作、冲突、互动或反转
+产品/项目自然进入方式
+海报上的一句短文案
 ```
 
-Accept one combined reply such as `选方向 1，用模式 B`. If the theme, play, and mode are already explicit, record them and continue without asking the user to choose them again. Ask whether price or rights need to appear, but keep the answer optional.
+以下内容不能进入正式生图：
 
-The recommendation must include a short evidence ledger for palette, material, container, and motif, plus one brief-specific human/content premise. Reject the recommendation before presenting it if any surface choice is justified only by the industry label.
+- 只有主题口号，没有人和具体动作；
+- 只写“适合某品类”“用影响力种草”；
+- 达人没有明确玩法归属；
+- 同一套玩法换名字后重复出现；
+- 固定文案、人物数量或素材要求仍互相冲突。
 
-After the combined direction/mode decision, proceed directly to the complete text Prompt. Do not require a creator-layout preview or any separate layout-confirmation reply.
+## 视觉偏好只问一句
+
+用户尚未表达颜色、气质、季节感、品牌规范或参考偏好时，先问：
+
+> 这张海报你有没有偏好的颜色或感觉？比如清爽浅蓝、暖色活力、自然松弛。没有也可以，我会结合 Brief 推荐。
+
+用户只需用日常语言回答。已经说过则不要重复问；回复“你来定”也可以继续。视觉偏好不是第三个确认点，而是 `ContentPlanCard` 的一个输入。
+
+把偏好与 Brief 共同转译：
+
+```text
+用户偏好 -> 想要的情绪、明度、冷暖和视觉距离
+Brief 主题 -> 场景、人物行动、内容机制和商业语境
+共同结论 -> 配色、材质、光影、景深、氛围、装饰边界和标题能量
+```
+
+两者冲突时不机械照搬，也不静默忽略。在方案里用一句话说明，例如：`保留你要的清爽蓝，但用暖阳、生活场景和自然材质避免做成冷硬科技风。` 不得套用“数码＝科技蓝”等行业刻板公式。
+
+## 给用户的方案卡
+
+默认给一个推荐方案和一个真正不同的备选方案。区别至少落在内容机制、人物分组、视觉母题、版式家族中的两项，不能只是换标题或换颜色。
+
+```markdown
+### 方案 1（推荐）｜<主题名>
+- 主题文案：<一句>
+- 为什么这样做：<Brief 与案例依据，一句>
+- 玩法 1：<成员>｜<场景＋动作/互动＋产品进入>
+- 玩法 2：<成员>｜<场景＋动作/互动＋产品进入>
+- 第一视觉：<人物或关键场面、相对尺度与视觉动作>
+- 视觉风格：<用户偏好如何与 Brief 结合>
+- 案例／Logo／报价：<放或不放，以及作用；未提供不虚构>
+- 素材说明：<默认整图会尽量保持人物与案例，但可能产生细节变化；明确要求完全不变时说明后台使用严格保真>
+```
+
+方案卡以普通中文表达，不展示坐标、蒙版、图层、Prompt 长度、模型参数或技术路线。结尾使用：
+
+> 可直接回复：选 1 生成
+
+这条回复同时完成方案选择、内容确认和当前平台的正式生图授权。用户要求查看完整 Prompt 时可以展示，但不得再增加确认轮次。
+
+## 内部 `ContentPlanCard`
+
+用户看简版，执行侧保留：
+
+```text
+theme
+theme_copy
+brief_background
+visual_preference
+preference_brief_translation
+plays[]: title, members, evidence, scene, mechanism, product_entry, poster_copy
+content_topology
+layout_family
+creator_presentation
+first_visual
+reading_path
+density
+foreground_middle_background
+visual_motif
+palette_material_light
+reference_roles
+case_logo_price_use
+fidelity_boundary
+selection_authorization
+```
+
+任何 `plays[]` 字段缺少成员、场景、内容动作或产品进入方式时，留在 `content_plan_pending`，不得调用正式生图。
+
+## 信息层级和版式选择
+
+最低信息层级：
+
+1. 人物或关键内容场面作为第一视觉；
+2. IP 主题和一句主题表达；
+3. 一到两句精炼项目背景；
+4. 具体玩法是正文主体；
+5. 已提供且有用的案例或数据；
+6. 用户要求时才出现报价、权益和合作信息。
+
+阅读 `layout-grammar.md`，按内容关系选择概念场景、群像主视觉、玩法分舱、路线阶段、矩阵档案、编辑拼贴或有充分理由的新结构。不要因为人物预览是一个群像，就强制最终海报也把所有人聚在一起；达人可以按玩法分开放置。
+
+默认画幅为 16:9 横版。只有用户明确要求其他比例才改变。内部必须写清第一视觉、阅读路径、信息密度、人物与玩法连接、前中后景、主要留白用途和构图风险。
+
+## 参考图使用
+
+生成方案前阅读 `visual-case-library.md`，实际打开 2—4 张互补原图：
+
+- 一张学习结构；
+- 中高密度任务再选一张学习密度；
+- 一张学习气质；
+- 至少有一张来自不同版式家族。
+
+每张记录 `borrowed grammar`、`intentional differences` 和 `forbidden copy elements`。不能只看缩略图、只按颜色检索或照抄标题、Logo、人物排布、容器和标志性装饰。
+
+## 正式生图前预检
+
+必须同时满足：
+
+- `PersonMaterialSet.approval` 明确；
+- 画幅明确，未指定时为 16:9 横版；
+- 每个玩法闭环完整，每位达人有归属；
+- 视觉偏好已询问或用户已提供／明确交给系统决定；
+- 方案解释了偏好与 Brief 的结合；
+- 2—4 张参考原图已经实际打开并完成借鉴边界记录；
+- 第一视觉、阅读路径、前中后景和人物与玩法连接可执行；
+- 报价、权益、Logo、案例和固定文案没有被虚构。
+
+通过后，用户回复 `选 1 生成` 即进入 `production`，不再生成排布稿或请求确认完整 Prompt。
