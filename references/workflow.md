@@ -33,9 +33,13 @@ Read [novice-mode.md](novice-mode.md) for the default user-facing presentation.
 
 ## 2. Intake and person material
 
-Start with this low-barrier request:
+Start by explaining why the two image types matter, then make the low-barrier request:
 
-> 请先发送人物／动物原图。我会先做好人物素材供你确认；Brief、案例截图、Logo 和固定文案可以现在一起发，也可以人物确认后再补。
+> 开始前先说明：人物肖像素材好，整张海报的呈现才会好。人物原图决定主体是否清晰、真实、有表现力，也帮助核对阵容、组合关系和每位达人适合承担的玩法。案例图不是装饰，我会从达人真实内容中提取场景、叙事方式、人物关系、笑点／反转和账号记忆点，让方案更像达人真的会拍的内容，避免悬浮。
+>
+> 请先发送人物／动物原图；最好再给每位达人 1–3 张代表案例截图。案例不一定要放进成品，也可以在人物确认后补。没有案例时，可用账号主页截图、代表作链接或账号介绍代替；都没有也能继续，但玩法贴合度会受限。Brief、Logo 和固定文案可以现在一起发，也可以之后再补。
+
+Person/animal originals are required for `PersonMaterialSet`. Case images are strongly recommended but optional. Record whether each `Cxx` is `analysis_only`, `poster_candidate`, or both. Extract only evidence-supported creator content patterns; do not invent a recurring format from one ambiguous screenshot. If no creator-content evidence is supplied, label creator-fit confidence as limited rather than pretending the play is highly customized.
 
 ### Build the source ledger
 
