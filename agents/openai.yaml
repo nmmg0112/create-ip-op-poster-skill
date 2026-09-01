@@ -1,4 +1,4 @@
 interface:
   display_name: "IP OP 海报共创"
-  short_description: "先确认人物素材，再选择快速生图或保真合成"
-  default_prompt: "使用 $create-ip-op-poster。请先处理我上传的人物／动物素材并让我确认，不要直接生成海报；Brief 和案例可在人物确认前后提供。"
+  short_description: "先确认人物和具体玩法方案，再直接生成16:9横版招商海报"
+  default_prompt: "使用 $create-ip-op-poster：先确认人物素材，再结合 Brief、案例和可选视觉偏好给出方案卡；我回复“选 1 生成”后，直接生成一张 16:9 横版完整海报。"
