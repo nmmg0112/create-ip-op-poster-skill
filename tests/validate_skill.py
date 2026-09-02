@@ -120,6 +120,8 @@ def check_workflow(root: Path) -> None:
     for needle in (
         "视觉偏好不是独立确认点",
         "已提供时不重复询问",
+        "并入人物预览",
+        "不得形成第三个等待点",
         "用户偏好",
         "配色",
         "材质",
@@ -201,6 +203,12 @@ def check_production(root: Path) -> None:
     require_order(prompt, "艺术底图", "原素材覆回", "strict-fidelity production order")
     for needle in ("完整场景", "前中后景", "视觉动势"):
         require(prompt + platform + qa, needle, "strict-fidelity visual base")
+    for needle in ("锁定画布", "蒙版", "围绕真实素材", "覆回校验"):
+        require(prompt + platform + integrity + qa, needle, "strict-fidelity integration")
+    for needle in ("900—1600", "最多约 2200", "不把模板字段逐项机械展开"):
+        require(prompt, needle, "execution prompt information budget")
+    for needle in ("竖版渠道", "3:4"):
+        require(skill + workflow + prompt + qa, needle, "landscape master contract")
 
     for needle in (
         "人物",
@@ -259,6 +267,8 @@ def check_visual(root: Path) -> None:
         "实际打开",
         "2—4",
         "参考原图",
+        "原图路径",
+        "只写 `opened: yes` 不算证据",
         "结构参考",
         "密度参考",
         "气质参考",
@@ -340,6 +350,15 @@ def check_integrity(root: Path) -> None:
         "准确中文",
     ):
         require(skill + integrity, needle, "strict-fidelity activation and protection")
+
+    for needle in (
+        "只能用于 `unified-ensemble`",
+        "`grouped-by-play`",
+        "`independent-cutouts`",
+        "`hybrid-hero-groups`",
+    ):
+        require(integrity + workflow + qa, needle, "person-layout routing")
+    require(integrity, "不得仅凭“正式提报”自行推断", "explicit strict-fidelity trigger")
 
     for needle in (
         "局部图层修改",

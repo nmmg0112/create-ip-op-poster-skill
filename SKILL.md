@@ -15,7 +15,7 @@ Treat an OP as a commercial recruitment poster: the theme attracts attention, th
 2. Protect identity-critical details while preparing person material: faces, expressions, defining hair, animal faces, species, coat colors, markings, roster, and original inseparable groups. Never beautify, swap, cartoonize, duplicate, omit, or invent a subject.
 3. Explain the material logic before requesting files: good portraits determine whether the poster's main visual is clear and convincing; creator cases reveal real scenes, relationships, narrative mechanisms, jokes, reversals, and account memory points, so the play does not become generic or detached from the creator.
 4. Formal generation requires a concrete play. A slogan, category, or abstract style word alone is not enough. Each play needs explicit members, evidence, a scene or relationship, an action/conflict/interaction/reversal, a natural project or product entry, and one short poster line.
-5. If the user does not specify an aspect ratio, use `16:9 横版`. Do not silently switch to portrait.
+5. Use `16:9 横版` as the OP/招商 master. If a user casually asks for 3:4 or portrait without a stated channel requirement, treat it as a likely format conflict and keep the recommended plan at 16:9; only use portrait when the Brief or user explicitly identifies a portrait delivery channel or adaptation need. Never silently switch to portrait.
 6. Before proposing the content plan, open 2—4 complementary original posters from [visual-case-library.md](references/visual-case-library.md): one for structure, one for density when needed, and one for mood. Learn abstract grammar only; never copy titles, copy, Logos, seals, exact composition, distinctive containers, or motifs.
 7. Merge any user `视觉偏好` with the current Brief. Translate both into concrete color roles, materials, light, depth, atmosphere, and decoration boundaries; never replace the Brief with a generic industry formula.
 8. Default to `generation_route = whole_poster`: one image-generation call directly produces the complete poster with theme, people, play, useful cases, fixed copy, and supplied commercial information. This route aims to keep people and cases recognizable but does not promise pixel-perfect fidelity.
@@ -51,16 +51,16 @@ Read [workflow.md](references/workflow.md) at the start. Keep a resumable record
 
    `把以上人物/动物 拼贴成组合形式，有交叠感，不要并列罗列出来，我要做海报用，横版，其他顺序不重要，横版白底，不要改变任何一个人的长相，抠人物图即可 注意人物不能重复，且人物大小调整一致一些`
 
-4. Show only one `横版白底组合预览图`. Retain the same arrangement as one `透明底人物总图` internally; create separate transparent subjects only when later grouping, depth, overlap repair, strict fidelity, or targeted replacement truly needs them. The preview validates identity, roster, body completeness, and edges; it does not determine final-poster grouping, scale, or placement.
+4. Show only one `横版白底组合预览图`. Retain the same arrangement as one `透明底人物总图` internally only for a final unified ensemble; grouped-by-play, independent, and hybrid compositions must use originals or separate transparent subjects. The preview validates identity, roster, body completeness, and edges; it does not determine final-poster grouping, scale, or placement.
 5. Verify every identity, unique-subject count, original combination, body completeness, hair/fur edge, hand/foot edge, accidental deletion, and duplicate before asking.
-6. End with the copyable reply `人物没问题`. That reply or an equally explicit approval advances to `content_plan_pending`.
+6. If no visual preference is known, include the skippable color/feeling question in the same preview message. End with the copyable reply `人物没问题`; if the user gives no style answer, derive it from the Brief instead of waiting again. That reply or an equally explicit approval advances to `content_plan_pending`.
 
 ## Confirmation 2: content plan and generation authorization
 
 After person approval:
 
 1. Analyze the Brief and available cases. If no creator-content evidence exists, continue but label creator-fit confidence as limited.
-2. If the user has not stated a visual preference, ask one skippable question from [novice-mode.md](references/novice-mode.md). Do not ask again when the preference is already clear.
+2. If the user has not stated a visual preference, use the answer collected with person approval; when they skipped it, recommend from the Brief without another waiting turn.
 3. Read [direction-framework.md](references/direction-framework.md), [visual-director.md](references/visual-director.md), [layout-grammar.md](references/layout-grammar.md), and the selected original reference posters before drafting options.
 4. Present one recommended `ContentPlanCard` and one genuinely different alternative. Each must include the theme, concise background, evidence-based creator play, exact members, poster short line, first visual and broad composition, merged Brief/preference visual language, case/Logo/business use, and the 16:9 output.
 5. End with `选 1 生成`. This single reply selects the plan, approves its content, and authorizes the one formal generation call. Do not add a separate full-Prompt approval, placement-preview approval, or technical route choice.

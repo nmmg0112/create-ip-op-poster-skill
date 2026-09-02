@@ -58,7 +58,7 @@
 ## Visual references
 | Case | Role | Borrowed grammar | Intentional difference | Forbidden copy elements | Original opened |
 |---|---|---|---|---|---|
-| <case> | <结构/密度/气质> | <抽象语法> | <本次变化> | <禁止元素> | <yes/no> |
+| <case path/ID> | <结构/密度/气质> | <从原图实际看到的一项具体特征> | <本次变化> | <禁止元素> | <yes + 原图路径/ID / no> |
 
 ## Execution Prompt
 - Status: <not started | compiled | executed>
