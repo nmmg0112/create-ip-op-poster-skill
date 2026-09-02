@@ -435,6 +435,8 @@ def check_prompt(root: Path) -> None:
         "Brief",
     ):
         require(prompt, needle, "prompt routes and visual evidence")
+    for needle in ("批准画幅", "竖版渠道／适配", "未批准例外"):
+        require(prompt + qa, needle, "approved aspect-ratio handling")
 
     for needle in ("成功基准", "不得固化", "16:9", "玩法", "第一视觉"):
         require(benchmark, needle, "successful-prompt-benchmark.md")
@@ -465,6 +467,11 @@ def check_docs(root: Path) -> None:
             "不得整图重绘",
         ):
             require(text, needle, label)
+
+    require(readme, "不会再单独等待", "README.md optional style flow")
+    require(quick, "不再单独追问", "examples/quick-start.md optional style flow")
+    for needle in ("同一条人物预览消息", "不要再停下来追问"):
+        require(chatgpt, needle, "examples/chatgpt-starter.md optional style flow")
 
     for legacy in (
         "人物素材通过",
