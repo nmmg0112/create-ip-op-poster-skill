@@ -157,6 +157,30 @@ approval: 用户原话或 none
 
 若用户只提出修改但未授权生成，更新受影响的方案卡并继续停在 `content_plan_pending`。若用户在授权回复里新增“人脸／案例／Logo／数据／固定中文完全不变”等明确要求，后台切到 `strict_fidelity`，能力足够时直接执行，不再要求理解或选择技术路线。
 
+### 3.5 锁定当前版本
+
+收到 `选 1 生成` 后，在后台建立一个 `LockedPosterSpec`。它是本轮正式生图的唯一事实来源，至少记录：
+
+```text
+spec_version
+approved_person_material
+aspect_ratio_and_use
+theme_and_background
+plays_and_member_mapping
+first_visual
+person_mode
+information_density
+color_material_light_depth_motion
+reading_path
+case_logo_fixed_copy_business_use
+required_and_forbidden_content
+visual_reference_grammar
+generation_route
+formal_generation_count
+```
+
+只允许把当前锁定版本编译成执行 Prompt。不得把整段聊天记录、早期草案、用户已经否决的方向、平台使用说明、解释性文字或互相冲突的旧要求一并交给生图模型。生成前若用户提出改变主题、玩法、风格或整体构图的新要求，更新方案并生成新的 `spec_version`；旧版本保留但不再执行。
+
 ## 4. 正式生成与 QA
 
 ### 4.1 后台编译
@@ -199,6 +223,21 @@ formal_generation_count: 0
 - 用户无法打开或预览最终结果。
 
 只有真实成图通过全部硬检查才进入 `complete`。失败时说明具体问题和最小修复范围；不得静默消耗第二次正式生图。
+
+### 4.4 成功版本保护
+
+用户说“通过”“这版很好”“就用这版”或同等表达后，建立 `PosterVersionLock`：
+
+```text
+accepted_output_path
+accepted_output_hash_if_available
+approval_wording
+allowed_local_edit_target
+successor_version
+previous_version_preserved
+```
+
+上一版成功文件必须保留。改姓名、Logo、固定中文、报价、权益、案例或单个标签时，只做局部修改并输出新文件；不得覆盖或整图重绘已通过版本。更换主题、整体风格、主要背景、人物组合或核心构图时，回到 `content_plan_pending` 并说明将生成新的整体版本。
 
 ## 5. 回退
 

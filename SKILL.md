@@ -9,6 +9,12 @@ Treat an OP as a commercial recruitment poster: the theme attracts attention, th
 
 默认只有两个确认点。视觉导演是正式生图前的必经判断，按 [visual-director.md](references/visual-director.md) 实际查看参考原图并完成美观预检。
 
+## Automatic opening and platform routing
+
+When the Skill is first read and the user asks how to use it or starts without materials, automatically send the beginner opening from [novice-mode.md](references/novice-mode.md). Do not require the user to copy a long startup Prompt. If the user already supplied usable materials and requirements, acknowledge them and continue from the correct stage without repeating the full tutorial.
+
+Detect the current platform internally. On Aime, read [aime-executor.md](references/platforms/aime-executor.md); on 豆包, read [doubao-executor.md](references/platforms/doubao-executor.md). Do not ask the user to select an adapter or explain platform files.
+
 ## Essential rules
 
 1. `人物素材确认` always comes first. Do not propose the content plan or generate a formal poster until the user has approved the white person/animal preview.
@@ -42,6 +48,8 @@ intake
 ```
 
 Read [workflow.md](references/workflow.md) at the start. Keep a resumable record with [handoff-template.md](references/handoff-template.md).
+
+Before formal generation, compile the selected plan into one current `LockedPosterSpec`. Only the current locked version may enter the image model; exclude rejected directions, raw conversation history, platform-operation prose, and repeated instructions. After the user approves a finished poster, create `PosterVersionLock` and preserve that file. An exact local change must not overwrite or redraw the accepted whole poster.
 
 ## Confirmation 1: person material
 
@@ -98,3 +106,5 @@ Announce invalidated downstream work and rerun affected QA checks.
 - Actual-final acceptance and failure routing: [qa-checklist.md](references/qa-checklist.md)
 - Capability routing and safe downgrade: [platform-usage.md](references/platform-usage.md)
 - Cross-window state record: [handoff-template.md](references/handoff-template.md)
+- Aime Image2 execution: [aime-executor.md](references/platforms/aime-executor.md)
+- 豆包 Seedream 5.0 Pro execution: [doubao-executor.md](references/platforms/doubao-executor.md)

@@ -67,6 +67,21 @@
 - Asset mapping verified: <yes/no 与缺口>
 - Contains no extra confirmation gate: <yes/no>
 
+## LockedPosterSpec
+- spec_version: <integer or timestamp>
+- source: <selected ContentPlanCard and approval wording>
+- approved_person_material: <PersonMaterialSet reference>
+- aspect_ratio_and_use: <default 16:9 OP or approved exception>
+- theme_and_background: <current approved facts>
+- plays_and_member_mapping: <current approved plays only>
+- first_visual/person_mode/information_density: <current values>
+- color_material_light_depth_motion: <current visual director result>
+- reading_path: <current order>
+- case_logo_fixed_copy_business_use: <current source mapping>
+- required_and_forbidden_content: <current requirements only>
+- visual_reference_grammar: <borrowed abstraction and forbidden copy elements>
+- rejected_or_stale_directions_excluded: <yes/no>
+
 ## Protected manifest (strict_fidelity only)
 | Layer ID | Source ID | Type | Exact source/content | Allowed operations | Planned role | Limitation |
 |---|---|---|---|---|---|---|
@@ -91,6 +106,14 @@
 - Before/after files: <paths>
 - Allowed difference mask: <path/description>
 - Non-target region unchanged: <PASS | FAIL | NOT VERIFIABLE>
+
+## PosterVersionLock
+- accepted_output_path: <path or none>
+- accepted_output_hash_if_available: <hash or not available>
+- approval_wording: <user wording or none>
+- allowed_local_edit_target: <target or none>
+- successor_version: <new path/version or none>
+- previous_version_preserved: <yes/no/not applicable>
 
 ## User change log
 | Order | User change | Return stage | Invalidated work | Applied result |
