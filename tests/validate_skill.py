@@ -5,19 +5,32 @@ import sys
 from pathlib import Path
 
 
-GROUPS = ("workflow", "production", "visual", "integrity", "prompt", "docs")
+GROUPS = (
+    "workflow",
+    "production",
+    "visual",
+    "integrity",
+    "prompt",
+    "onboarding",
+    "platforms",
+    "contest",
+    "docs",
+)
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
+
+
+def package_documents(root: Path) -> list[Path]:
+    """Instruction and example files that ship in the active package."""
+    paths = [root / "SKILL.md", root / "README.md", root / "agents/openai.yaml"]
+    for folder in (root / "references", root / "examples"):
+        for suffix in ("*.md", "*.txt"):
+            paths.extend(sorted(folder.rglob(suffix)))
+    return paths
 
 
 def active_package_files(root: Path) -> list[Path]:
     """Files that define current user-visible or runtime behavior."""
-    return [
-        root / "SKILL.md",
-        root / "README.md",
-        root / "agents/openai.yaml",
-        *sorted((root / "references").glob("*.md")),
-        *sorted((root / "examples").glob("*.md")),
-    ]
+    return package_documents(root)
 
 
 def active_corpus(root: Path) -> str:
@@ -444,6 +457,103 @@ def check_prompt(root: Path) -> None:
         require(qa, needle, "qa-checklist.md")
 
 
+def check_onboarding(root: Path) -> None:
+    skill = read(root, "SKILL.md")
+    novice = read(root, "references/novice-mode.md")
+    readme = read(root, "README.md")
+    corpus = "\n".join((skill, novice, readme))
+
+    for needle in (
+        "Skill 被读取后自动发送",
+        "资料不全也没关系",
+        "【主题／Brief】",
+        "【喜欢的风格】",
+        "【文字密度】",
+        "【必须出现的文字】",
+        "开场白只出现一次",
+        "不要求用户复制",
+        "4 位达人",
+        "运动赛事主题",
+    ):
+        require(corpus, needle, "automatic beginner onboarding")
+
+    for needle in (
+        "人物肖像质量",
+        "案例截图",
+        "内容玩法",
+        "人物没问题",
+        "选 1 生成",
+    ):
+        require(corpus, needle, "beginner material and reply guidance")
+
+
+def check_platforms(root: Path) -> None:
+    aime = read(root, "references/platforms/aime-executor.md")
+    doubao = read(root, "references/platforms/doubao-executor.md")
+    shared = read(root, "references/platform-usage.md")
+    skill = read(root, "SKILL.md")
+
+    for needle in (
+        "Image2",
+        "LockedPosterSpec",
+        "当前锁定版本",
+        "不得把整段聊天记录",
+        "正式生图一次",
+    ):
+        require(aime, needle, "Aime adapter")
+    for needle in (
+        "Seedream 5.0 Pro",
+        "LockedPosterSpec",
+        "稳定人物编号",
+        "开场白",
+        "正式生图一次",
+    ):
+        require(doubao, needle, "Doubao adapter")
+    for needle in (
+        "PosterVersionLock",
+        "上一版成功文件",
+        "局部修改",
+        "当前平台",
+    ):
+        require(aime + doubao + shared + skill, needle, "platform version protection")
+
+
+def check_contest(root: Path) -> None:
+    prompt = read(root, "examples/prompt.txt")
+    result = read(root, "examples/result.md")
+    multi = read(root, "examples/golden-case-multi-person.md")
+    single = read(root, "examples/golden-case-single-person.md")
+
+    for needle in (
+        "人物没问题",
+        "选 1 生成",
+        "16:9 横版",
+        "告诉我怎么使用",
+    ):
+        require(prompt, needle, "contest reproducible prompt")
+    for needle in (
+        "业务痛点",
+        "关键链路",
+        "真实案例",
+        "可量化",
+        "NOT VERIFIABLE",
+    ):
+        require(result, needle, "contest result evidence")
+    for text, label in (
+        (multi, "multi-person Golden Case"),
+        (single, "single-person Golden Case"),
+    ):
+        for needle in (
+            "用户输入",
+            "导演判断",
+            "LockedPosterSpec",
+            "执行 Prompt",
+            "成功标准",
+            "不得固化",
+        ):
+            require(text, needle, label)
+
+
 def check_docs(root: Path) -> None:
     platform = read(root, "references/platform-usage.md")
     quick = read(root, "examples/quick-start.md")
@@ -522,12 +632,7 @@ def check_docs(root: Path) -> None:
     ):
         require(scenarios, needle, "scenario-regression.md")
 
-    markdown_files = [
-        root / "SKILL.md",
-        root / "README.md",
-        *sorted((root / "references").glob("*.md")),
-        *sorted((root / "examples").glob("*.md")),
-    ]
+    markdown_files = [path for path in package_documents(root) if path.suffix == ".md"]
     link_pattern = re.compile(r"\[[^\]]+\]\(([^)]+\.md)\)")
     for source in markdown_files:
         text = source.read_text(encoding="utf-8")
@@ -545,6 +650,9 @@ CHECKS = {
     "visual": check_visual,
     "integrity": check_integrity,
     "prompt": check_prompt,
+    "onboarding": check_onboarding,
+    "platforms": check_platforms,
+    "contest": check_contest,
     "docs": check_docs,
 }
 
@@ -554,7 +662,8 @@ def main() -> int:
     if group != "all" and group not in CHECKS:
         print(
             "usage: validate_skill.py "
-            "<workflow|production|visual|integrity|prompt|docs|all> [skill-root]"
+            "<workflow|production|visual|integrity|prompt|onboarding|"
+            "platforms|contest|docs|all> [skill-root]"
         )
         return 2
     root = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else DEFAULT_ROOT
