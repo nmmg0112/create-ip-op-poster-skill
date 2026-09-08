@@ -1,4 +1,4 @@
 interface:
   display_name: "IP OP 海报共创"
   short_description: "先确认人物和具体玩法方案，再直接生成16:9横版招商海报"
-  default_prompt: "使用 $create-ip-op-poster：先确认人物素材，再结合 Brief、案例和可选视觉偏好给出方案卡；我回复“选 1 生成”后，直接生成一张 16:9 横版完整海报。"
+  default_prompt: "使用 $create-ip-op-poster。请先用简单的话告诉我怎么使用，并带我开始制作一张 IP／OP 招商海报。"
