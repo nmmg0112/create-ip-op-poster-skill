@@ -13,6 +13,7 @@ GROUPS = (
     "prompt",
     "onboarding",
     "platforms",
+    "doubao_editorial",
     "contest",
     "docs",
 )
@@ -518,6 +519,36 @@ def check_platforms(root: Path) -> None:
         require(aime + doubao + shared + skill, needle, "platform version protection")
 
 
+def check_doubao_editorial(root: Path) -> None:
+    skill = read(root, "SKILL.md")
+    doubao = read(root, "references/platforms/doubao-executor.md")
+    prompt = read(root, "references/prompt-template.md")
+    qa = read(root, "references/qa-checklist.md")
+    corpus = "\n".join((skill, doubao, prompt, qa))
+
+    for needle in (
+        "skill://seedream-50?type=2&id=360075272194",
+        "不得只在 Prompt 中写模型名称",
+        "本次生图模型：Seedream 5.0 Pro",
+        "继续用当前模型",
+        "不得静默降级",
+        "actual_model",
+        "ApprovedPersonAssetSet",
+        "大标题＋人物主视觉＋案例拼贴＋玩法说明",
+        "一至三行",
+        "杂志编辑式",
+        "creative-design",
+    ):
+        require(corpus, needle, "Doubao editorial stable profile")
+
+    for forbidden_default in (
+        "默认三等分玻璃舱",
+        "默认霓虹控制台",
+        "先生成无字空底图",
+    ):
+        forbid(corpus, forbidden_default, "Doubao visual fallback")
+
+
 def check_contest(root: Path) -> None:
     prompt = read(root, "examples/prompt.txt")
     result = read(root, "examples/result.md")
@@ -652,6 +683,7 @@ CHECKS = {
     "prompt": check_prompt,
     "onboarding": check_onboarding,
     "platforms": check_platforms,
+    "doubao_editorial": check_doubao_editorial,
     "contest": check_contest,
     "docs": check_docs,
 }
@@ -663,7 +695,7 @@ def main() -> int:
         print(
             "usage: validate_skill.py "
             "<workflow|production|visual|integrity|prompt|onboarding|"
-            "platforms|contest|docs|all> [skill-root]"
+            "platforms|doubao_editorial|contest|docs|all> [skill-root]"
         )
         return 2
     root = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else DEFAULT_ROOT
