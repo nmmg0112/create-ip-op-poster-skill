@@ -60,6 +60,25 @@ approval: 用户原话或 none
 
 向用户说明人物确认只核对长相、数量、完整性、大小、交叠和边缘，不代表最终海报排布。等待 `人物没问题` 或同等明确回复。
 
+## `ApprovedPersonAssetSet`
+
+用户确认后，把本轮获准使用的真实图片固化为唯一资产集：
+
+```yaml
+approved_person_asset_set:
+  version: person-v1
+  assets:
+    - id: P01
+      public_name: example-name
+      approved_source: /absolute/or-platform/asset-reference.png
+      original_group: single
+  approved_preview: /absolute/or-platform/approved-preview.png
+  presentation_mode: unified-ensemble | grouped-by-play | hybrid-hero-groups | single-hero
+  user_approved: true
+```
+
+`ApprovedPersonAssetSet` 不是文字名单。正式生图必须实际附上批准图片：统一群像附批准群像／预览，玩法分组附对应独立素材，混合结构两者都附，单人附批准单人原图或预览。只传 `Pxx`、昵称、外貌描述或文件名都不能证明人物已绑定。人物源发生新增、删除、替换或变体变化时，新建版本并重新确认。
+
 ## 白底预览不是最终布局
 
 `review_white` 不锁定人物最终的位置、大小、分组、层级或遮挡。最终海报可以：

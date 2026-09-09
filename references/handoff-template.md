@@ -27,6 +27,21 @@
 - approval: <用户批准原话或 none>
 - identity/count/edge QA: <PASS | FAIL | NOT VERIFIABLE，含 Pxx>
 
+## ApprovedPersonAssetSet
+```yaml
+approved_person_asset_set:
+  version: person-v1
+  assets:
+    - id: P01
+      public_name: example-name
+      approved_source: /absolute/or-platform/asset-reference.png
+      original_group: single
+  approved_preview: /absolute/or-platform/approved-preview.png
+  presentation_mode: unified-ensemble | grouped-by-play | hybrid-hero-groups | single-hero
+  user_approved: true
+```
+- Formal-call attachment check: <attached approved preview | attached approved independent assets | attached both | FAIL>
+
 ## Source ledger
 | ID | Source filename | Public name | Type | Unique subjects | Variant relation | Use | Limitation |
 |---|---|---|---|---:|---|---|---|
@@ -90,6 +105,11 @@
 ## Production receipt
 - generation_route: <whole_poster | strict_fidelity>
 - formal_generation_count: <integer>
+- requested_model: <Seedream 5.0 Pro | platform default | other>
+- model_skill_uri: <skill://seedream-50?type=2&id=360075272194 | not applicable>
+- model_skill_loaded: <true | false | NOT_VERIFIABLE>
+- actual_model: <Seedream 5.0 Pro | platform-reported-model | NOT_VERIFIABLE>
+- downgrade_approved: <true | false>
 - image_generation_model_or_tool: <记录或 none>
 - visual_base_path: <strict_fidelity 位图或 not applicable>
 - visual_base_format: <PNG | WebP | JPEG | not applicable>

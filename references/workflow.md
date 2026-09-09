@@ -93,6 +93,23 @@ approval: 用户原话或 none
 
 `人物没问题` 或同等明确回复才进入 `content_plan_pending`。用户只回复人物确认、没有回答风格时，直接由 Brief 和案例推荐，不得再停下来追问。保存用户原话。
 
+确认后建立唯一 `ApprovedPersonAssetSet`，供本轮方案和正式生图绑定真实图片，而不是只传人物昵称：
+
+```yaml
+approved_person_asset_set:
+  version: person-v1
+  assets:
+    - id: P01
+      public_name: example-name
+      approved_source: /absolute/or-platform/asset-reference.png
+      original_group: single
+  approved_preview: /absolute/or-platform/approved-preview.png
+  presentation_mode: unified-ensemble | grouped-by-play | hybrid-hero-groups | single-hero
+  user_approved: true
+```
+
+正式调用使用 `unified-ensemble` 时必须附上批准的群像／预览；使用 `grouped-by-play` 时必须附上对应的批准独立人物素材；使用 `hybrid-hero-groups` 时两者都要附上。只写名字、编号或“使用之前的人物”不算绑定成功。单人使用批准原图或批准单人预览。
+
 ## 3. 内容方案＋生成授权
 
 ### 3.1 补齐真正影响结果的信息
@@ -164,6 +181,7 @@ approval: 用户原话或 none
 ```text
 spec_version
 approved_person_material
+approved_person_asset_set
 aspect_ratio_and_use
 theme_and_background
 plays_and_member_mapping

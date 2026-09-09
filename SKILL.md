@@ -15,6 +15,8 @@ When the Skill is first read and the user asks how to use it or starts without m
 
 Detect the current platform internally. On Aime, read [aime-executor.md](references/platforms/aime-executor.md); on 豆包, read [doubao-executor.md](references/platforms/doubao-executor.md). Do not ask the user to select an adapter or explain platform files.
 
+On 豆包, before any generative image operation, explicitly invoke [Seedream 5.0 Pro](skill://seedream-50?type=2&id=360075272194). 不得只在 Prompt 中写模型名称；写了名称不等于成功调用。If the Skill cannot be verified, explain the actual platform reason and do not silently use a default model（不得静默降级）. A lower model is allowed only after the user reads the quality warning and explicitly replies `继续用当前模型`.
+
 ## Essential rules
 
 1. `人物素材确认` always comes first. Do not propose the content plan or generate a formal poster until the user has approved the white person/animal preview.
