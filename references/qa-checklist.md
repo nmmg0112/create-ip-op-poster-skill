@@ -17,7 +17,7 @@ QA 必须实际查看最终图片、调用记录和原素材，检查实际成�
 - 没有排布稿确认、面向用户的技术模式选择或独立 Prompt 确认。
 - 默认正式海报生图调用恰好一次；失败后没有静默生成第二次。
 - 正式生图 Prompt 来自一个当前 `LockedPosterSpec`，没有混入已否决方向、旧版本要求、整段聊天记录或平台操作说明。
-- 当前平台使用了对应的生图能力；Aime 应记录 Image2，豆包应记录 Seedream 5.0 Pro，无法确认时为 `NOT VERIFIABLE`。
+- 当前平台使用了对应的生图能力；Aime 应记录 Image2。豆包必须有模型调用证据和 `requested_model`、`model_skill_loaded`、`actual_model`、`downgrade_approved`；无法确认时为 `NOT VERIFIABLE`，不得静默降级。
 - 人物素材处理不计入“正式海报生图”，但必须单独记录其工具与产物。
 - 没有两张用途相同、构图相同或文件哈希相同的完整海报被当作不同步骤交付。
 - 用户已经通过的上一版成功文件得到保留；`PosterVersionLock` 之后的局部准确修改没有整图重绘或覆盖原文件。
@@ -26,6 +26,11 @@ QA 必须实际查看最终图片、调用记录和原素材，检查实际成�
 
 ```text
 generation_route: whole_poster | strict_fidelity
+requested_model
+model_skill_uri
+model_skill_loaded
+actual_model
+downgrade_approved
 image_generation_model_or_tool
 formal_generation_count
 final_output_path
@@ -40,6 +45,7 @@ final_dimensions
 下列项目必须全部通过：
 
 - `PersonMaterialSet.approval` 明确；
+- `ApprovedPersonAssetSet.user_approved: true`，且正式调用将实际附上正确的批准人物图片；
 - OP／招商主海报执行参数为 16:9 横版；只有 Brief 或用户明确说明竖版渠道／适配用途才可例外；
 - 主题、主题文案和一到两句项目背景明确；
 - 每个玩法有：明确成员、账号/案例依据、具体场景或人物关系、动作/冲突/互动/反转、产品/项目自然进入方式、海报短文案；
@@ -77,10 +83,23 @@ final_dimensions
 ## 默认整图生成检查
 
 - 生图模型一次接收已确认人物、案例、Brief、玩法、视觉方向和固定信息；
+- 正式调用实际附上 `ApprovedPersonAssetSet` 对应的批准图片；只写名字、编号或外貌描述直接 `FAIL`；
 - 输出符合批准画幅；未批准竖版渠道／适配例外时，是一张完整 16:9 横版海报，不是空背景、排布稿或中间预览；
 - 对人物、截图、Logo 和中文只声明“尽量保持”，没有像素保真承诺；
 - 明显错脸、漏人、重复、陌生人、动物错误、案例乱码、虚构数据或 Logo 严重变形均为 `FAIL`；
 - 用户明确要求素材完全不变却仍走默认整图路线，直接 `FAIL` 并路由到严格保真。
+
+## 豆包杂志编辑式检查
+
+- 图片操作前显式调用 `skill://seedream-50?type=2&id=360075272194`；不得只在 Prompt 中写模型名称；
+- 生成前出现 `本次生图模型：Seedream 5.0 Pro`，且平台证据与 `actual_model` 一致；
+- 低配或未知模型只有在用户明确回复 `继续用当前模型` 后使用；
+- 第一张正式海报采用“大标题＋人物主视觉＋案例拼贴＋玩法说明”的杂志编辑式语法，同时仍按 Brief 变化配色、材质、光线和拼贴语言；
+- 每个玩法包含标题、对应成员和一至三行具体说明，覆盖场景／关系、内容动作和产品进入；
+- 案例与玩法可读对应，人物大于案例，不是卡片角落的小头像；
+- `creative-design` 只在平台实际可用时调用，不把是否可用写成虚假 `PASS`；
+- 没有玻璃舱套壳、霓虹控制台、等权卡片墙、PPT 式布局或无意义大空白；
+- 没有“新版—无字底图—代码叠字—聚合底图—精装修版”的连续生成链。
 
 ## 严格保真检查
 
