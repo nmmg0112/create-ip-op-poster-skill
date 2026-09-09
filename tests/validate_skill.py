@@ -554,6 +554,7 @@ def check_contest(root: Path) -> None:
     result = read(root, "examples/result.md")
     multi = read(root, "examples/golden-case-multi-person.md")
     single = read(root, "examples/golden-case-single-person.md")
+    doubao = read(root, "examples/golden-case-doubao-editorial.md")
 
     for needle in (
         "人物没问题",
@@ -583,6 +584,18 @@ def check_contest(root: Path) -> None:
             "不得固化",
         ):
             require(text, needle, label)
+
+    for needle in (
+        "ApprovedPersonAssetSet",
+        "LockedPosterSpec",
+        "大标题＋人物主视觉＋案例拼贴＋玩法说明",
+        "model_skill_uri",
+        "actual_model",
+        "一至三行",
+        "成功标准",
+        "不得固化",
+    ):
+        require(doubao, needle, "Doubao editorial Golden Case")
 
 
 def check_docs(root: Path) -> None:
